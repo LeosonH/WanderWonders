@@ -28,14 +28,31 @@ settings:
     Release:
       SWIFT_OPTIMIZATION_LEVEL: "-O"
 
+packages:
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    exactVersion: 2.46.0
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    exactVersion: 9.1.0
+
 targets:
   WanderWonders:
     type: application
     platform: iOS
     sources:
       - path: WanderWonders
+      - path: Content
+        buildPhase: resources
     entitlements:
       path: WanderWonders/WanderWonders.entitlements
+    dependencies:
+      - package: Supabase
+        product: Supabase
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleSignIn
+        product: GoogleSignInSwift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WW_BUNDLE_IDENTIFIER)
@@ -44,9 +61,19 @@ targets:
         INFOPLIST_KEY_NSHealthShareUsageDescription: Wander Wonders uses your step total to calculate earned Glow.
         INFOPLIST_KEY_NSHealthUpdateUsageDescription: Wander Wonders does not write Health data.
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Wander Wonders can check whether you are near a park without storing your location.
+        INFOPLIST_KEY_NSMotionUsageDescription: Wander Wonders can count steps taken during an active Wander when Health access is unavailable.
+        INFOPLIST_KEY_WWSupabaseURL: $(WW_SUPABASE_URL)
+        INFOPLIST_KEY_WWSupabasePublishableKey: $(WW_SUPABASE_PUBLISHABLE_KEY)
+        INFOPLIST_KEY_WWGoogleClientID: $(WW_GOOGLE_CLIENT_ID)
+        INFOPLIST_KEY_WWGoogleServerClientID: $(WW_GOOGLE_SERVER_CLIENT_ID)
+        INFOPLIST_KEY_WWSupportURL: $(WW_SUPPORT_URL)
+        INFOPLIST_KEY_WWPrivacyURL: $(WW_PRIVACY_URL)
         GENERATE_INFOPLIST_FILE: YES
         SWIFT_EMIT_LOC_STRINGS: YES
         ENABLE_PREVIEWS: YES
+        INFOPLIST_KEY_CFBundleURLTypes:
+          - CFBundleURLSchemes:
+              - $(WW_GOOGLE_REVERSED_CLIENT_ID)
     scheme:
       gatherCoverageData: true
       testTargets:
@@ -58,6 +85,8 @@ targets:
     platform: iOS
     sources:
       - path: WanderWondersTests
+      - path: Content
+        buildPhase: resources
     dependencies:
       - target: WanderWonders
     settings:

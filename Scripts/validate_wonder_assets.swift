@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 
 struct AssetManifest: Codable {
     let manifestVersion: Int
@@ -33,7 +34,8 @@ struct CatalogAssets: Codable {
 }
 
 func fail(_ message: String) -> Never {
-    fatalError(message)
+    FileHandle.standardError.write(Data((message + "\n").utf8))
+    exit(EXIT_FAILURE)
 }
 
 let arguments = CommandLine.arguments

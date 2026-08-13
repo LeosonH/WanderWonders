@@ -1,6 +1,25 @@
 import SwiftUI
 
 struct LaunchView: View {
+    let store: GameStore?
+    let configuration: AppConfiguration?
+
+    var body: some View {
+        Group {
+            if let store {
+                AppRootView(store: store, configuration: configuration!)
+                    .task { await store.start() }
+            } else {
+                BrandSurface(message: "Add safe local configuration to run the app.")
+            }
+        }
+        .accessibilityIdentifier("launch-surface")
+    }
+}
+
+struct BrandSurface: View {
+    let message: String
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
@@ -16,17 +35,17 @@ struct LaunchView: View {
                     .font(.title3)
                     .foregroundStyle(.secondary)
 
-                Text("Your garden is getting ready.")
+                Text(message)
                     .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
             .navigationTitle(WanderWondersApp.displayName)
-            .accessibilityIdentifier("launch-surface")
         }
     }
 }
 
 #Preview {
-    LaunchView()
+    BrandSurface(message: "Your garden is getting ready.")
 }

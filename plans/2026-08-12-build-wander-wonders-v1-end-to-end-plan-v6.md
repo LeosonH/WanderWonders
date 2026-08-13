@@ -215,6 +215,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - UI phases：signed-out、loading local cache、loading server、onboarding、current、blocking error；延迟 cache 不闪空 Pocket。
 - 测试：JSON fixtures、error/retry class、auth matrix、identity quarantine、delayed cache、secret absence。
 
+> 2026-08-13 [codex done]：锁定 supabase-swift 2.46.0 和 GoogleSignIn-iOS 9.1.0；实现 Models、WonderClient、GameStore、safe xcconfig、native Apple/Google ID-token Auth、session restore、auth gate、identity quarantine，以及 local-cache/server 分阶段 loading。JSON/error/retry/auth/quarantine 单元门禁和 secret scan 通过；真实 provider 验证仍属于 Step 13–14。
+
 ### Step 7 — 实现 SwiftData 和单一 MutationQueue
 
 - 前置：Step 6。
@@ -222,6 +224,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - queue：先持久化后发送；每 user 一个 in-flight；interactive/background 各自 FIFO；取消、永久错误、重试耗尽后继续；sign-out 销毁 user queue。
 - 不另建 SyncCoordinator；GameStore 读取 pending DTO，交给 queue，ack + delta/snapshot 原子写回。
 - 测试：two taps、foreground/background race、response loss、force quit each state、user switch、corrupt snapshot、telemetry failure。
+
+> 2026-08-13 [codex done]：实现 per-user SwiftData snapshot/pending/offline/deletion quarantine，以及单一串行 MutationQueue；保证 persist-before-send、interactive 优先且各自 FIFO、最多 3 次尝试、terminal/deferred 后继续、response-loss/force-quit 恢复、成功时 snapshot + ack 原子保存。generation cancellation 防止 sign-out drain 重建 cache；queue 顺序、重试、恢复、原子性、corrupt cache、sign-out 回归通过。
 
 ### Step 8 — Home/Pocket/Pressbook/Vase/Shop
 
@@ -233,6 +237,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - Shop：仅五项精确 Glow price，无支付代码。
 - 测试：overflow、capacity、pressed/sold、sale reconfirm、shop branches、VoiceOver、Dynamic Type、Reduce Motion。
 
+> 2026-08-13 [codex done]：完成可操作的 Home、Pocket、Pressbook、vase 和五项固定价格 Shop；Press/Sell/Sunshine confirmation 走权威 RPC。overflow 提示可关闭，只在 living count 上升或 owner-local 次日重现，回归通过；capacity/press/sale reconfirm/shop/Sunshine 分支由当前 139 条 DB 门禁覆盖。UI 使用原生控件和 SF Symbols；50 套生产美术仍明确留在 Step 12–13。
+
 ### Step 9 — Resilient Wander
 
 - 前置：Step 8。
@@ -242,6 +248,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 10→20→automatic 30；60m 结束；reached choice 不丢；signal loss 不重抽；offline projected cap 和逐 tier 结果。
 - Core Location 只取一次合格坐标交 Edge，随后丢弃；notifications 不含敏感或 guilt copy。
 - 测试：全部分钟边界、3/2/1/0 cap、force quit/background/midnight/time-zone/clock rollback、offer tamper/version/order、missing restore、exact copy。
+
+> 2026-08-13 [codex done]：实现 verified/manual server、online→offline 和 fully-offline Wander；offline offer/choice 先持久化，SHA-256 顺序与 fixture 一致，断网奖励选择保持 deferred 并在后续 refresh 重放。在线 tier 使用 server anchor + process uptime，离线使用持久化 monotonic anchor，client wall clock 不解锁 10/20/30/60 边界；hash、timer、queue recovery 回归通过。真机 location/background/signal-loss 验收仍属于 Step 14。
 
 ### Step 10 — Steps/Glow/Hibernate
 
@@ -253,6 +261,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - Hibernate enter/exit 在线；服务端一次延长 deadlines；active 时禁 Wander/Daisy/Sunshine/step Glow。
 - 测试：options、interval/DST、99/100/199/200、high-water、decrease/reinstall/double sync、response loss。
 
+> 2026-08-13 [codex done]：HealthKit 只请求 steps，并仅使用 cumulativeSum；按 owner-local 今日和前六天切分，扣除 Hibernate interval，任一 slice 失败即不提交。active Wander 缺 Health 时使用 CMPedometer，Hibernate enter/exit 走在线权威 mutation。DST interval 单元回归通过；99/100/199/200、high-water、Hibernate 和 response-loss 由 DB/queue 门禁覆盖，真机 Health/Watch/Motion 留在 Step 14。
+
 ### Step 11 — Settings/Delete/Privacy/Accessibility
 
 - 前置：Step 10。
@@ -263,6 +273,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 完成 VoiceOver、large Dynamic Type、contrast、Reduce Motion、44pt。
 - 测试全部 deletion/log/event/accessibility branches。
 
+> 2026-08-13 [codex done]：Settings 展示 provider identity、permissions、notifications、Hibernate、privacy/support、sign out 和易发现的 delete。删除使用 typed DELETE + fresh reauth，success 清 session/SwiftData/app storage/notifications，manual_required 进入 quarantine；完成 PrivacyInfo.xcprivacy、data map、deletion runbook、typed events 和日志敏感值扫描。原生控件保留 VoiceOver/Dynamic Type/44pt 基础，13/13 Edge、13/13 iOS unit、1/1 UI smoke 通过；public URLs/provider/真机辅助功能仍属于 Step 13–14。
+
 ### Step 12 — 统一本地验证和发布预检
 
 - 前置：Step 11。
@@ -270,6 +282,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - runner：DB/Edge/Swift tests、Debug/Release、schema/grant/RLS/FK/function/role audit、PostgREST probes、secret/privacy/season/payment/placeholder scans、50 art validation、archive dry run。
 - 从 clean reset 完整跑两次。
 - 生产 art、final signing 或 public URLs 缺失时可以 code-complete，但不得标本步 done。
+
+> 2026-08-13 阻塞证据：最终 `run_wonder_checks.sh --code-only` 通过 content、Edge 13/13、Debug/Release、iOS unit 13/13、UI 1/1、plist 和扫描门禁；数据库在 iOS-only 改动前保持 reset + 139/139 + lint 0 + 对抗探针通过。真实文件 gate 以干净 exit 1 精确报告 50/50 production PNG 缺失，因此未跑 archive，也未把本步标为 done；没有用重复 full run 制造虚假绿灯。
 
 ### Step 13 — Owner/provider/art readiness
 
@@ -279,16 +293,20 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - signed-out browser 验 URL 200；validator 检真实 art；owner 签认 data map、rights、metadata。
 - 任一缺失则保持未完成，不伪造 placeholder 证据。
 
+> 2026-08-13 owner blocker：final App ID/bundle/team/App Store/TestFlight、Apple/Google provider identifiers 与 vault secrets、public Privacy/Support URLs、review metadata、50 production art 和 rights 均未提供或未验收；本步保持未完成。
+
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 
 - 前置：Step 12 + 13，以及每个外部 mutation 的明确授权。
 - Phase A 只读：重查 docs/changelog；remote ref、专用性、migrations、functions、grants、RLS、rolconfig、schemas、extensions、providers、advisors、backups、limits；记录两角色原 rolconfig 和回滚 SQL。
 - Stop：共享项目迹象、collision、无回滚值、未解决 advisor、需要大于 5s 的管理操作却无安全 session 路径。
-- Phase B：备份/回滚准备；apply migrations + catalog；配 providers/secrets；deploy Edge；核对 22/24/19、RLS/grants/FK/timeouts/advisors；两个 disposable accounts 测 security/cap/telemetry/delete。
+- Phase B：备份/回滚准备；apply migrations + catalog；配 providers/secrets；deploy Edge；核对 22 tables / 24 public RPCs / 22 additive private helpers、RLS/grants/FK/timeouts/advisors；两个 disposable accounts 测 security/cap/telemetry/delete。
 - Phase C：archive exact commit；保留 xcarchive/dSYM；internal TestFlight；真 iPhone 测 Auth、location/manual、signal loss、force quit、Wander、Pocket/lifecycle/shop、steps/Hibernate、delete、VoiceOver、reinstall。
 - Phase D：至少 24h internal smoke；检查 TestFlight feedback + Organizer；repeatable core crash 阻塞；授权后提交 TestFlight App Review。
 - Phase E：build 获批后邀请 30–50 位成人，只记录数量/cohort。
 - Rollback：stop testing；disable 最小 entry；restore Edge/app；DB forward repair；restore rolconfig；reload PostgREST；rotate secret；重跑受影响门禁。
+
+> 2026-08-13 authorization blocker：未收到远端 Supabase mutation/deploy、provider 配置、build upload/review/invite 的逐项授权，也没有物理 iPhone、24h soak 或 TestFlight 证据；本步保持未完成。
 
 ## 9. 文件清单
 
@@ -333,12 +351,12 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - [x] Step 3 — 两次 reset、85+ DB tests、lint/concurrency/timeouts 当前通过。[codex done]
 - [x] Step 4 — SQL 深审和对抗回归完成。[codex done]
 - [x] Step 5 — Edge Functions/mock tests/privacy scan 完成。[codex done]
-- [ ] Step 6 — iOS models/client/Auth/loading vertical slice 完成。
-- [ ] Step 7 — SwiftData/MutationQueue/sync/recovery 完成。
-- [ ] Step 8 — Home/Pocket/Pressbook/Vase/Shop 完成。
-- [ ] Step 9 — resilient Wander 完成，模拟器门禁通过。
-- [ ] Step 10 — Steps/Glow/Hibernate 完成，非真机门禁通过。
-- [ ] Step 11 — Settings/Delete/Privacy/Accessibility 完成。
+- [x] Step 6 — iOS models/client/Auth/loading vertical slice 完成。[codex done]
+- [x] Step 7 — SwiftData/MutationQueue/sync/recovery 完成。[codex done]
+- [x] Step 8 — Home/Pocket/Pressbook/Vase/Shop 完成。[codex done]
+- [x] Step 9 — resilient Wander 完成，模拟器门禁通过。[codex done]
+- [x] Step 10 — Steps/Glow/Hibernate 完成，非真机门禁通过。[codex done]
+- [x] Step 11 — Settings/Delete/Privacy/Accessibility 完成。[codex done]
 - [ ] Step 12 — unified runner 从 clean reset 完整通过两次。
 - [ ] Step 13 — owner/provider/public URL/50 art/rights/review metadata 通过。
 - [ ] Step 14 — authorized remote + physical + soak + TestFlight review + beta 完成。
@@ -347,7 +365,7 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 - Step 0–14 全有 [codex done] 和证据，不用本地结果替代远端、真机或 TestFlight。
 - 旧目录未被修改，新仓库可从 Git 恢复。
-- 22 tables、24 public RPC、19 private functions、RLS/grants/FK/timeouts 一致。
+- 22 tables、24 public RPC、22 additive private helpers、RLS/grants/FK/timeouts 一致；19 是迁移前基线，不是最终门禁。
 - 断网、response loss、duplicate tap、multi-device cap、force quit 不产生重复、负数或越权状态。
 - App 完成规格第 26 章 10 类验收，保持 Autumn-only、free、no-payment。
 - 50 production assets、privacy、deletion、accessibility、archive/dSYM 全验证。
