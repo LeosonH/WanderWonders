@@ -9,12 +9,19 @@ struct HomeView: View {
                 if let snapshot = store.snapshot {
                     VStack(spacing: 20) {
                         HStack(spacing: 16) {
-                            MetricCard(title: "Glow", value: "\(snapshot.profile.glowBalance)", icon: "sparkles")
+                            MetricCard(title: "Glow", value: "\(snapshot.profile.glowBalance)", icon: "glow_icon", usesAsset: true)
                             MetricCard(title: "Living", value: "\(snapshot.livingFlowers.count)", icon: "leaf.fill")
                         }
 
                         if snapshot.isHibernating {
-                            Label("Hibernate is active", systemImage: "snowflake")
+                            HStack {
+                                Image.wonder("hibernate_snowflake_charm")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 36, height: 36)
+                                    .accessibilityHidden(true)
+                                Text("Hibernate is active")
+                            }
                                 .font(.headline)
                                 .padding()
                                 .frame(maxWidth: .infinity)
@@ -31,6 +38,13 @@ struct HomeView: View {
                     }
                     .padding()
                 }
+            }
+            .background {
+                Image.wonder("autumn_home_background")
+                    .resizable()
+                    .scaledToFill()
+                    .opacity(0.24)
+                    .ignoresSafeArea()
             }
             .navigationTitle("Home")
             .refreshable { await store.refresh() }
@@ -51,9 +65,19 @@ struct HomeView: View {
                         Text("\(vase.assignments.count)/\(vase.capacity)")
                             .foregroundStyle(.secondary)
                     }
+                    if vase.unlocked {
+                        vaseArtwork(vase, snapshot: snapshot)
+                    }
                     ForEach(vase.assignments) { assignment in
                         if let flower = snapshot.livingFlowers.first(where: { $0.id == assignment.flowerId }) {
                             HStack {
+                                if let asset = flower.assetKey(in: store.catalog, serverNow: snapshot.serverNow) {
+                                    Image.wonder(asset)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 44, height: 44)
+                                        .accessibilityHidden(true)
+                                }
                                 Text(name(for: flower.speciesId)).font(.callout)
                                 Spacer()
                                 Button("Remove") { Task { await store.removeFromVase(flower: flower) } }
@@ -82,6 +106,35 @@ struct HomeView: View {
         }
         .padding()
         .background(.thinMaterial, in: .rect(cornerRadius: 16))
+    }
+
+    private func vaseArtwork(_ vase: VaseSlot, snapshot: WonderSnapshot) -> some View {
+        ZStack(alignment: .bottom) {
+            HStack(alignment: .bottom, spacing: -14) {
+                ForEach(vase.assignments) { assignment in
+                    if let flower = snapshot.livingFlowers.first(where: { $0.id == assignment.flowerId }),
+                       let asset = flower.assetKey(in: store.catalog, serverNow: snapshot.serverNow)
+                    {
+                        Image.wonder(asset)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 76, height: 116)
+                            .accessibilityLabel("\(name(for: flower.speciesId)) in vase \(vase.slot)")
+                    }
+                }
+            }
+            Image.wonder("texture_\(vase.patternKey)")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 132, height: 92)
+                .mask {
+                    Image.wonder("vase_mask_capacity_\(vase.capacity)")
+                        .resizable()
+                        .scaledToFit()
+                }
+                .accessibilityHidden(true)
+        }
+        .frame(maxWidth: .infinity, minHeight: 150)
     }
 
     private func unassignedFlower(_ snapshot: WonderSnapshot) -> WonderFlower? {
@@ -115,10 +168,19 @@ private struct MetricCard: View {
     let title: String
     let value: String
     let icon: String
+    var usesAsset = false
 
     var body: some View {
         VStack(spacing: 8) {
-            Image(systemName: icon).foregroundStyle(.orange).accessibilityHidden(true)
+            if usesAsset {
+                Image.wonder(icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 32, height: 32)
+                    .accessibilityHidden(true)
+            } else {
+                Image(systemName: icon).foregroundStyle(.orange).accessibilityHidden(true)
+            }
             Text(value).font(.title.bold())
             Text(title).foregroundStyle(.secondary)
         }

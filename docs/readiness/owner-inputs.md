@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: readiness lane opened; owner actions are pending.
+Status: production art and release-use rights are owner-approved; account/provider/publication actions remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -22,12 +22,12 @@ This file records only nonsecret readiness status. Credentials, authorization co
 ## Art gate checklist
 
 - [ ] Named accountable art owner
-- [ ] Contracted artist or approved internal creator
+- [x] Approved internal AI-assisted creator workflow
 - [ ] Approved budget recorded by the owner
-- [ ] Rights/ownership confirmed
-- [ ] Two review rounds and delivery milestones accepted
-- [ ] 50-asset manifest approved
+- [x] Rights/ownership confirmed by the owner for project and release use on 2026-08-13
+- [x] Two review rounds and final delivery accepted on 2026-08-13
+- [x] 50-asset manifest approved on 2026-08-13
 
 ## Step 0 exit blockers
 
-Step 0 cannot be marked complete until the owner supplies or confirms all Step 6 dependencies: approved provider/account access, vault-backed secret presence, public Privacy Policy and Support URLs, review/contact metadata, and the approved art contract/rights. No external provider or Supabase mutation is authorized by this checklist.
+The remaining readiness gate cannot close until the owner supplies or confirms approved provider/account access, vault-backed secret presence, public Privacy Policy and Support URLs, review/contact metadata, accountable art owner, and budget record. Art delivery and rights are complete. No external provider or Supabase mutation is authorized by this checklist.

@@ -108,7 +108,7 @@ struct WanderView: View {
                         $0.status == "awarded"
                 }
             }) { offer in
-                Button(name(for: offer.speciesSlug)) {
+                Button {
                     Task {
                         await store.chooseReward(
                             sessionID: wander.id,
@@ -116,6 +116,8 @@ struct WanderView: View {
                             speciesSlug: offer.speciesSlug
                         )
                     }
+                } label: {
+                    flowerChoice(offer.speciesSlug)
                 }
                 .buttonStyle(.bordered)
                 .frame(maxWidth: .infinity, minHeight: 44)
@@ -145,8 +147,10 @@ struct WanderView: View {
                             VStack {
                                 Text("Choose at \(tier) minutes").font(.headline)
                                 ForEach(wander.offerSlugs.filter { !wander.choices.values.contains($0) }, id: \.self) { slug in
-                                    Button(name(for: slug)) {
+                                    Button {
                                         Task { await store.chooseOffline(tier: tier, speciesSlug: slug) }
+                                    } label: {
+                                        flowerChoice(slug)
                                     }
                                     .buttonStyle(.bordered)
                                     .frame(minHeight: 44)
@@ -167,6 +171,19 @@ struct WanderView: View {
     private func name(for slug: String) -> String {
         store.catalog?.species.first(where: { $0.slug == slug })?.commonName
             ?? slug.replacingOccurrences(of: "_", with: " ").capitalized
+    }
+
+    private func flowerChoice(_ slug: String) -> some View {
+        HStack {
+            if let asset = store.catalog?.species.first(where: { $0.slug == slug })?.assets.living {
+                Image.wonder(asset)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 44, height: 44)
+                    .accessibilityHidden(true)
+            }
+            Text(name(for: slug))
+        }
     }
 
     private static func duration(_ seconds: TimeInterval) -> String {

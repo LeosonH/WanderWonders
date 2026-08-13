@@ -285,6 +285,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-13 阻塞证据：最终 `run_wonder_checks.sh --code-only` 通过 content、Edge 13/13、Debug/Release、iOS unit 13/13、UI 1/1、plist 和扫描门禁；数据库在 iOS-only 改动前保持 reset + 139/139 + lint 0 + 对抗探针通过。真实文件 gate 以干净 exit 1 精确报告 50/50 production PNG 缺失，因此未跑 archive，也未把本步标为 done；没有用重复 full run 制造虚假绿灯。
 
+> 2026-08-13 [codex done]：owner 确认 50 张 production art 与发布使用权后，修复两项只在完整门禁暴露的测试问题：洛杉矶当日 Daisy 断言的重复时区转换，以及 adversarial probe 对并发输家 session 的固定假设；同时用原生生成 Launch Screen 与四方向配置消除 archive 发布警告。随后将 50 张美术接入 Launch/Auth/Home/Pocket/Pressbook/Shop/Wander 和 App Icon，并以一个共享 UIKit loader 修复 loose bundle PNG 在 SwiftUI 中空白的根因；模拟器稳定截图、50/50 bundle load test 和 branded UI smoke 均确认真实渲染。代码变化后再次从停止状态独立执行两次 `run_wonder_checks.sh --full`，两次均通过 Edge 13/13、iOS unit 15/15、UI 1/1、clean reset + pgTAP 139/139、lint 0、22 table / 24 RPC / 22 helper / FORCE RLS 与撤权 audit、并发/对抗/role-timeout probes、50/50 实体美术检查和无签名 archive。
+
 ### Step 13 — Owner/provider/art readiness
 
 - 可与 Step 2–11 并行，但在 Step 12 后闭合。
@@ -293,7 +295,7 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - signed-out browser 验 URL 200；validator 检真实 art；owner 签认 data map、rights、metadata。
 - 任一缺失则保持未完成，不伪造 placeholder 证据。
 
-> 2026-08-13 owner blocker：final App ID/bundle/team/App Store/TestFlight、Apple/Google provider identifiers 与 vault secrets、public Privacy/Support URLs、review metadata、50 production art 和 rights 均未提供或未验收；本步保持未完成。
+> 2026-08-13 readiness 进度：50/50 production art、两轮视觉验收和项目/发布使用权已由 owner 确认，且已接入 iOS 并通过本地门禁。剩余 owner blocker 为 accountable art owner 名称/角色与预算记录、final App ID/bundle/team/App Store/TestFlight、Apple/Google provider identifiers 与 vault secrets、专用 Supabase project 确认、public Privacy/Support URLs、review/feedback contact 与 beta cohort metadata；本步保持未完成。
 
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 
@@ -357,8 +359,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - [x] Step 9 — resilient Wander 完成，模拟器门禁通过。[codex done]
 - [x] Step 10 — Steps/Glow/Hibernate 完成，非真机门禁通过。[codex done]
 - [x] Step 11 — Settings/Delete/Privacy/Accessibility 完成。[codex done]
-- [ ] Step 12 — unified runner 从 clean reset 完整通过两次。
-- [ ] Step 13 — owner/provider/public URL/50 art/rights/review metadata 通过。
+- [x] Step 12 — unified runner 从 clean reset 完整通过两次。[codex done]
+- [ ] Step 13 — owner/provider/public URL/review metadata 通过；50 art/rights 已验收。
 - [ ] Step 14 — authorized remote + physical + soak + TestFlight review + beta 完成。
 
 ## 13. Definition of done

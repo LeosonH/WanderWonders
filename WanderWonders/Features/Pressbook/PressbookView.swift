@@ -12,11 +12,22 @@ struct PressbookView: View {
                             .foregroundStyle(.secondary)
                     }
                     ForEach(store.snapshot?.pressedFlowers ?? []) { flower in
-                        Label(name(for: flower.speciesId), systemImage: "book.pages.fill")
+                        HStack {
+                            if let asset = flower.assetKey(in: store.catalog, serverNow: store.snapshot?.serverNow ?? .now) {
+                                Image.wonder(asset)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 48, height: 64)
+                                    .accessibilityHidden(true)
+                            }
+                            Text(name(for: flower.speciesId))
+                        }
+                        .accessibilityElement(children: .combine)
                             .frame(minHeight: 44)
                     }
                 }
                 Section("Shelf") {
+                    shelfPreview
                     ForEach(1...6, id: \.self) { position in
                         HStack {
                             Text("Position \(position)")
@@ -38,6 +49,31 @@ struct PressbookView: View {
         }
     }
 
+    private var shelfPreview: some View {
+        ZStack(alignment: .top) {
+            Image.wonder("pressbook_shelf")
+                .resizable()
+                .scaledToFit()
+                .accessibilityHidden(true)
+            HStack(alignment: .bottom, spacing: 2) {
+                ForEach(1...6, id: \.self) { position in
+                    if let species = shelfSpecies(position) {
+                        Image.wonder(species.assets.pressed)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity, maxHeight: 72)
+                            .accessibilityLabel("\(species.commonName), shelf position \(position)")
+                    } else {
+                        Color.clear.frame(maxWidth: .infinity, maxHeight: 72)
+                    }
+                }
+            }
+            .padding(.horizontal, 18)
+        }
+        .frame(height: 110)
+        .accessibilityElement(children: .contain)
+    }
+
     private var discoveredSpecies: [FlowerCatalog.Species] {
         let ids = Set((store.snapshot?.pressedFlowers ?? []).map(\.speciesId))
         return (store.catalog?.species ?? []).filter { ids.contains($0.id) }
@@ -52,5 +88,12 @@ struct PressbookView: View {
             return nil
         }
         return name(for: id)
+    }
+
+    private func shelfSpecies(_ position: Int) -> FlowerCatalog.Species? {
+        guard let id = store.snapshot?.shelfAssignments.first(where: { $0.position == position })?.speciesId else {
+            return nil
+        }
+        return store.catalog?.species.first { $0.id == id }
     }
 }

@@ -105,7 +105,7 @@ select is(
         select count(*)::integer
         from public.wonder_daily_grants
         where user_id = '00000000-0000-0000-0000-000000000501'::uuid
-          and local_date = (timezone('utc', clock_timestamp()) at time zone 'America/Los_Angeles')::date
+          and local_date = (clock_timestamp() at time zone 'America/Los_Angeles')::date
     ),
     0,
     'refresh does not grant a Daisy during Hibernate'
@@ -134,7 +134,7 @@ select is(
         select count(*)::integer
         from public.wonder_daily_grants
         where user_id = '00000000-0000-0000-0000-000000000501'::uuid
-          and local_date = (timezone('utc', clock_timestamp()) at time zone 'America/Los_Angeles')::date
+          and local_date = (clock_timestamp() at time zone 'America/Los_Angeles')::date
     ),
     1,
     'Hibernate exit grants only the current-day Daisy'

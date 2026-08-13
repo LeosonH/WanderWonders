@@ -56,6 +56,16 @@ struct WonderFlower: Codable, Equatable, Identifiable, Sendable {
 
     var id: UUID { flowerId }
     var isLiving: Bool { state == "living" && deadlineUtc > Date() }
+
+    func assetKey(in catalog: FlowerCatalog?, serverNow: Date) -> String? {
+        guard let assets = catalog?.species.first(where: { $0.id == speciesId })?.assets else {
+            return nil
+        }
+        if state == "pressed" { return assets.pressed }
+        // ponytail: V1 uses the final quarter of a bloom for fading art; move this to catalog only if timing becomes tunable.
+        return deadlineUtc.timeIntervalSince(serverNow) <= Double(durationSeconds) / 4
+            ? assets.fading : assets.living
+    }
 }
 
 struct WanderOffer: Codable, Equatable, Identifiable, Sendable {
@@ -274,12 +284,19 @@ enum OverflowPromptRule {
 
 struct FlowerCatalog: Codable, Equatable, Sendable {
     struct Species: Codable, Equatable, Identifiable, Sendable {
+        struct Assets: Codable, Equatable, Sendable {
+            let living: String
+            let fading: String
+            let pressed: String
+        }
+
         let speciesId: UUID
         let slug: String
         let commonName: String
         let source: String
         let season: String
         let active: Bool
+        let assets: Assets
         var id: UUID { speciesId }
     }
 

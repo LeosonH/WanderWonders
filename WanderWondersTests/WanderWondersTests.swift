@@ -1,5 +1,6 @@
 import HealthKit
 import SwiftData
+import UIKit
 import XCTest
 @testable import WanderWonders
 
@@ -9,6 +10,38 @@ final class WanderWondersTests: XCTestCase {
         XCTAssertEqual(WanderWondersApp.displayName, "Wander Wonders")
         XCTAssertEqual(HealthStepService.statisticsOptions, .cumulativeSum)
         XCTAssertFalse(HealthStepService.statisticsOptions.contains(.separateBySource))
+    }
+
+    func testAllProductionArtLoadsFromTheBundle() throws {
+        let bundle = Bundle(for: Self.self)
+        let url = try XCTUnwrap(bundle.url(forResource: "wonder_asset_manifest.v1", withExtension: "json"))
+        let manifest = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        let categories = try XCTUnwrap(manifest["categories"] as? [[String: Any]])
+        let keys = categories.flatMap { category in
+            (category["assets"] as? [[String: Any]] ?? []).compactMap { $0["assetKey"] as? String }
+        }
+        XCTAssertEqual(keys.count, 50)
+        for key in keys {
+            XCTAssertNotNil(UIImage(named: key, in: bundle, compatibleWith: nil), "Missing bundle image: \(key)")
+        }
+    }
+
+    func testFlowerArtUsesServerTimeAndFinalBloomQuarter() throws {
+        let bundle = Bundle(for: Self.self)
+        let url = try XCTUnwrap(bundle.url(forResource: "flower_catalog.v1", withExtension: "json"))
+        let catalog = try JSONDecoder().decode(FlowerCatalog.self, from: Data(contentsOf: url))
+        let daisy = try XCTUnwrap(catalog.species.first { $0.slug == "daisy" })
+        let now = Date(timeIntervalSince1970: 1_000)
+        func flower(deadline: Date, state: String = "living") -> WonderFlower {
+            WonderFlower(
+                flowerId: UUID(), speciesId: daisy.id, source: "daily", sessionId: nil,
+                tier: nil, acquiredAt: now, durationSeconds: 86_400, deadlineUtc: deadline,
+                extensionSeconds: 0, state: state, version: 1, saleGlow: nil
+            )
+        }
+        XCTAssertEqual(flower(deadline: now.addingTimeInterval(21_601)).assetKey(in: catalog, serverNow: now), "daisy_living")
+        XCTAssertEqual(flower(deadline: now.addingTimeInterval(21_600)).assetKey(in: catalog, serverNow: now), "daisy_fading")
+        XCTAssertEqual(flower(deadline: now, state: "pressed").assetKey(in: catalog, serverNow: now), "daisy_pressed")
     }
 
     func testOfflineOfferFixtureMatchesServerAlgorithm() throws {

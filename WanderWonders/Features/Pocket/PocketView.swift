@@ -16,23 +16,34 @@ struct PocketView: View {
                         OverflowPrompt(store: store)
                             .listRowBackground(Color.clear)
                         ForEach(store.snapshot?.livingFlowers ?? []) { flower in
-                            VStack(alignment: .leading, spacing: 8) {
-                                Label(name(for: flower.speciesId), systemImage: "leaf.fill")
-                                    .font(.headline)
-                                Text("Fades \(flower.deadlineUtc, style: .relative)")
-                                    .foregroundStyle(.secondary)
-                                HStack {
-                                    actionButton("Press", flower: flower, action: .press)
-                                    actionButton("Sell · \(flower.saleGlow ?? 5) Glow", flower: flower, action: .sell)
-                                    actionButton(
-                                        "Sunshine",
-                                        flower: flower,
-                                        action: .sunshine,
-                                        disabled: !isDisplayed(flower)
-                                    )
+                            HStack(alignment: .top, spacing: 12) {
+                                if let asset = flower.assetKey(
+                                    in: store.catalog,
+                                    serverNow: store.snapshot?.serverNow ?? .now
+                                ) {
+                                    Image.wonder(asset)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 72, height: 96)
+                                        .accessibilityLabel(name(for: flower.speciesId))
                                 }
-                                .buttonStyle(.bordered)
-                                .controlSize(.small)
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(name(for: flower.speciesId)).font(.headline)
+                                    Text("Fades \(flower.deadlineUtc, style: .relative)")
+                                        .foregroundStyle(.secondary)
+                                    HStack {
+                                        actionButton("Press", flower: flower, action: .press)
+                                        actionButton("Sell · \(flower.saleGlow ?? 5) Glow", flower: flower, action: .sell)
+                                        actionButton(
+                                            "Sunshine",
+                                            flower: flower,
+                                            action: .sunshine,
+                                            disabled: !isDisplayed(flower)
+                                        )
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .controlSize(.small)
+                                }
                             }
                             .padding(.vertical, 6)
                         }

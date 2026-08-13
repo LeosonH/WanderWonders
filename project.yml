@@ -56,8 +56,11 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WW_BUNDLE_IDENTIFIER)
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_CFBundleDisplayName: Wander Wonders
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.lifestyle
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown
         INFOPLIST_KEY_NSHealthShareUsageDescription: Wander Wonders uses your step total to calculate earned Glow.
         INFOPLIST_KEY_NSHealthUpdateUsageDescription: Wander Wonders does not write Health data.
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Wander Wonders can check whether you are near a park without storing your location.

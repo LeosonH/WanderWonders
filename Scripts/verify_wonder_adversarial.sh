@@ -179,21 +179,30 @@ CAP_STALE="$(PGPASSWORD=postgres psql "$DB_URL" -qAtc \
      where user_id = '$CAP_USER'::uuid
        and request_id in ('$CAP_REQUEST_A'::uuid, '$CAP_REQUEST_B'::uuid)
        and response_json->'error'->>'code' = 'WW_STALE_REVISION';")"
+CAP_STALE_SESSION="$(PGPASSWORD=postgres psql "$DB_URL" -qAtc \
+    "select case request_id
+         when '$CAP_REQUEST_A'::uuid then '$CAP_SESSION_A'
+         when '$CAP_REQUEST_B'::uuid then '$CAP_SESSION_B'
+     end
+     from public.wonder_idempotency_keys
+     where user_id = '$CAP_USER'::uuid
+       and request_id in ('$CAP_REQUEST_A'::uuid, '$CAP_REQUEST_B'::uuid)
+       and response_json->'error'->>'code' = 'WW_STALE_REVISION';")"
 
-if [[ "$CAP_AWARDED" != "6" || "$CAP_SUCCESS" != "1" || "$CAP_STALE" != "1" ]]; then
+if [[ "$CAP_AWARDED" != "6" || "$CAP_SUCCESS" != "1" || "$CAP_STALE" != "1" || -z "$CAP_STALE_SESSION" ]]; then
     printf 'unexpected contested cap result: awarded=%s success=%s stale=%s\n' \
         "$CAP_AWARDED" "$CAP_SUCCESS" "$CAP_STALE" >&2
     exit 1
 fi
 
-run_offline "$CAP_SESSION_B" "$CAP_RETRY" 1 "$TEMP_DIR/cap-retry.out"
+run_offline "$CAP_STALE_SESSION" "$CAP_RETRY" 1 "$TEMP_DIR/cap-retry.out"
 CAP_AFTER_RETRY="$(PGPASSWORD=postgres psql "$DB_URL" -qAtc \
     "select count(*) from public.wonder_wander_rewards
      where user_id = '$CAP_USER'::uuid and status = 'awarded';")"
 CAP_REJECTED="$(PGPASSWORD=postgres psql "$DB_URL" -qAtc \
     "select count(*) from public.wonder_wander_rewards
      where user_id = '$CAP_USER'::uuid
-       and session_id = '$CAP_SESSION_B'::uuid
+       and session_id = '$CAP_STALE_SESSION'::uuid
        and status = 'rejected'
        and rejection_code = 'WW_DAILY_FLOWER_CAP';")"
 if [[ "$CAP_AFTER_RETRY" != "6" || "$CAP_REJECTED" != "1" ]]; then

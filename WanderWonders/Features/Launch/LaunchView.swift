@@ -23,10 +23,13 @@ struct BrandSurface: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
-                Image(systemName: "leaf.fill")
-                    .font(.system(size: 48))
-                    .foregroundStyle(.orange)
-                    .accessibilityHidden(true)
+                Image.wonder("autumn_app_icon_source")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 96, height: 96)
+                    .clipShape(.rect(cornerRadius: 22))
+                    .accessibilityLabel("Wander Wonders app icon")
+                    .accessibilityIdentifier("autumn-app-icon")
 
                 Text(WanderWondersApp.displayName)
                     .font(.largeTitle.weight(.semibold))
@@ -41,6 +44,13 @@ struct BrandSurface: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
+            .background {
+                Image.wonder("autumn_home_background")
+                    .resizable()
+                    .scaledToFill()
+                    .opacity(0.22)
+                    .ignoresSafeArea()
+            }
             .navigationTitle(WanderWondersApp.displayName)
         }
     }

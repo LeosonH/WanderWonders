@@ -1,18 +1,18 @@
 # Wander Wonders V1 Autumn art brief
 
-Status: brief opened; commissioning and rights approval are pending owner action.
+Status: final production delivery and release-use rights accepted by the owner on 2026-08-13; accountable owner name/role and budget record remain pending.
 
 ## Owner-approved contract fields
 
 ```text
 ART_OWNER=PENDING_OWNER_INPUT
-ARTIST=PENDING_OWNER_INPUT
+ARTIST=APPROVED_INTERNAL_AI_ASSISTED_WORKFLOW
 ART_BUDGET_USD=PENDING_OWNER_INPUT
-FIRST_STYLE_CHECKPOINT=2026-08-21
-FLOWER_SET_CHECKPOINT=2026-09-18
-FINAL_ASSET_DELIVERY=2026-10-02
-REVISION_BUFFER_END=2026-10-09
-RIGHTS_CONFIRMED=PENDING_OWNER_CONFIRMATION
+FIRST_STYLE_CHECKPOINT=2026-08-13_ACCEPTED
+FLOWER_SET_CHECKPOINT=2026-08-13_ACCEPTED
+FINAL_ASSET_DELIVERY=2026-08-13_ACCEPTED
+REVISION_BUFFER_END=2026-08-13_CLOSED
+RIGHTS_CONFIRMED=OWNER_CONFIRMED_FOR_PROJECT_AND_RELEASE_2026-08-13
 ```
 
 ## Fixed V1 contract
@@ -25,4 +25,4 @@ RIGHTS_CONFIRMED=PENDING_OWNER_CONFIRMATION
 - Include licensing/ownership documentation and two review rounds.
 - Acceptance is against `Content/wonder_asset_manifest.v1.json` and the validator in `Scripts/validate_wonder_assets.swift` once Step 5 creates them.
 
-Missing owner, budget, rights, contract, or production delivery blocks the Step 0 art gate and the Step 13 release archive.
+Missing accountable owner name/role and budget record keep the Step 13 owner-readiness gate open. Production delivery, visual acceptance, and release-use rights are complete.

@@ -14,10 +14,12 @@ struct AuthView: View {
     var body: some View {
         VStack(spacing: 24) {
             Spacer()
-            Image(systemName: "leaf.fill")
-                .font(.system(size: 56))
-                .foregroundStyle(.orange)
-                .accessibilityHidden(true)
+            Image.wonder("autumn_app_icon_source")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 96, height: 96)
+                .clipShape(.rect(cornerRadius: 22))
+                .accessibilityLabel("Wander Wonders app icon")
             Text(WanderWondersApp.displayName).font(.largeTitle.bold())
             Text("A calm reason to wander outside.")
                 .foregroundStyle(.secondary)

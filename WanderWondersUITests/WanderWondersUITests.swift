@@ -8,5 +8,6 @@ final class WanderWondersUITests: XCTestCase {
 
         XCTAssertTrue(app.staticTexts["Wander Wonders"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Autumn V1"].exists)
+        XCTAssertTrue(app.images["autumn-app-icon"].exists)
     }
 }
