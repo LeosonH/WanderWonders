@@ -1,5 +1,6 @@
 import XCTest
 
+@MainActor
 final class WanderWondersUITests: XCTestCase {
     func testLaunchShowsBrandedAutumnSurface() {
         let app = XCUIApplication()

@@ -1,6 +1,6 @@
 begin;
 
-select plan(19);
+select plan(22);
 
 select is(
     (
@@ -170,6 +170,7 @@ $$
         '2026-01-01 00:00:00+00', '2026-01-01 01:00:00+00', '2026-01-01', 'UTC',
         'manual', false, 1, 'fixture', 'autumn'
     );
+
 $$,
 'valid owner rows and a Wander session can be inserted'
 );
@@ -189,6 +190,19 @@ null,
 'composite owner FK rejects a cross-owner offer'
 );
 
+select lives_ok(
+$$
+    insert into public.wonder_wander_offers (
+        user_id, session_id, position, species_id, species_slug, catalog_version, offer_checksum
+    ) values (
+        '00000000-0000-0000-0000-000000000001'::uuid,
+        '00000000-0000-0000-0000-000000000020'::uuid,
+        2, '00000000-0000-0000-0000-000000000010'::uuid, 'fixture_daisy', 1, 'fixture'
+    );
+$$,
+'valid owner offer can be inserted before cascade verification'
+);
+
 select throws_ok(
 $$
     insert into public.wonder_vase_slots (user_id, slot, capacity, unlocked)
@@ -197,6 +211,16 @@ $$,
 '23514',
 null,
 'vase slot capacity constraint rejects incoherent values'
+);
+
+select throws_ok(
+$$
+    delete from public.wonder_wander_offers
+    where user_id = '00000000-0000-0000-0000-000000000001'::uuid;
+$$,
+'42501',
+'immutable Wander Wonders row',
+'immutable offer rejects direct deletion while its owner exists'
 );
 
 select lives_ok(
@@ -217,6 +241,12 @@ select is(
     (select count(*)::integer from public.wonder_wander_sessions where user_id = '00000000-0000-0000-0000-000000000001'::uuid),
     0,
     'deleted auth owner has no Wander session'
+);
+
+select is(
+    (select count(*)::integer from public.wonder_wander_offers where user_id = '00000000-0000-0000-0000-000000000001'::uuid),
+    0,
+    'deleted auth owner has no immutable Wander offers'
 );
 
 select is(

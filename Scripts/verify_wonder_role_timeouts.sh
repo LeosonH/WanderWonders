@@ -7,7 +7,7 @@ SESSION_ID="00000000-0000-0000-0000-000000000402"
 REQUEST_ID="00000000-0000-0000-0000-000000000403"
 TEMP_DIR="$(mktemp -d /private/tmp/wonder-role-timeouts.XXXXXX)"
 
-status_env="$(SUPABASE_TELEMETRY_DISABLED=1 npx supabase status -o env 2>/dev/null)"
+status_env="$(SUPABASE_TELEMETRY_DISABLED=1 supabase status -o env 2>/dev/null)"
 value_for() {
     printf '%s\n' "$status_env" | sed -n "s/^$1=//p" | sed 's/^"//; s/"$//' | head -n 1
 }
@@ -30,7 +30,13 @@ drop_probe() {
 cleanup() {
     drop_probe >/dev/null 2>&1 || true
     PGPASSWORD=postgres psql "$DB_URL" -v ON_ERROR_STOP=1 -qAtc \
-        "delete from auth.users where id = '$USER_ID'::uuid;" >/dev/null 2>&1 || true
+        "delete from auth.users where id = '$USER_ID'::uuid;
+         delete from public.wonder_species
+         where species_id in (
+           '00000000-0000-0000-0000-000000000411'::uuid,
+           '00000000-0000-0000-0000-000000000412'::uuid,
+           '00000000-0000-0000-0000-000000000413'::uuid
+         );" >/dev/null 2>&1 || true
     rm -rf "$TEMP_DIR"
 }
 trap cleanup EXIT
@@ -118,12 +124,18 @@ if [[ "$NORMAL_STATUS" != "200" ]]; then printf 'normal RPC returned HTTP %s in 
 if ! awk -v seconds="$NORMAL_DURATION" 'BEGIN { exit !(seconds < 4.0) }'; then printf 'normal RPC exceeded the budget: %s seconds\n' "$NORMAL_DURATION" >&2; exit 1; fi
 if ! rg -q '"ok": true' "$TEMP_DIR/normal.json"; then printf 'normal RPC did not return ok=true\n' >&2; exit 1; fi
 
-VERIFIED_BODY="$(printf '%s' "{\"p_user_id\":\"$USER_ID\",\"p_session_id\":\"$SESSION_ID\",\"p_time_zone\":\"UTC\",\"p_expected_revision\":0,\"p_idempotency_key\":\"$REQUEST_ID\",\"p_allow_zero_reward\":false}")"
+CURRENT_REVISION="$(PGPASSWORD=postgres psql "$DB_URL" -v ON_ERROR_STOP=1 -qAtc \
+    "select state_revision from public.wonder_profiles where user_id = '$USER_ID'::uuid;")"
+VERIFIED_BODY="$(printf '%s' "{\"p_user_id\":\"$USER_ID\",\"p_session_id\":\"$SESSION_ID\",\"p_time_zone\":\"UTC\",\"p_expected_revision\":$CURRENT_REVISION,\"p_idempotency_key\":\"$REQUEST_ID\",\"p_allow_zero_reward\":false}")"
 VERIFIED_META="$(call_rpc wonder_start_verified_wander_internal "$SERVICE_ROLE_KEY" "$SERVICE_ROLE_KEY" "$VERIFIED_BODY" "$TEMP_DIR/verified.json")"
 read -r VERIFIED_STATUS VERIFIED_DURATION <<< "$VERIFIED_META"
 if [[ "$VERIFIED_STATUS" != "200" ]]; then printf 'verified RPC returned HTTP %s in %s seconds\n' "$VERIFIED_STATUS" "$VERIFIED_DURATION" >&2; exit 1; fi
 if ! awk -v seconds="$VERIFIED_DURATION" 'BEGIN { exit !(seconds < 4.0) }'; then printf 'verified RPC exceeded the budget: %s seconds\n' "$VERIFIED_DURATION" >&2; exit 1; fi
-if ! rg -q '"ok": true' "$TEMP_DIR/verified.json"; then printf 'verified RPC did not return ok=true\n' >&2; exit 1; fi
+if ! rg -q '"ok": true' "$TEMP_DIR/verified.json"; then
+    printf 'verified RPC did not return ok=true: ' >&2
+    sed 's/[[:space:]]\+/ /g' "$TEMP_DIR/verified.json" >&2
+    exit 1
+fi
 
 drop_probe
 

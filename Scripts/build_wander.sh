@@ -6,7 +6,7 @@ cd "$ROOT_DIR"
 
 xcodegen generate --spec project.yml
 
-DESTINATION="${WW_DESTINATION:-platform=iOS Simulator,name=iPhone 16,OS=26.0}"
+DESTINATION="${WW_DESTINATION:-platform=iOS Simulator,name=iPhone 17,OS=latest}"
 COMMON_ARGS=(
     -project WanderWonders.xcodeproj
     -scheme WanderWonders

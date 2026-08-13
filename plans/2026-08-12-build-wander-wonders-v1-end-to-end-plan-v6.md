@@ -161,6 +161,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 验证：核心源文件 cmp；排除路径为 0；secret pattern scan 无值；git diff --check。
 - Git：验证通过后提交 migration baseline。
 
+> 2026-08-12 [codex done]：仅复制了本步白名单路径；44 个旧新文件 `cmp` 一致，排除路径为 0，secret pattern scan 无命中，`git diff --check` 通过，旧目录 status 不变。已在 `codex/wander-v1-end-to-end` 提交可恢复基线 `2e4e99a`。
+
 ### Step 2 — 复验内容和 iOS scaffold
 
 - 前置：Step 1 commit。
@@ -169,6 +171,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 运行 Debug/Release build、当前 unit 和 UI test。
 - 验证：13/12/5/50 不变；Swift 6 strict concurrency；iOS 17；build/tests 绿。
 - 失败：只修工具或生成配置，不顺手重构产品。
+
+> 2026-08-13 [codex done]：catalog 当前校验为 13 active species / 12 Autumn offers / 5 shop items，manifest 结构校验为 50 sets。使用 Xcode 26.6、Swift 6.3.3、XcodeGen 2.45.4 生成工程，iOS 17 + Swift 6 complete concurrency 的 Debug/Release 均构建成功；iPhone 17 / iOS 26.5 上 unit + UI 为 2/2 通过。仅修正 Xcode 26 测试 MainActor 警告和已失效的默认 simulator destination，受影响测试重跑通过且无该警告。
 
 ### Step 3 — 重建当前 Supabase 证据
 
@@ -179,6 +183,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 验证：22 tables、24 RPC、19 private functions；85/85；lint 0 errors；并发恰好 1 success + 1 stale + 1 revision + 1 ledger；lock 为 55P03；两角色约 5s；临时 helper 为 0。
 - 失败：停在本步修复，不进入 Edge/iOS。
 
+> 2026-08-13 [codex done]：Supabase CLI 2.113.0，无 project-ref；仅启动 55320–55329 本地栈。迁移变更前后均完成两次 reset，最终 88/88 pgTAP 通过，lint 0 errors。并发为 1 success + 1 stale + revision 1 + ledger 1，lock timeout 为 55P03；authenticated/service_role 分别约 5.03s/5.01s，正常 RPC < 0.1s。测试临时函数、物种、用户均为 0，本地栈已停止。过程中发现 immutable trigger 阻断真实账户级联删除，已用 additive migration 修复并添加直接删除仍拒绝、owner 删除可级联的回归。
+
 ### Step 4 — 深审并修复活的 SQL 合约
 
 - 前置：Step 3 全绿。
@@ -186,6 +192,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 发现 bug 时用 Supabase CLI 新建 additive migration，不修改已迁移历史。
 - 必加回归：two-client contested cap 6/5、protected reservations、duplicate UUID same/different payload、10→20→auto-30、60m close、sale reconfirm、Sunshine guards、telemetry 200/201 + concurrency、Hibernate lost response、steps 99/100/199/200。
 - 验证：reset + existing + new tests 全绿，安全 inventory 不回退。
+
+> 2026-08-13 [codex done]：完成 24 RPC/owner/lock/revision/idempotency/grant 深审，保持 22 tables + 24 public RPC，private helpers 因必要的 Auth trigger、daily Daisy helper 和隔离的 offline core 由 19 增至 22。用 additive migrations 修复：有历史数据的账户级联删除、Auth identity 自动建立游戏 owner、每日 Daisy/休眠期间不发/退出只发当日、自然凋谢 Pressbook 计数、60 分钟关闭保留已达 tiers、offline 日期/时长/顺序/重复选择 proof、sale reconfirm、Sunshine/Shop typed insufficient Glow、休眠后合法非休眠 steps、flower action 过期边界。最终 reset 后 139/139 pgTAP + lint 0 通过；对抗探针证明 cap 5→6 仅一个成功、另一个 stale，重试持久化 cap rejection，telemetry 并发精确停在 200。
 
 ### Step 5 — 实现两个 Edge Functions 和 mock 合约
 
@@ -318,10 +326,10 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 ## 12. 执行检查表
 
 - [x] Step 0 — 旧副本冻结和录取完成。[codex done]
-- [ ] Step 1 — 窄迁移、排除验证和 Git 基线完成。
-- [ ] Step 2 — catalog/manifest/iOS scaffold 当前验证完成。
-- [ ] Step 3 — 两次 reset、85+ DB tests、lint/concurrency/timeouts 当前通过。
-- [ ] Step 4 — SQL 深审和对抗回归完成。
+- [x] Step 1 — 窄迁移、排除验证和 Git 基线完成。[codex done]
+- [x] Step 2 — catalog/manifest/iOS scaffold 当前验证完成。[codex done]
+- [x] Step 3 — 两次 reset、85+ DB tests、lint/concurrency/timeouts 当前通过。[codex done]
+- [x] Step 4 — SQL 深审和对抗回归完成。[codex done]
 - [ ] Step 5 — Edge Functions/mock tests/privacy scan 完成。
 - [ ] Step 6 — iOS models/client/Auth/loading vertical slice 完成。
 - [ ] Step 7 — SwiftData/MutationQueue/sync/recovery 完成。
