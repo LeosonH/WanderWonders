@@ -1,0 +1,7 @@
+// Safe example values only. Copy to an ignored local xcconfig when owner-approved values exist.
+WW_BUNDLE_IDENTIFIER = com.example.wanderwonders
+WW_SUPABASE_URL =
+WW_SUPABASE_PUBLISHABLE_KEY =
+WW_GOOGLE_CLIENT_ID =
+WW_SUPPORT_URL =
+WW_PRIVACY_URL =

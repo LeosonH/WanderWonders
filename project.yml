@@ -1,0 +1,79 @@
+name: WanderWonders
+
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+  indentWidth: 4
+  tabWidth: 4
+
+configFiles:
+  Debug: Config/Debug.xcconfig.example
+  Release: Config/Release.xcconfig.example
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    CODE_SIGN_STYLE: Manual
+    DEVELOPMENT_TEAM: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+  configs:
+    Debug:
+      SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+    Release:
+      SWIFT_OPTIMIZATION_LEVEL: "-O"
+
+targets:
+  WanderWonders:
+    type: application
+    platform: iOS
+    sources:
+      - path: WanderWonders
+    entitlements:
+      path: WanderWonders/WanderWonders.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(WW_BUNDLE_IDENTIFIER)
+        INFOPLIST_KEY_CFBundleDisplayName: Wander Wonders
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.lifestyle
+        INFOPLIST_KEY_NSHealthShareUsageDescription: Wander Wonders uses your step total to calculate earned Glow.
+        INFOPLIST_KEY_NSHealthUpdateUsageDescription: Wander Wonders does not write Health data.
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Wander Wonders can check whether you are near a park without storing your location.
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_EMIT_LOC_STRINGS: YES
+        ENABLE_PREVIEWS: YES
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - WanderWondersTests
+        - WanderWondersUITests
+
+  WanderWondersTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: WanderWondersTests
+    dependencies:
+      - target: WanderWonders
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.wanderwonders.tests
+        GENERATE_INFOPLIST_FILE: YES
+
+  WanderWondersUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: WanderWondersUITests
+    dependencies:
+      - target: WanderWonders
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.wanderwonders.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: WanderWonders

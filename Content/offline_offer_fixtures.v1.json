@@ -1,0 +1,23 @@
+{
+  "catalogVersion" : 1,
+  "orderedOffers" : [
+    {
+      "position" : 1,
+      "slug" : "sedum",
+      "sortHashHex" : "18e4aacd17f7ec9985a3f0a120f4db9ecd712367790145d21d8cb74fd05bbc3b"
+    },
+    {
+      "position" : 2,
+      "slug" : "chrysanthemum",
+      "sortHashHex" : "5f16eae99d8e0d188cc7a1866fb40acf787f19750438a7df35624c4394e0edd6"
+    },
+    {
+      "position" : 3,
+      "slug" : "aster",
+      "sortHashHex" : "6f9f9ee0c45dc415279fc1da2a7d415dd9c3eef01f52ceaf126cc1eaef1b5814"
+    }
+  ],
+  "season" : "autumn",
+  "seedHex" : "b41c3d0082c296676e67e3a2ef8011e43024b678fce4ed77e2a7600984a4f346",
+  "sessionUUID" : "00000000-0000-0000-0000-000000000501"
+}

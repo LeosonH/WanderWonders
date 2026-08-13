@@ -1,0 +1,105 @@
+{
+  "manifestVersion": 1,
+  "season": "autumn",
+  "expectedAssetSetCount": 50,
+  "categories": [
+    {
+      "name": "flower_illustration",
+      "expectedCount": 39,
+      "assets": [
+        {"assetKey": "daisy_living", "sourcePath": "Content/Art/daisy_living.png"},
+        {"assetKey": "daisy_fading", "sourcePath": "Content/Art/daisy_fading.png"},
+        {"assetKey": "daisy_pressed", "sourcePath": "Content/Art/daisy_pressed.png"},
+        {"assetKey": "chrysanthemum_living", "sourcePath": "Content/Art/chrysanthemum_living.png"},
+        {"assetKey": "chrysanthemum_fading", "sourcePath": "Content/Art/chrysanthemum_fading.png"},
+        {"assetKey": "chrysanthemum_pressed", "sourcePath": "Content/Art/chrysanthemum_pressed.png"},
+        {"assetKey": "aster_living", "sourcePath": "Content/Art/aster_living.png"},
+        {"assetKey": "aster_fading", "sourcePath": "Content/Art/aster_fading.png"},
+        {"assetKey": "aster_pressed", "sourcePath": "Content/Art/aster_pressed.png"},
+        {"assetKey": "goldenrod_living", "sourcePath": "Content/Art/goldenrod_living.png"},
+        {"assetKey": "goldenrod_fading", "sourcePath": "Content/Art/goldenrod_fading.png"},
+        {"assetKey": "goldenrod_pressed", "sourcePath": "Content/Art/goldenrod_pressed.png"},
+        {"assetKey": "calendula_living", "sourcePath": "Content/Art/calendula_living.png"},
+        {"assetKey": "calendula_fading", "sourcePath": "Content/Art/calendula_fading.png"},
+        {"assetKey": "calendula_pressed", "sourcePath": "Content/Art/calendula_pressed.png"},
+        {"assetKey": "japanese_anemone_living", "sourcePath": "Content/Art/japanese_anemone_living.png"},
+        {"assetKey": "japanese_anemone_fading", "sourcePath": "Content/Art/japanese_anemone_fading.png"},
+        {"assetKey": "japanese_anemone_pressed", "sourcePath": "Content/Art/japanese_anemone_pressed.png"},
+        {"assetKey": "sedum_living", "sourcePath": "Content/Art/sedum_living.png"},
+        {"assetKey": "sedum_fading", "sourcePath": "Content/Art/sedum_fading.png"},
+        {"assetKey": "sedum_pressed", "sourcePath": "Content/Art/sedum_pressed.png"},
+        {"assetKey": "helenium_living", "sourcePath": "Content/Art/helenium_living.png"},
+        {"assetKey": "helenium_fading", "sourcePath": "Content/Art/helenium_fading.png"},
+        {"assetKey": "helenium_pressed", "sourcePath": "Content/Art/helenium_pressed.png"},
+        {"assetKey": "celosia_living", "sourcePath": "Content/Art/celosia_living.png"},
+        {"assetKey": "celosia_fading", "sourcePath": "Content/Art/celosia_fading.png"},
+        {"assetKey": "celosia_pressed", "sourcePath": "Content/Art/celosia_pressed.png"},
+        {"assetKey": "salvia_living", "sourcePath": "Content/Art/salvia_living.png"},
+        {"assetKey": "salvia_fading", "sourcePath": "Content/Art/salvia_fading.png"},
+        {"assetKey": "salvia_pressed", "sourcePath": "Content/Art/salvia_pressed.png"},
+        {"assetKey": "nasturtium_living", "sourcePath": "Content/Art/nasturtium_living.png"},
+        {"assetKey": "nasturtium_fading", "sourcePath": "Content/Art/nasturtium_fading.png"},
+        {"assetKey": "nasturtium_pressed", "sourcePath": "Content/Art/nasturtium_pressed.png"},
+        {"assetKey": "autumn_crocus_living", "sourcePath": "Content/Art/autumn_crocus_living.png"},
+        {"assetKey": "autumn_crocus_fading", "sourcePath": "Content/Art/autumn_crocus_fading.png"},
+        {"assetKey": "autumn_crocus_pressed", "sourcePath": "Content/Art/autumn_crocus_pressed.png"},
+        {"assetKey": "toad_lily_living", "sourcePath": "Content/Art/toad_lily_living.png"},
+        {"assetKey": "toad_lily_fading", "sourcePath": "Content/Art/toad_lily_fading.png"},
+        {"assetKey": "toad_lily_pressed", "sourcePath": "Content/Art/toad_lily_pressed.png"}
+      ]
+    },
+    {
+      "name": "vase_silhouette_mask",
+      "expectedCount": 3,
+      "assets": [
+        {"assetKey": "vase_mask_capacity_1", "sourcePath": "Content/Art/vase_mask_capacity_1.png"},
+        {"assetKey": "vase_mask_capacity_2", "sourcePath": "Content/Art/vase_mask_capacity_2.png"},
+        {"assetKey": "vase_mask_capacity_3", "sourcePath": "Content/Art/vase_mask_capacity_3.png"}
+      ]
+    },
+    {
+      "name": "vase_texture",
+      "expectedCount": 3,
+      "assets": [
+        {"assetKey": "texture_classic_cream", "sourcePath": "Content/Art/texture_classic_cream.png"},
+        {"assetKey": "texture_meadow_dots", "sourcePath": "Content/Art/texture_meadow_dots.png"},
+        {"assetKey": "texture_blue_vine", "sourcePath": "Content/Art/texture_blue_vine.png"}
+      ]
+    },
+    {
+      "name": "pressbook_shelf",
+      "expectedCount": 1,
+      "assets": [
+        {"assetKey": "pressbook_shelf", "sourcePath": "Content/Art/pressbook_shelf.png"}
+      ]
+    },
+    {
+      "name": "home_background",
+      "expectedCount": 1,
+      "assets": [
+        {"assetKey": "autumn_home_background", "sourcePath": "Content/Art/autumn_home_background.png"}
+      ]
+    },
+    {
+      "name": "hibernate_charm",
+      "expectedCount": 1,
+      "assets": [
+        {"assetKey": "hibernate_snowflake_charm", "sourcePath": "Content/Art/hibernate_snowflake_charm.png"}
+      ]
+    },
+    {
+      "name": "glow_icon",
+      "expectedCount": 1,
+      "assets": [
+        {"assetKey": "glow_icon", "sourcePath": "Content/Art/glow_icon.png"}
+      ]
+    },
+    {
+      "name": "app_icon_source",
+      "expectedCount": 1,
+      "assets": [
+        {"assetKey": "autumn_app_icon_source", "sourcePath": "Content/Art/autumn_app_icon_source.png"}
+      ]
+    }
+  ]
+}

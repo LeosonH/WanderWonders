@@ -1,0 +1,12 @@
+{
+  "name": "wander-wonders-v1",
+  "private": true,
+  "scripts": {
+    "wonder:generate-ios": "xcodegen generate --spec project.yml",
+    "wonder:local-check": "Scripts/check_wonder_local.sh",
+    "wonder:local-start": "Scripts/start_wonder_local.sh",
+    "wonder:local-reset": "Scripts/reset_wonder_local.sh",
+    "wonder:local-reset-twice": "Scripts/reset_wonder_local.sh && Scripts/reset_wonder_local.sh",
+    "wonder:local-stop": "Scripts/stop_wonder_local.sh"
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "catalogVersion": 1,
+  "season": "autumn",
+  "supportedSeasons": ["autumn"],
+  "config": {
+    "pocketSoftCapacity": 12,
+    "dailyWanderCap": 6,
+    "shelfCapacity": 6,
+    "parkRadiusMeters": 805,
+    "acceptedParkTypes": [
+      "park",
+      "city_park",
+      "state_park",
+      "national_park",
+      "hiking_area",
+      "botanical_garden"
+    ],
+    "sunshineCostGlow": 20,
+    "stepsPerGlow": 100
+  },
+  "species": [
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000001",
+      "slug": "daisy",
+      "commonName": "Daisy",
+      "source": "daily",
+      "season": "all",
+      "bloomDurationSeconds": 86400,
+      "offerWeight": null,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "daisy_living",
+        "fading": "daisy_fading",
+        "pressed": "daisy_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000002",
+      "slug": "chrysanthemum",
+      "commonName": "Chrysanthemum",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "chrysanthemum_living",
+        "fading": "chrysanthemum_fading",
+        "pressed": "chrysanthemum_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000003",
+      "slug": "aster",
+      "commonName": "Aster",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "aster_living",
+        "fading": "aster_fading",
+        "pressed": "aster_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000004",
+      "slug": "goldenrod",
+      "commonName": "Goldenrod",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "goldenrod_living",
+        "fading": "goldenrod_fading",
+        "pressed": "goldenrod_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000005",
+      "slug": "calendula",
+      "commonName": "Calendula",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "calendula_living",
+        "fading": "calendula_fading",
+        "pressed": "calendula_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000006",
+      "slug": "japanese_anemone",
+      "commonName": "Japanese anemone",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "japanese_anemone_living",
+        "fading": "japanese_anemone_fading",
+        "pressed": "japanese_anemone_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000007",
+      "slug": "sedum",
+      "commonName": "Sedum",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "sedum_living",
+        "fading": "sedum_fading",
+        "pressed": "sedum_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000008",
+      "slug": "helenium",
+      "commonName": "Helenium",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "helenium_living",
+        "fading": "helenium_fading",
+        "pressed": "helenium_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000009",
+      "slug": "celosia",
+      "commonName": "Celosia",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "celosia_living",
+        "fading": "celosia_fading",
+        "pressed": "celosia_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000010",
+      "slug": "salvia",
+      "commonName": "Salvia",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "salvia_living",
+        "fading": "salvia_fading",
+        "pressed": "salvia_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000011",
+      "slug": "nasturtium",
+      "commonName": "Nasturtium",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "nasturtium_living",
+        "fading": "nasturtium_fading",
+        "pressed": "nasturtium_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000012",
+      "slug": "autumn_crocus",
+      "commonName": "Autumn crocus",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "autumn_crocus_living",
+        "fading": "autumn_crocus_fading",
+        "pressed": "autumn_crocus_pressed"
+      }
+    },
+    {
+      "speciesId": "10000000-0000-0000-0000-000000000013",
+      "slug": "toad_lily",
+      "commonName": "Toad lily",
+      "source": "wander",
+      "season": "autumn",
+      "bloomDurationSeconds": 259200,
+      "offerWeight": 100,
+      "introducedCatalogVersion": 1,
+      "retiredCatalogVersion": null,
+      "active": true,
+      "assets": {
+        "living": "toad_lily_living",
+        "fading": "toad_lily_fading",
+        "pressed": "toad_lily_pressed"
+      }
+    }
+  ],
+  "shopItems": [
+    {
+      "itemKey": "slot_2",
+      "kind": "vase_slot_unlock",
+      "glowCost": 600,
+      "slotNumber": 2,
+      "patternKey": null,
+      "assetKey": "vase_slot_2",
+      "active": true
+    },
+    {
+      "itemKey": "slot_3",
+      "kind": "vase_slot_unlock",
+      "glowCost": 1800,
+      "slotNumber": 3,
+      "patternKey": null,
+      "assetKey": "vase_slot_3",
+      "active": true
+    },
+    {
+      "itemKey": "classic_cream",
+      "kind": "vase_pattern",
+      "glowCost": 0,
+      "slotNumber": null,
+      "patternKey": "classic_cream",
+      "assetKey": "classic_cream",
+      "active": true
+    },
+    {
+      "itemKey": "meadow_dots",
+      "kind": "vase_pattern",
+      "glowCost": 150,
+      "slotNumber": null,
+      "patternKey": "meadow_dots",
+      "assetKey": "meadow_dots",
+      "active": true
+    },
+    {
+      "itemKey": "blue_vine",
+      "kind": "vase_pattern",
+      "glowCost": 200,
+      "slotNumber": null,
+      "patternKey": "blue_vine",
+      "assetKey": "blue_vine",
+      "active": true
+    }
+  ]
+}

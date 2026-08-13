@@ -1,0 +1,10 @@
+disabled_rules:
+  - trailing_whitespace
+opt_in_rules:
+  - empty_count
+  - redundant_nil_coalescing
+  - sorted_imports
+included:
+  - WanderWonders
+  - WanderWondersTests
+  - WanderWondersUITests

@@ -1,0 +1,32 @@
+.DS_Store
+
+# Xcode and Swift build output
+.build/
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+
+# Local credentials and environment files
+Config/Secrets.xcconfig
+.env
+.env.*
+!.env.example
+Config/*.xcconfig
+!Config/*.xcconfig.example
+
+# Supabase local runtime state
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# Generated project output
+WanderWonders.xcodeproj/
+
+# Node dependencies
+node_modules/
+
+# Editor/OS metadata
+.idea/
+.vscode/
+*.swp
