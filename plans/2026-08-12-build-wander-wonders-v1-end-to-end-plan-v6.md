@@ -204,6 +204,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 测试：auth/input/provider/status/timeout/retry/deletion-right/replay/redaction。
 - 验证：deno fmt --check、lint、test 和 secret/privacy scan；不远端 deploy。
 
+> 2026-08-13 [codex done]：实现 `wonder-park-check`、`wonder-delete-account` 和无第三方依赖的 shared helpers；两个函数均保持 JWT 验证。park contract 精确锁定 6 types / 805m / 1 result / `places.types` / 8s，并只用 secret key 调 service-only RPC；delete contract 覆盖 fresh reauth、Apple exchange/revoke、受限重试、Auth Admin delete、cascade 和 replay。`deno fmt --check`、lint、两个 entrypoint check、13/13 tests 全通过；secret value 和坐标/token/code 日志扫描无命中，未执行远端 deploy。
+
 ### Step 6 — 实现最小 iOS 数据和 Auth 竖切
 
 - 前置：Step 5。
@@ -330,7 +332,7 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - [x] Step 2 — catalog/manifest/iOS scaffold 当前验证完成。[codex done]
 - [x] Step 3 — 两次 reset、85+ DB tests、lint/concurrency/timeouts 当前通过。[codex done]
 - [x] Step 4 — SQL 深审和对抗回归完成。[codex done]
-- [ ] Step 5 — Edge Functions/mock tests/privacy scan 完成。
+- [x] Step 5 — Edge Functions/mock tests/privacy scan 完成。[codex done]
 - [ ] Step 6 — iOS models/client/Auth/loading vertical slice 完成。
 - [ ] Step 7 — SwiftData/MutationQueue/sync/recovery 完成。
 - [ ] Step 8 — Home/Pocket/Pressbook/Vase/Shop 完成。
