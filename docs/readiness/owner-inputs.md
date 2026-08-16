@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: production art and release-use rights are owner-approved; account/provider/publication actions remain pending.
+Status: production art, accountable owner, zero-additional-spend budget, and release-use rights are owner-approved; account/provider/publication actions remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -21,13 +21,13 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Art gate checklist
 
-- [ ] Named accountable art owner
+- [x] Named accountable art owner: Judy — Product Owner / Final Art Approver
 - [x] Approved internal AI-assisted creator workflow
-- [ ] Approved budget recorded by the owner
+- [x] Approved budget: USD 0 additional project spend; existing software subscriptions excluded
 - [x] Rights/ownership confirmed by the owner for project and release use on 2026-08-13
 - [x] Two review rounds and final delivery accepted on 2026-08-13
 - [x] 50-asset manifest approved on 2026-08-13
 
 ## Step 0 exit blockers
 
-The remaining readiness gate cannot close until the owner supplies or confirms approved provider/account access, vault-backed secret presence, public Privacy Policy and Support URLs, review/contact metadata, accountable art owner, and budget record. Art delivery and rights are complete. No external provider or Supabase mutation is authorized by this checklist.
+The remaining readiness gate cannot close until the owner supplies or confirms approved provider/account access, vault-backed secret presence, public Privacy Policy and Support URLs, and review/contact metadata. Art ownership, budget, delivery, and rights are complete. No external provider or Supabase mutation is authorized by this checklist.

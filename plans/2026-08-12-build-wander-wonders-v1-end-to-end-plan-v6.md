@@ -295,7 +295,7 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - signed-out browser 验 URL 200；validator 检真实 art；owner 签认 data map、rights、metadata。
 - 任一缺失则保持未完成，不伪造 placeholder 证据。
 
-> 2026-08-13 readiness 进度：50/50 production art、两轮视觉验收和项目/发布使用权已由 owner 确认，且已接入 iOS 并通过本地门禁。剩余 owner blocker 为 accountable art owner 名称/角色与预算记录、final App ID/bundle/team/App Store/TestFlight、Apple/Google provider identifiers 与 vault secrets、专用 Supabase project 确认、public Privacy/Support URLs、review/feedback contact 与 beta cohort metadata；本步保持未完成。
+> 2026-08-15 readiness 进度：50/50 production art、两轮视觉验收、项目/发布使用权、accountable art owner（Judy — Product Owner / Final Art Approver）和 USD 0 additional-spend budget 均已确认。剩余 owner blocker 为 final App ID/bundle/team/App Store/TestFlight、Apple/Google provider identifiers 与 vault secrets、专用 Supabase project 确认、public Privacy/Support URLs、review/feedback contact 与 beta cohort metadata；本步保持未完成。
 
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 

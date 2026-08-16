@@ -1,13 +1,13 @@
 # Wander Wonders V1 Autumn art brief
 
-Status: final production delivery and release-use rights accepted by the owner on 2026-08-13; accountable owner name/role and budget record remain pending.
+Status: final production delivery and release-use rights accepted on 2026-08-13; accountable owner and budget record confirmed on 2026-08-15.
 
 ## Owner-approved contract fields
 
 ```text
-ART_OWNER=PENDING_OWNER_INPUT
+ART_OWNER=Judy — Product Owner / Final Art Approver
 ARTIST=APPROVED_INTERNAL_AI_ASSISTED_WORKFLOW
-ART_BUDGET_USD=PENDING_OWNER_INPUT
+ART_BUDGET_USD=0 additional project spend; existing software subscriptions excluded
 FIRST_STYLE_CHECKPOINT=2026-08-13_ACCEPTED
 FLOWER_SET_CHECKPOINT=2026-08-13_ACCEPTED
 FINAL_ASSET_DELIVERY=2026-08-13_ACCEPTED
@@ -25,4 +25,4 @@ RIGHTS_CONFIRMED=OWNER_CONFIRMED_FOR_PROJECT_AND_RELEASE_2026-08-13
 - Include licensing/ownership documentation and two review rounds.
 - Acceptance is against `Content/wonder_asset_manifest.v1.json` and the validator in `Scripts/validate_wonder_assets.swift` once Step 5 creates them.
 
-Missing accountable owner name/role and budget record keep the Step 13 owner-readiness gate open. Production delivery, visual acceptance, and release-use rights are complete.
+Art ownership, budget, production delivery, visual acceptance, and release-use rights are complete.

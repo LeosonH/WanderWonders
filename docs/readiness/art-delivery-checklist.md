@@ -23,4 +23,4 @@ Status: all 50 production assets and release-use rights accepted by the owner on
 - [x] Owner confirmed project and release-use rights on 2026-08-13
 - [x] Delivery checkpoint and revision status are recorded without private contact data
 
-Production-art acceptance is complete. Accountable owner name/role and budget remain separate Step 13 owner-readiness inputs.
+Production-art acceptance, accountable owner, and budget record are complete.
