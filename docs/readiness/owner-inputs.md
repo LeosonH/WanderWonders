@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: production art, accountable owner, zero-additional-spend budget, and release-use rights are owner-approved; account/provider/publication actions remain pending.
+Status: production art and Supabase deployment are complete; owner-controlled Apple, billing, public-contact, and publication actions remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -12,9 +12,9 @@ This file records only nonsecret readiness status. Credentials, authorization co
 | Final bundle identifier and App ID | Identifier only; Sign in with Apple and HealthKit capabilities must be enabled | PENDING_OWNER_ACTION |
 | App Store Connect app record and internal TestFlight group | App/group identifiers only | PENDING_OWNER_ACTION |
 | Apple Sign in with Apple credentials | Key ID, Team ID, and client ID status only; `.p8` remains in the vault | PENDING_OWNER_ACTION |
-| Google Cloud/OAuth/Places configuration | Project and client identifiers only; restricted key remains in the vault | PENDING_OWNER_ACTION |
-| Dedicated Supabase project | `aaajakflsjcwemcxjqhq` | OWNER_CONFIRMATION_REQUIRED |
-| Supabase publishable and server secret keys | Presence/validation status only; values remain in the vault | PENDING_OWNER_ACTION |
+| Google Cloud/OAuth/Places configuration | Project `wander-wonders-v1-2026`; OAuth clients require final bundle ID; Places requires owner billing approval | PARTIAL_OWNER_ACTION |
+| Dedicated Supabase project | `qmsliloouxmybnfzzlks` in dedicated Org `ilwcbtpsthckxclqqipz` | DEPLOYED_AND_AUDITED |
+| Supabase publishable and server secret keys | App publishable configuration validated locally; server keys remain hosted only | CONFIGURED_NO_SECRET_IN_GIT |
 | Privacy Policy and Support URLs | Final public URLs only after signed-out HTTP verification | PENDING_OWNER_ACTION |
 | Feedback/review contact | Monitored contact status only; no email address in this repository | PENDING_OWNER_ACTION |
 | External beta cohort | Count/policy only; tester emails remain in App Store Connect or the owner vault | PENDING_OWNER_ACTION |
@@ -30,4 +30,4 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Step 0 exit blockers
 
-The remaining readiness gate cannot close until the owner supplies or confirms approved provider/account access, vault-backed secret presence, public Privacy Policy and Support URLs, and review/contact metadata. Art ownership, budget, delivery, and rights are complete. No external provider or Supabase mutation is authorized by this checklist.
+The remaining readiness gate cannot close until the owner finalizes the Apple team/bundle/App ID, explicitly attaches Google billing, supplies a monitored public contact, approves public Privacy Policy and Support publication, and confirms review metadata. Art, dedicated Supabase deployment, the Google Cloud project, and local Supabase app configuration are complete.

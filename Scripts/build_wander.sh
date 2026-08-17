@@ -17,5 +17,15 @@ COMMON_ARGS=(
 )
 
 xcodebuild "${COMMON_ARGS[@]}" -configuration Debug build
+
+if [[ -f Config/Secrets.xcconfig ]]; then
+    APP_INFO_PLIST=.build/DerivedData/Build/Products/Debug-iphonesimulator/WanderWonders.app/Info.plist
+    WW_BUILT_SUPABASE_URL=$(/usr/libexec/PlistBuddy -c 'Print :WWSupabaseURL' "$APP_INFO_PLIST")
+    WW_BUILT_PUBLISHABLE_KEY=$(/usr/libexec/PlistBuddy -c 'Print :WWSupabasePublishableKey' "$APP_INFO_PLIST")
+    [[ "$WW_BUILT_SUPABASE_URL" == https://*.supabase.co ]]
+    [[ "$WW_BUILT_PUBLISHABLE_KEY" == sb_publishable_* ]]
+    printf 'runtime configuration embedded in app bundle\n'
+fi
+
 xcodebuild "${COMMON_ARGS[@]}" -configuration Release build
 xcodebuild "${COMMON_ARGS[@]}" -configuration Debug test

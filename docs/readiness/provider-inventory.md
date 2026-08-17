@@ -1,6 +1,20 @@
 # Wander Wonders V1 provider inventory
 
-Status: nonsecret inventory opened; no provider was linked or mutated.
+Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple/Google provider completion remains pending.
+
+## Active deployment target — 2026-08-17
+
+The owner replaced the prior target with new project `qmsliloouxmybnfzzlks` (`hackathon`) in dedicated organization `ilwcbtpsthckxclqqipz` (`Wunder wonders`). The project is `ACTIVE_HEALTHY`, Postgres 17.6 in `us-east-2`, and was empty at predeployment audit: zero remote migrations, public objects, Edge Functions, custom Function secrets, and application users/requests. Database advisors returned no issues. Apple and Google Auth providers are disabled; the organization is on Free and scheduled backups are unavailable.
+
+Predeployment role settings and exact rollback:
+
+```sql
+alter role authenticated set statement_timeout = '8s';
+alter role service_role reset statement_timeout;
+notify pgrst, 'reload config';
+```
+
+The migration set both roles to five seconds only on this dedicated project. All 10 migrations, catalog seed, and two JWT-protected Edge Functions are deployed. Postdeployment audit and rollback-only business smoke passed; detailed evidence is in `docs/evidence/remote-release-report.md`.
 
 ## Read-only Supabase inventory — 2026-08-02
 
@@ -10,10 +24,10 @@ Secret values are intentionally absent. A secret row may record only `present`, 
 
 | Provider/surface | Nonsecret identifier | Safe status | Owner/vault note |
 |---|---|---|---|
-| Supabase | `aaajakflsjcwemcxjqhq` | Owner confirmation required before any link | Dedicated-project inventory and keys remain owner-controlled |
+| Supabase | `qmsliloouxmybnfzzlks` | Deployed and audited | Modern publishable configuration is local-only; hosted server keys remain outside Git |
 | Apple Developer/App Store Connect | PENDING_OWNER_INPUT | Not validated | Team, App ID, bundle ID, app record, and internal group are owner inputs |
 | Sign in with Apple | PENDING_OWNER_INPUT | Not validated | Key ID/Team ID/client ID may be recorded after confirmation; `.p8` never enters Git |
-| Google Cloud | PENDING_OWNER_INPUT | Not validated | Project, OAuth clients, Places (New), billing, and budget alert are owner inputs |
+| Google Cloud | `wander-wonders-v1-2026` | Project created; Places/OAuth incomplete | Owner must approve the existing billing account; OAuth clients wait for the final bundle ID |
 | Privacy/Support publication | PENDING_OWNER_INPUT | Not verified | URLs must be checked signed out and return the final domain |
 | Feedback/review contact | PENDING_OWNER_INPUT | Not verified | Contact is monitored; address is not stored in this file |
 

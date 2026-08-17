@@ -4,7 +4,7 @@
 - 执行仓库：/Users/claudia/Documents/Claude/Projects/20260812_wander_wonders_v2_LH
 - 产品真相源：WanderWonders_Complete_Product_Spec.md
 - 目标：native iPhone / iOS 17+ / Swift 6 / Autumn-only V1 / free beta
-- 后端：专用 Supabase 项目 aaajakflsjcwemcxjqhq，所有 app table 以 wonder_ 开头
+- 后端：专用 Supabase 项目 qmsliloouxmybnfzzlks，所有 app table 以 wonder_ 开头
 - 执行规则：严格按 Step 0–14 顺序；只有验证通过后才标记 [codex done]
 
 ## 1. APPROVE 与 Claude 反馈处置
@@ -297,6 +297,10 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-15 readiness 进度：50/50 production art、两轮视觉验收、项目/发布使用权、accountable art owner（Judy — Product Owner / Final Art Approver）和 USD 0 additional-spend budget 均已确认。剩余 owner blocker 为 final App ID/bundle/team/App Store/TestFlight、Apple/Google provider identifiers 与 vault secrets、专用 Supabase project 确认、public Privacy/Support URLs、review/feedback contact 与 beta cohort metadata；本步保持未完成。
 
+> 2026-08-17 项目变更：owner 明确改用新建专用项目 `qmsliloouxmybnfzzlks`（独立 Org `ilwcbtpsthckxclqqipz`），并授权该项目相关远端操作；旧项目 `aaajakflsjcwemcxjqhq` 不再作为本计划部署目标且保持不动。
+
+> 2026-08-17 readiness 进度：专用 Supabase 已部署并通过远端 schema/security/事务冒烟，local ignored xcconfig 已接入新 URL/publishable key。实测发现旧 generated Info.plist 丢弃自定义字段、旧 UI smoke 只验证配置错误页；现改为 XcodeGen 明确生成 Info.plist，并让 1/1 UI smoke 验证真实 signed-out Auth surface，unified code-only gate 通过 Edge 13/13、iOS 15/15、UI 1/1、Debug/Release。Google Cloud 项目 `wander-wonders-v1-2026` 已创建。owner 仍需 final bundle/team、Google billing、公开 contact/URLs 和 Apple 登录/密钥动作，因此本步不标记完成。
+
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 
 - 前置：Step 12 + 13，以及每个外部 mutation 的明确授权。
@@ -309,6 +313,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - Rollback：stop testing；disable 最小 entry；restore Edge/app；DB forward repair；restore rolconfig；reload PostgREST；rotate secret；重跑受影响门禁。
 
 > 2026-08-13 authorization blocker：未收到远端 Supabase mutation/deploy、provider 配置、build upload/review/invite 的逐项授权，也没有物理 iPhone、24h soak 或 TestFlight 证据；本步保持未完成。
+
+> 2026-08-17 Phase A/B 进度：新专用项目从空基线应用 10 migrations + catalog，部署两个 verify-JWT Edge Functions；远端确认 22 tables / 24 RPC / 22 helpers、FORCE RLS、零客户端表授权、两角色 5s、13 species / 5 shop items、Edge 未认证 401，rollback-only bootstrap/manual/replay/refresh 冒烟通过；Security Advisor 无 error、Performance 0/0。Apple/Google provider secrets、真机、TestFlight、24h soak/review/beta 尚未完成，本步不标记完成。
 
 ## 9. 文件清单
 
