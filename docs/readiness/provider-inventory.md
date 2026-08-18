@@ -1,6 +1,6 @@
 # Wander Wonders V1 provider inventory
 
-Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple Maps, Apple Auth, and Google Auth are configured. Google runtime testing awaits at least one Google OAuth test user.
+Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple Maps, Apple Auth, and Google Auth are configured. Google has one authorized OAuth test user; the signed app is installed on the paired physical iPhone and awaits unlock-time runtime testing.
 
 ## Active deployment target — 2026-08-17
 
@@ -28,9 +28,9 @@ Secret values are intentionally absent. A secret row may record only `present`, 
 | Apple Developer/App Store Connect | Team `ALF5X476P3`; bundle `com.judy.wanderwonders`; app `6802547488`; internal group `Wander Wonders Internal` | CONFIGURED_NO_BUILD | App ID has Sign in with Apple + HealthKit; TestFlight group has automatic distribution and no build/tester yet |
 | Sign in with Apple | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key ID `TT8D4RTNUU` | CONFIGURED | Supabase Apple provider enabled; four account-revocation Function secrets present; `.p8` remains outside Git |
 | Apple Maps Server API | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU` | CONFIGURED_AND_PROVIDER_VALIDATED | Three hosted Function secrets are present; live token + Search passed; Maps `.p8` remains outside Git |
-| Google Cloud | `wander-wonders-v1-2026`; `Wander Wonders iOS`; `Wander Wonders Backend` | CONFIGURED_PENDING_TEST_USER; Places unused | Supabase has Web-first + iOS client IDs, Web secret, and Skip nonce enabled; Google audience is External/Testing with 0 test users; no Maps billing action required |
-| Privacy/Support publication | PENDING_OWNER_INPUT | Not verified | URLs must be checked signed out and return the final domain |
-| Feedback/review contact | PENDING_OWNER_INPUT | Not verified | Contact is monitored; address is not stored in this file |
+| Google Cloud | `wander-wonders-v1-2026`; `Wander Wonders iOS`; `Wander Wonders Backend` | CONFIGURED_PENDING_DEVICE_TEST; Places unused | Supabase has Web-first + iOS client IDs, Web secret, and Skip nonce enabled; Google audience is External/Testing with 1 authorized test user; no Maps billing action required |
+| Privacy/Support publication | DEFERRED_EXTERNAL_ONLY | Not required for current internal TestFlight | Publish and signed-out verify before external beta or App Store release |
+| Feedback/review contact | CONFIGURED_INTERNAL_ONLY | Feedback address configured | Full review contact remains required before external TestFlight review |
 
 ## Secret inventory protocol
 

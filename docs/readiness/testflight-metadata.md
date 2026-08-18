@@ -1,18 +1,19 @@
 # Wander Wonders V1 TestFlight metadata readiness
 
-Status: TestFlight-only distribution target. App Store record, internal group, beta description, and feedback address are configured; URLs, complete review contact, build-specific test copy, and owner approval remain pending.
+Status: private internal-TestFlight target. App Store record, internal group, beta description, feedback address, and test copy are ready. The signed app is installed on the paired iPhone; build upload, unlock-time acceptance, and the second internal tester remain pending.
 
 ## Required owner inputs
 
 - [x] App name `Wander Wonders`, bundle `com.judy.wanderwonders`, and App Store Connect app `6802547488`
 - [x] Internal group `Wander Wonders Internal` with automatic distribution
-- [ ] Review contact and monitored feedback contact
-- [ ] Public Privacy Policy URL
-- [ ] Public Support URL
+- [x] Monitored feedback contact
+- [ ] Full review contact — deferred until external TestFlight is authorized
+- [ ] Public Privacy Policy URL — deferred until external TestFlight or App Store release
+- [ ] Public Support URL — deferred until external TestFlight or App Store release
 - [x] Beta App Description saved in App Store Connect
-- [ ] “What to Test” copy
+- [x] “What to Test” copy
 - [ ] Review account/instructions if the implemented flow requires gated access
-- [ ] External adult cohort policy or owner-managed tester list
+- [ ] Second private internal tester's App Store Connect email
 
 ## Copy constraints
 
@@ -22,7 +23,7 @@ Status: TestFlight-only distribution target. App Store record, internal group, b
 - Do not claim payments, StoreKit, social features, cloud photo upload, or other excluded scope.
 - Do not place tester emails, tokens, precise location, routes, place names, or raw Health values in this repository.
 
-Current external state: 0 builds and 0 testers. No App Review submission or beta invitation is authorized by this file.
+Current App Store Connect state: 0 builds and 0 TestFlight testers. Internal upload/distribution is authorized; external TestFlight review and invitations remain out of scope.
 
 The App Store Connect record exists only to support TestFlight. Public App Store release, sale, payments, and StoreKit remain out of scope.
 

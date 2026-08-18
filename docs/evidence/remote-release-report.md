@@ -37,6 +37,7 @@ The installed CLI's linked Postgres login cannot run `migration list`, remote li
 
 ## Still blocked
 
-- Google Auth runtime validation remains blocked because the External/Testing OAuth audience has 0 test users. Google Places is unused, so no Google Maps billing action is required.
-- Public privacy/support URLs, complete review contact, release archive/upload, physical acceptance, 24-hour soak, review, and beta invitations remain pending.
-- Release scope is TestFlight-only; no public App Store submission or sale is planned.
+- Google External/Testing has 1 authorized OAuth test user. Runtime validation remains pending on the paired physical iPhone. Google Places is unused, so no Google Maps billing action is required.
+- A device-targeted signed Debug build passed and installed on the paired iPhone. Programmatic launch reached the device and was denied only because the phone was locked; interactive physical acceptance remains pending.
+- Release archive/upload, 24-hour internal soak, and the second private internal tester invitation remain pending.
+- Release scope is private internal TestFlight only. Public privacy/support URLs, complete review contact, external TestFlight App Review, public App Store submission, and sale are outside the current scope.

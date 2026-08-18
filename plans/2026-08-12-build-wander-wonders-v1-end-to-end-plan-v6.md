@@ -290,9 +290,9 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 ### Step 13 — Owner/provider/art readiness
 
 - 可与 Step 2–11 并行，但在 Step 12 后闭合。
-- 需要 final App ID/bundle/team/App Store record/TestFlight group、Apple Maps 与 Apple/Google Auth provider IDs、vault-backed secrets、public Privacy/Support URLs、review metadata、50 production art + rights。
+- 需要 final App ID/bundle/team/App Store record/TestFlight group、Apple Maps 与 Apple/Google Auth provider IDs、vault-backed secrets、50 production art + rights。public Privacy/Support URLs 与完整 review metadata 只在 external TestFlight 或 App Store 发布进入范围时要求。
 - 只记录 safe identifiers/status，不记录 secret values。
-- signed-out browser 验 URL 200；validator 检真实 art；owner 签认 data map、rights、metadata。
+- URL 进入范围时由 signed-out browser 验 200；validator 检真实 art；owner 签认 data map、rights、metadata。
 - 任一缺失则保持未完成，不伪造 placeholder 证据。
 
 > 2026-08-15 readiness 进度：50/50 production art、两轮视觉验收、项目/发布使用权、accountable art owner（Judy — Product Owner / Final Art Approver）和 USD 0 additional-spend budget 均已确认。剩余 owner blocker 为 final App ID/bundle/team/App Store/TestFlight、Apple/Google provider identifiers 与 vault secrets、专用 Supabase project 确认、public Privacy/Support URLs、review/feedback contact 与 beta cohort metadata；本步保持未完成。
@@ -309,7 +309,7 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-17 Apple/App Store readiness 证据：注册 App ID `com.judy.wanderwonders`（Team `ALF5X476P3`，Sign in with Apple + HealthKit），把 Key `TT8D4RTNUU` 限定为 Maps + Sign in with Apple，并撤销未保存私钥的旧 Key `6S2B527TY9`。Supabase Apple provider 已为 native client ID 启用，account-revocation 的四项 Edge secret 已存在。App Store Connect app `6802547488` 与 `Wander Wonders Internal` 内测组已建立，自动分发开启，beta 描述与 feedback address 已保存；当前 0 build / 0 tester。XcodeGen source-of-truth 已锁定 final bundle、Team、automatic signing 与 Apple/HealthKit entitlements；模拟器 Debug 与 `-allowProvisioningUpdates` generic-iPhone Debug build 均通过，后者经沙箱外 `codesign --verify --deep --strict` 确认有效，签名 entitlement 为 Team `ALF5X476P3`、bundle `com.judy.wanderwonders`、Sign in with Apple + HealthKit。Google Auth 停在 owner 必须亲自接受的 Google API Services User Data Policy，public Privacy/Support URL、完整 review contact、真机/archive/soak 仍缺，因此本步不标记完成。
 
-> 2026-08-18 Google/TestFlight readiness 证据：owner 接受 Google 用户数据条款后，建立专用 iOS 与 Web OAuth client；Supabase Google provider 以 Web-first + iOS client IDs、Web secret、Skip nonce=true、allow-without-email=false 启用，公开 Auth settings 返回 Apple=true、Google=true。ignored `Config/Secrets.xcconfig` 已写入 iOS/server/reversed client IDs，client secret 未进入 App/Git；signed generic-iPhone Debug build 通过且最终 Info.plist 三项值精确匹配。Google OAuth audience 仍为 External/Testing 且 0 test users，因此真实 Google 登录未验证。owner 同时锁定只做 TestFlight 分享、不公开上架或销售；现有 App Store Connect record 仅作为 TestFlight 基础设施。public Privacy/Support URL、完整 review contact、Google test user、真机/archive/soak 仍缺，本步不标记完成。
+> 2026-08-18 [codex done]：owner 接受 Google 用户数据条款后，建立专用 iOS 与 Web OAuth client；Supabase Google provider 以 Web-first + iOS client IDs、Web secret、Skip nonce=true、allow-without-email=false 启用，公开 Auth settings 返回 Apple=true、Google=true。ignored `Config/Secrets.xcconfig` 已写入 iOS/server/reversed client IDs，client secret 未进入 App/Git；signed generic-iPhone Debug build 通过且最终 Info.plist 三项值精确匹配。Google OAuth audience 为 External/Testing 且已授权 1 位 test user。owner 锁定当前只做两人私有的 internal TestFlight，不公开上架或销售；因此 public Privacy/Support URL、完整 review contact 与 external cohort metadata 延后到未来明确扩围时再成为门禁。App ID/team、Apple Maps/Auth、Google Auth、专用 Supabase、App Store record/internal group、50 art/rights/owner/budget 均已有证据，本步完成；真机交互、archive/upload、24h soak 与第二位 internal tester 属于 Step 14。
 
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 
@@ -318,13 +318,15 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - Stop：共享项目迹象、collision、无回滚值、未解决 advisor、需要大于 5s 的管理操作却无安全 session 路径。
 - Phase B：备份/回滚准备；apply migrations + catalog；配 providers/secrets；deploy Edge；核对 22 tables / 24 public RPCs / 22 additive private helpers、RLS/grants/FK/timeouts/advisors；两个 disposable accounts 测 security/cap/telemetry/delete。
 - Phase C：archive exact commit；保留 xcarchive/dSYM；internal TestFlight；真 iPhone 测 Auth、location/manual、signal loss、force quit、Wander、Pocket/lifecycle/shop、steps/Hibernate、delete、VoiceOver、reinstall。
-- Phase D：至少 24h internal smoke；检查 TestFlight feedback + Organizer；repeatable core crash 阻塞；授权后提交 TestFlight App Review。
-- Phase E：build 获批后邀请 30–50 位成人，只记录数量/cohort。
+- Phase D：至少 24h internal smoke；检查 TestFlight feedback + Organizer；repeatable core crash 阻塞。
+- Phase E（仅 future external scope）：补 public URLs/review contact，提交 TestFlight App Review；获批后再邀请 external cohort。
 - Rollback：stop testing；disable 最小 entry；restore Edge/app；DB forward repair；restore rolconfig；reload PostgREST；rotate secret；重跑受影响门禁。
 
 > 2026-08-13 authorization blocker：未收到远端 Supabase mutation/deploy、provider 配置、build upload/review/invite 的逐项授权，也没有物理 iPhone、24h soak 或 TestFlight 证据；本步保持未完成。
 
 > 2026-08-17 Phase A/B 进度：新专用项目从空基线应用 10 migrations + catalog，部署两个 verify-JWT Edge Functions；远端确认 22 tables / 24 RPC / 22 helpers、FORCE RLS、零客户端表授权、两角色 5s、13 species / 5 shop items、Edge 未认证 401，rollback-only bootstrap/manual/replay/refresh 冒烟通过；Security Advisor 无 error、Performance 0/0。Apple/Google provider secrets、真机、TestFlight、24h soak/review/beta 尚未完成，本步不标记完成。
+
+> 2026-08-18 Phase C 进度：针对已配对 `Judy Iphone` 的签名 Debug build 通过并成功安装 `com.judy.wanderwonders`；CoreDevice 启动请求到达设备后仅因手机锁屏被系统拒绝，因此未把“已安装”误报为运行验收。Google/Apple 登录、permissions、核心流程与 24h soak 仍需解锁后的人工交互；archive/upload 和第二位 internal tester 尚待后续证据，本步不标记完成。
 
 ## 9. 文件清单
 
@@ -376,8 +378,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - [x] Step 10 — Steps/Glow/Hibernate 完成，非真机门禁通过。[codex done]
 - [x] Step 11 — Settings/Delete/Privacy/Accessibility 完成。[codex done]
 - [x] Step 12 — unified runner 从 clean reset 完整通过两次。[codex done]
-- [ ] Step 13 — owner/provider/public URL/review metadata 通过；50 art/rights 已验收。
-- [ ] Step 14 — authorized remote + physical + soak + TestFlight review + beta 完成。
+- [x] Step 13 — owner/provider/art 与 internal-TestFlight metadata 通过；external-only public URL/review metadata 延后。[codex done]
+- [ ] Step 14 — authorized remote + physical + 24h soak + private internal TestFlight 完成；external review 不在当前范围。
 
 ## 13. Definition of done
 
@@ -387,7 +389,7 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 - 断网、response loss、duplicate tap、multi-device cap、force quit 不产生重复、负数或越权状态。
 - App 完成规格第 26 章 10 类验收，保持 Autumn-only、free、no-payment。
 - 50 production assets、privacy、deletion、accessibility、archive/dSYM 全验证。
-- 远端专用性、rolconfig/rollback、advisors、smoke 通过；TestFlight review 批准后才邀请 beta。
+- 远端专用性、rolconfig/rollback、advisors、smoke 通过；internal TestFlight 仅邀请已授权的 App Store Connect 用户。若未来扩为 external beta，必须先补齐公开 URL/review metadata 并通过 TestFlight App Review。
 
 ## 14. 执行模型交接
 

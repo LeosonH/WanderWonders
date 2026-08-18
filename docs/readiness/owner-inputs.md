@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: production art, Supabase deployment, Apple Maps/Auth, Google Auth configuration, App ID, and App Store/TestFlight records are complete; Google test-user, public-contact, publication, and signed-device actions remain pending.
+Status: production art, Supabase deployment, Apple Maps/Auth, Google Auth configuration, App ID, and App Store/TestFlight records are complete. One Google OAuth test user is authorized and the signed app is installed on the paired iPhone; unlock-time acceptance and the second private internal tester remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -13,12 +13,12 @@ This file records only nonsecret readiness status. Credentials, authorization co
 | App Store Connect app record and internal TestFlight group | App `6802547488`; `Wander Wonders Internal`; automatic distribution enabled | CONFIGURED_NO_BUILD |
 | Apple Sign in with Apple credentials | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED |
 | Apple Maps Server API credentials | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED_AND_PROVIDER_VALIDATED |
-| Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; iOS/Web clients created; Supabase Google enabled; External/Testing audience currently has 0 test users; Places is unused | CONFIGURED_PENDING_TEST_USER |
+| Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; iOS/Web clients created; Supabase Google enabled; External/Testing audience has 1 authorized test user; Places is unused | CONFIGURED_PENDING_DEVICE_TEST |
 | Dedicated Supabase project | `qmsliloouxmybnfzzlks` in dedicated Org `ilwcbtpsthckxclqqipz` | DEPLOYED_AND_AUDITED |
 | Supabase publishable and server secret keys | App publishable configuration validated locally; server keys remain hosted only | CONFIGURED_NO_SECRET_IN_GIT |
-| Privacy Policy and Support URLs | Final public URLs only after signed-out HTTP verification | PENDING_OWNER_ACTION |
-| Feedback/review contact | Monitored contact status only; no email address in this repository | PENDING_OWNER_ACTION |
-| External beta cohort | Count/policy only; tester emails remain in App Store Connect or the owner vault | PENDING_OWNER_ACTION |
+| Privacy Policy and Support URLs | Not required for the locked internal-only TestFlight scope; required before any external beta or App Store release | DEFERRED_EXTERNAL_ONLY |
+| Feedback/review contact | Feedback address configured; full review contact is required before any external TestFlight review | CONFIGURED_INTERNAL_ONLY |
+| Beta cohort | Private internal group only; tester emails remain in App Store Connect or the owner vault | PENDING_SECOND_INTERNAL_TESTER |
 
 ## Art gate checklist
 
@@ -29,6 +29,6 @@ This file records only nonsecret readiness status. Credentials, authorization co
 - [x] Two review rounds and final delivery accepted on 2026-08-13
 - [x] 50-asset manifest approved on 2026-08-13
 
-## Step 0 exit blockers
+## Remaining release blockers
 
-The remaining readiness gate cannot close until the owner authorizes at least one Google OAuth test user, supplies the review phone/contact, approves public Privacy Policy and Support publication for external TestFlight, provides a physical iPhone for acceptance, and confirms remaining review metadata. Art, Apple Maps, Apple/Google Auth configuration, App ID/bundle, dedicated Supabase deployment, App Store record, internal TestFlight group, and signed generic-iPhone build are complete. Distribution is TestFlight-only; no public App Store release is in scope.
+Step 13 owner/provider/art readiness is complete for the locked private internal-TestFlight scope. A device-targeted signed build passed and installed on the paired iPhone; launch was correctly denied while the phone was locked, so interactive provider/permission acceptance and the second tester's App Store Connect email still gate Step 14 completion. Public Privacy/Support URLs, full review contact, external cohort metadata, and TestFlight App Review remain deferred unless the owner later expands distribution beyond internal testers. No public App Store release is in scope.
