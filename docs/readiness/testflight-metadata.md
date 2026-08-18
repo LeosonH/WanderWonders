@@ -1,6 +1,6 @@
 # Wander Wonders V1 TestFlight metadata readiness
 
-Status: private internal-TestFlight target. App Store record, internal group, beta description, feedback address, and test copy are ready. Exact commit `5ce0e4d` produced and uploaded internal-only build `1.0 (1)`; processing confirmation, unlock-time acceptance, and the second internal tester remain pending.
+Status: private internal-TestFlight target. Internal-only build `1.0 (1)` is Ready to Test in `Wander Wonders Internal`; build-specific test copy is saved and 1 owner tester is Invited. Unlock-time acceptance and the mentor tester remain pending.
 
 ## Required owner inputs
 
@@ -23,7 +23,7 @@ Status: private internal-TestFlight target. App Store record, internal group, be
 - Do not claim payments, StoreKit, social features, cloud photo upload, or other excluded scope.
 - Do not place tester emails, tokens, precise location, routes, place names, or raw Health values in this repository.
 
-Current App Store Connect state: internal-only build `1.0 (1)` upload accepted and processing confirmation pending; 0 verified TestFlight testers. Internal distribution is authorized; external TestFlight review and invitations remain out of scope.
+Current App Store Connect state: internal-only build `1.0 (1)` is Ready to Test; group has 1 build and 1 owner tester in Invited state. The mentor invitation waits for the owner-provided App Store Connect email. External TestFlight review and invitations remain out of scope.
 
 The App Store Connect record exists only to support TestFlight. Public App Store release, sale, payments, and StoreKit remain out of scope.
 
@@ -31,7 +31,7 @@ The App Store Connect record exists only to support TestFlight. Public App Store
 
 Wander Wonders is a calm Autumn walking and flower-collecting game. Players receive a daily Daisy, start a manual or park-assisted Wander, unlock timed flower rewards, care for and preserve flowers, arrange a vase and Pressbook, and use earned Glow for cosmetic garden items. The beta is free and has no purchases.
 
-## Draft What to Test
+## Saved What to Test
 
 1. Sign in with Apple and Google, complete onboarding, and confirm the daily Daisy appears.
 2. Start a manual Wander, background or force-quit the app, return after a tier boundary, and resolve a flower reward.

@@ -330,6 +330,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-18 Phase C archive/upload 进度：干净且已推送的 exact commit `5ce0e4d` 生成 Release archive `1.0 (1)`；严格签名、bundle `com.judy.wanderwonders`、版本/build、`ITSAppUsesNonExemptEncryption=false` 与 dSYM 均已核对。使用 `testFlightInternalTestingOnly=true` 上传后，Xcode 返回 `Upload succeeded` 与 `EXPORT SUCCEEDED`，从构建层强制禁止误发 external/App Store。App Store Connect 网页会话已过期，因此 build processing/自动分组仍需 owner 完成 Apple Account 登录后核验；真机交互、24h soak 与第二位 internal tester 也未完成，本步不标记完成。
 
+> 2026-08-18 Phase C TestFlight 进度：owner 重新登录后，App Store Connect 显示 internal-only `1.0 (1)` 为 `Ready to Test`，已自动归入 `Wander Wonders Internal`；build-specific What to Test 文案保存成功，group 为 1 build / 1 owner tester，tester 状态 `Invited`。mentor 邀请按 owner 指示等测试后再提供邮箱。再次请求启动已安装真机包仍被 iOS 以设备锁屏明确拒绝，因此 Auth/location/Health/Motion/background/VoiceOver、TestFlight 安装与 24h soak 没有伪标完成；Step 14 保持未完成。
+
 ## 9. 文件清单
 
 | 路径 | 动作 |
