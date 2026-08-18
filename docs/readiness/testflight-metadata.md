@@ -1,6 +1,6 @@
 # Wander Wonders V1 TestFlight metadata readiness
 
-Status: private internal-TestFlight target. Internal-only build `1.0 (1)` is Ready to Test in `Wander Wonders Internal`; build-specific test copy is saved and 1 owner tester is Invited. Unlock-time acceptance and the mentor tester remain pending.
+Status: private internal-TestFlight target. Internal-only build `1.0 (1)` is Ready to Test in `Wander Wonders Internal`; build-specific test copy is saved and 1 owner tester remains Invited. The unlocked device runs version `1.0 (1)`, but App Store Connect has not recorded acceptance and the bundle path matches the prior Debug container, so TestFlight installation is not yet claimed. The mentor tester remains pending.
 
 ## Required owner inputs
 
