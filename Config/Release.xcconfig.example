@@ -1,5 +1,5 @@
 // Safe example values only. A final bundle identifier requires owner approval before release.
-WW_BUNDLE_IDENTIFIER = com.example.wanderwonders
+WW_BUNDLE_IDENTIFIER = com.judy.wanderwonders
 WW_SUPABASE_URL =
 WW_SUPABASE_PUBLISHABLE_KEY =
 WW_GOOGLE_CLIENT_ID =

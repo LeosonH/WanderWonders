@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: production art, Supabase deployment, and Apple Maps credentials are complete; owner-controlled Auth, public-contact, and publication actions remain pending.
+Status: production art, Supabase deployment, Apple Maps, Apple Auth, App ID, and App Store/TestFlight records are complete; Google Auth, public-contact, publication, and signed-device actions remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -8,12 +8,12 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 | Input | Safe repository record | Owner status |
 |---|---|---|
-| Apple Developer Program team and App Store Connect access | Team/bundle identifiers only after owner confirms them | PENDING_OWNER_ACTION |
-| Final bundle identifier and App ID | Identifier only; Sign in with Apple and HealthKit capabilities must be enabled | PENDING_OWNER_ACTION |
-| App Store Connect app record and internal TestFlight group | App/group identifiers only | PENDING_OWNER_ACTION |
-| Apple Sign in with Apple credentials | Key ID, Team ID, and client ID status only; `.p8` remains in the vault | PENDING_OWNER_ACTION |
+| Apple Developer Program team and App Store Connect access | Team `ALF5X476P3` | CONFIGURED |
+| Final bundle identifier and App ID | `com.judy.wanderwonders`; Sign in with Apple and HealthKit enabled | CONFIGURED |
+| App Store Connect app record and internal TestFlight group | App `6802547488`; `Wander Wonders Internal`; automatic distribution enabled | CONFIGURED_NO_BUILD |
+| Apple Sign in with Apple credentials | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED |
 | Apple Maps Server API credentials | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED_AND_PROVIDER_VALIDATED |
-| Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; OAuth clients require final bundle ID; Places is no longer used | PARTIAL_OWNER_ACTION |
+| Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; consent setup awaits owner policy acceptance; iOS/Web OAuth clients remain uncreated; Places is unused | PARTIAL_OWNER_ACTION |
 | Dedicated Supabase project | `qmsliloouxmybnfzzlks` in dedicated Org `ilwcbtpsthckxclqqipz` | DEPLOYED_AND_AUDITED |
 | Supabase publishable and server secret keys | App publishable configuration validated locally; server keys remain hosted only | CONFIGURED_NO_SECRET_IN_GIT |
 | Privacy Policy and Support URLs | Final public URLs only after signed-out HTTP verification | PENDING_OWNER_ACTION |
@@ -31,4 +31,4 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Step 0 exit blockers
 
-The remaining readiness gate cannot close until the owner finalizes the App ID/bundle and App Store/TestFlight records, configures Apple/Google Auth, supplies a monitored public contact, approves public Privacy Policy and Support publication, and confirms review metadata. Art, Apple Maps, dedicated Supabase deployment, the Google Cloud project, and local Supabase app configuration are complete.
+The remaining readiness gate cannot close until the owner accepts Google's user-data policy and finishes Google Auth, supplies the review phone/contact, approves public Privacy Policy and Support publication, refreshes the local Apple Development/Distribution signing certificates, and confirms remaining review metadata. Art, Apple Maps, Apple Auth, App ID/bundle, dedicated Supabase deployment, App Store record, internal TestFlight group, and local signing configuration are complete.

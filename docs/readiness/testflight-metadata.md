@@ -1,15 +1,15 @@
 # Wander Wonders V1 TestFlight metadata readiness
 
-Status: implementation-backed beta copy drafted; final identifiers, URLs, contact, and owner approval remain pending.
+Status: App Store record, internal group, beta description, and feedback address are configured; URLs, complete review contact, build-specific test copy, and owner approval remain pending.
 
 ## Required owner inputs
 
-- [ ] App name, final bundle identifier, and App Store Connect app record
-- [ ] Internal TestFlight group
+- [x] App name `Wander Wonders`, bundle `com.judy.wanderwonders`, and App Store Connect app `6802547488`
+- [x] Internal group `Wander Wonders Internal` with automatic distribution
 - [ ] Review contact and monitored feedback contact
 - [ ] Public Privacy Policy URL
 - [ ] Public Support URL
-- [ ] Beta App Description
+- [x] Beta App Description saved in App Store Connect
 - [ ] “What to Test” copy
 - [ ] Review account/instructions if the implemented flow requires gated access
 - [ ] External adult cohort policy or owner-managed tester list
@@ -22,7 +22,7 @@ Status: implementation-backed beta copy drafted; final identifiers, URLs, contac
 - Do not claim payments, StoreKit, social features, cloud photo upload, or other excluded scope.
 - Do not place tester emails, tokens, precise location, routes, place names, or raw Health values in this repository.
 
-No App Store Connect submission, TestFlight upload, App Review submission, or invitation is authorized by this file.
+Current external state: 0 builds and 0 testers. No App Review submission or beta invitation is authorized by this file.
 
 ## Draft Beta App Description
 

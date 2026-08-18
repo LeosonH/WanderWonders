@@ -1,10 +1,10 @@
 # Wander Wonders V1 provider inventory
 
-Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple Maps is configured and provider-validated; Apple/Google Auth provider completion remains pending.
+Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple Maps and Sign in with Apple are configured; Google Auth remains pending owner acceptance of Google's user-data policy.
 
 ## Active deployment target — 2026-08-17
 
-The owner replaced the prior target with new project `qmsliloouxmybnfzzlks` (`hackathon`) in dedicated organization `ilwcbtpsthckxclqqipz` (`Wunder wonders`). The project is `ACTIVE_HEALTHY`, Postgres 17.6 in `us-east-2`, and was empty at predeployment audit: zero remote migrations, public objects, Edge Functions, custom Function secrets, and application users/requests. Database advisors returned no issues. Apple and Google Auth providers are disabled; the organization is on Free and scheduled backups are unavailable.
+The owner replaced the prior target with new project `qmsliloouxmybnfzzlks` (`hackathon`) in dedicated organization `ilwcbtpsthckxclqqipz` (`Wunder wonders`). The project is `ACTIVE_HEALTHY`, Postgres 17.6 in `us-east-2`, and was empty at predeployment audit: zero remote migrations, public objects, Edge Functions, custom Function secrets, and application users/requests. Database advisors returned no issues. Apple Auth is enabled; Google Auth is disabled pending its OAuth clients. The organization is on Free and scheduled backups are unavailable.
 
 Predeployment role settings and exact rollback:
 
@@ -25,10 +25,10 @@ Secret values are intentionally absent. A secret row may record only `present`, 
 | Provider/surface | Nonsecret identifier | Safe status | Owner/vault note |
 |---|---|---|---|
 | Supabase | `qmsliloouxmybnfzzlks` | Deployed and audited | Modern publishable configuration is local-only; hosted server keys remain outside Git |
-| Apple Developer/App Store Connect | PENDING_OWNER_INPUT | Not validated | Team, App ID, bundle ID, app record, and internal group are owner inputs |
-| Sign in with Apple | PENDING_OWNER_INPUT | Not validated | Key ID/Team ID/client ID may be recorded after confirmation; `.p8` never enters Git |
+| Apple Developer/App Store Connect | Team `ALF5X476P3`; bundle `com.judy.wanderwonders`; app `6802547488`; internal group `Wander Wonders Internal` | CONFIGURED_NO_BUILD | App ID has Sign in with Apple + HealthKit; TestFlight group has automatic distribution and no build/tester yet |
+| Sign in with Apple | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key ID `TT8D4RTNUU` | CONFIGURED | Supabase Apple provider enabled; four account-revocation Function secrets present; `.p8` remains outside Git |
 | Apple Maps Server API | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU` | CONFIGURED_AND_PROVIDER_VALIDATED | Three hosted Function secrets are present; live token + Search passed; Maps `.p8` remains outside Git |
-| Google Cloud | `wander-wonders-v1-2026` | Project created; OAuth incomplete; Places unused | OAuth clients wait for the final bundle ID; no Maps billing action required |
+| Google Cloud | `wander-wonders-v1-2026` | Project created; OAuth incomplete; Places unused | Consent setup waits for owner acceptance of Google's user-data policy, then iOS/Web OAuth clients; no Maps billing action required |
 | Privacy/Support publication | PENDING_OWNER_INPUT | Not verified | URLs must be checked signed out and return the final domain |
 | Feedback/review contact | PENDING_OWNER_INPUT | Not verified | Contact is monitored; address is not stored in this file |
 
@@ -45,4 +45,4 @@ expiry_or_rotation=<owner-maintained note>
 
 The repository must remain clean of Apple `.p8`, OAuth codes, tokens, private keys, restricted API keys, and raw provider responses.
 
-The superseded Maps Key `6S2B527TY9` has no retained private-key download and remains pending owner-confirmed revocation in Apple Developer.
+The superseded Maps Key `6S2B527TY9` had no retained private-key download and was revoked in Apple Developer on 2026-08-17. Active Key `TT8D4RTNUU` is restricted to Maps and Sign in with Apple.
