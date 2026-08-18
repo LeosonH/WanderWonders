@@ -305,6 +305,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-17 provider 实施证据：复用现有无依赖 ES256 签名器完成 Apple Maps auth-token/access-token/Search 流程，类别限定 Park/NationalPark/Hiking，provider 结果返回后再做 805m haversine 校验；精确 provider/距离测试与统一 code-only gate 通过 Edge 15/15、iOS 15/15、UI 1/1、Debug/Release。`wonder-park-check` 已部署为远端 v2 且匿名 401；Apple Maps secrets 与真机公园查询仍待 owner 完成，因此本步不标记完成。
 
+> 2026-08-17 Apple Maps credential 证据：Team `ALF5X476P3`、Maps ID `maps.com.judy.wanderwonders`、Key ID `TT8D4RTNUU` 已建立；下载的 PKCS#8 key 通过 OpenSSL 校验，三个自定义 secret 已写入 `qmsliloouxmybnfzzlks` 并由远端摘要清单确认。项目同一套签名与 Search 代码完成真实 Apple access-token 请求，并在 Golden Gate Park 坐标返回 `nearbyPark=true`；secret/token 未进入 Git 或日志。首把未保存私钥的 Key `6S2B527TY9` 待 owner 明确确认后撤销。Apple/Google Auth、公开 URL/review contact、App Store/TestFlight 和真机验收仍未完成，因此本步不标记完成。
+
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 
 - 前置：Step 12 + 13，以及每个外部 mutation 的明确授权。

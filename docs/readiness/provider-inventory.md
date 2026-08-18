@@ -1,6 +1,6 @@
 # Wander Wonders V1 provider inventory
 
-Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple Maps and Apple/Google Auth provider completion remain pending.
+Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple Maps is configured and provider-validated; Apple/Google Auth provider completion remains pending.
 
 ## Active deployment target — 2026-08-17
 
@@ -27,7 +27,7 @@ Secret values are intentionally absent. A secret row may record only `present`, 
 | Supabase | `qmsliloouxmybnfzzlks` | Deployed and audited | Modern publishable configuration is local-only; hosted server keys remain outside Git |
 | Apple Developer/App Store Connect | PENDING_OWNER_INPUT | Not validated | Team, App ID, bundle ID, app record, and internal group are owner inputs |
 | Sign in with Apple | PENDING_OWNER_INPUT | Not validated | Key ID/Team ID/client ID may be recorded after confirmation; `.p8` never enters Git |
-| Apple Maps Server API | PENDING_OWNER_INPUT | Code complete; credentials pending | Maps ID/Key ID/Team ID status may be recorded; Maps `.p8` never enters Git |
+| Apple Maps Server API | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU` | CONFIGURED_AND_PROVIDER_VALIDATED | Three hosted Function secrets are present; live token + Search passed; Maps `.p8` remains outside Git |
 | Google Cloud | `wander-wonders-v1-2026` | Project created; OAuth incomplete; Places unused | OAuth clients wait for the final bundle ID; no Maps billing action required |
 | Privacy/Support publication | PENDING_OWNER_INPUT | Not verified | URLs must be checked signed out and return the final domain |
 | Feedback/review contact | PENDING_OWNER_INPUT | Not verified | Contact is monitored; address is not stored in this file |
@@ -44,3 +44,5 @@ expiry_or_rotation=<owner-maintained note>
 ```
 
 The repository must remain clean of Apple `.p8`, OAuth codes, tokens, private keys, restricted API keys, and raw provider responses.
+
+The superseded Maps Key `6S2B527TY9` has no retained private-key download and remains pending owner-confirmed revocation in Apple Developer.

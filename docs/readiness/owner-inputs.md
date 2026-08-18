@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: production art and Supabase deployment are complete; owner-controlled Apple, public-contact, and publication actions remain pending.
+Status: production art, Supabase deployment, and Apple Maps credentials are complete; owner-controlled Auth, public-contact, and publication actions remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -12,7 +12,7 @@ This file records only nonsecret readiness status. Credentials, authorization co
 | Final bundle identifier and App ID | Identifier only; Sign in with Apple and HealthKit capabilities must be enabled | PENDING_OWNER_ACTION |
 | App Store Connect app record and internal TestFlight group | App/group identifiers only | PENDING_OWNER_ACTION |
 | Apple Sign in with Apple credentials | Key ID, Team ID, and client ID status only; `.p8` remains in the vault | PENDING_OWNER_ACTION |
-| Apple Maps Server API credentials | Maps ID, Key ID, and Team ID status only; Maps `.p8` remains in the vault | PENDING_OWNER_ACTION |
+| Apple Maps Server API credentials | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED_AND_PROVIDER_VALIDATED |
 | Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; OAuth clients require final bundle ID; Places is no longer used | PARTIAL_OWNER_ACTION |
 | Dedicated Supabase project | `qmsliloouxmybnfzzlks` in dedicated Org `ilwcbtpsthckxclqqipz` | DEPLOYED_AND_AUDITED |
 | Supabase publishable and server secret keys | App publishable configuration validated locally; server keys remain hosted only | CONFIGURED_NO_SECRET_IN_GIT |
@@ -31,4 +31,4 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Step 0 exit blockers
 
-The remaining readiness gate cannot close until the owner finalizes the Apple team/bundle/App ID and Maps credentials, supplies a monitored public contact, approves public Privacy Policy and Support publication, and confirms review metadata. Art, dedicated Supabase deployment, the Google Cloud project, and local Supabase app configuration are complete.
+The remaining readiness gate cannot close until the owner finalizes the App ID/bundle and App Store/TestFlight records, configures Apple/Google Auth, supplies a monitored public contact, approves public Privacy Policy and Support publication, and confirms review metadata. Art, Apple Maps, dedicated Supabase deployment, the Google Cloud project, and local Supabase app configuration are complete.
