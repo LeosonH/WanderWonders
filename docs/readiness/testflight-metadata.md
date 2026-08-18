@@ -1,6 +1,6 @@
 # Wander Wonders V1 TestFlight metadata readiness
 
-Status: App Store record, internal group, beta description, and feedback address are configured; URLs, complete review contact, build-specific test copy, and owner approval remain pending.
+Status: TestFlight-only distribution target. App Store record, internal group, beta description, and feedback address are configured; URLs, complete review contact, build-specific test copy, and owner approval remain pending.
 
 ## Required owner inputs
 
@@ -23,6 +23,8 @@ Status: App Store record, internal group, beta description, and feedback address
 - Do not place tester emails, tokens, precise location, routes, place names, or raw Health values in this repository.
 
 Current external state: 0 builds and 0 testers. No App Review submission or beta invitation is authorized by this file.
+
+The App Store Connect record exists only to support TestFlight. Public App Store release, sale, payments, and StoreKit remain out of scope.
 
 ## Draft Beta App Description
 

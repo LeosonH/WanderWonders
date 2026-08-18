@@ -309,6 +309,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-17 Apple/App Store readiness 证据：注册 App ID `com.judy.wanderwonders`（Team `ALF5X476P3`，Sign in with Apple + HealthKit），把 Key `TT8D4RTNUU` 限定为 Maps + Sign in with Apple，并撤销未保存私钥的旧 Key `6S2B527TY9`。Supabase Apple provider 已为 native client ID 启用，account-revocation 的四项 Edge secret 已存在。App Store Connect app `6802547488` 与 `Wander Wonders Internal` 内测组已建立，自动分发开启，beta 描述与 feedback address 已保存；当前 0 build / 0 tester。XcodeGen source-of-truth 已锁定 final bundle、Team、automatic signing 与 Apple/HealthKit entitlements；模拟器 Debug 与 `-allowProvisioningUpdates` generic-iPhone Debug build 均通过，后者经沙箱外 `codesign --verify --deep --strict` 确认有效，签名 entitlement 为 Team `ALF5X476P3`、bundle `com.judy.wanderwonders`、Sign in with Apple + HealthKit。Google Auth 停在 owner 必须亲自接受的 Google API Services User Data Policy，public Privacy/Support URL、完整 review contact、真机/archive/soak 仍缺，因此本步不标记完成。
 
+> 2026-08-18 Google/TestFlight readiness 证据：owner 接受 Google 用户数据条款后，建立专用 iOS 与 Web OAuth client；Supabase Google provider 以 Web-first + iOS client IDs、Web secret、Skip nonce=true、allow-without-email=false 启用，公开 Auth settings 返回 Apple=true、Google=true。ignored `Config/Secrets.xcconfig` 已写入 iOS/server/reversed client IDs，client secret 未进入 App/Git；signed generic-iPhone Debug build 通过且最终 Info.plist 三项值精确匹配。Google OAuth audience 仍为 External/Testing 且 0 test users，因此真实 Google 登录未验证。owner 同时锁定只做 TestFlight 分享、不公开上架或销售；现有 App Store Connect record 仅作为 TestFlight 基础设施。public Privacy/Support URL、完整 review contact、Google test user、真机/archive/soak 仍缺，本步不标记完成。
+
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 
 - 前置：Step 12 + 13，以及每个外部 mutation 的明确授权。

@@ -16,6 +16,7 @@ Target: Supabase project `qmsliloouxmybnfzzlks`, organization `ilwcbtpsthckxclqq
 - Supabase Apple Auth is enabled for native client ID `com.judy.wanderwonders`. The four account-token revocation secrets are present in hosted Edge Function secrets and absent from Git.
 - App Store Connect app `6802547488` and internal group `Wander Wonders Internal` exist; automatic distribution is enabled, the beta description/feedback address are saved, and no build or tester is present.
 - Xcode automatic signing produced a generic-iPhone Debug app. Independent `codesign --verify --deep --strict` passed; signed entitlements identify Team `ALF5X476P3`, bundle `com.judy.wanderwonders`, Sign in with Apple, and HealthKit.
+- Google Cloud project `wander-wonders-v1-2026` has dedicated iOS and Web OAuth clients. Supabase Google Auth stores the Web-first + iOS client list and Web secret, has Skip nonce enabled, and disallows users without email. The public Auth settings endpoint reports both Apple and Google enabled. The signed generic-iPhone app contains the matching iOS/server IDs and reversed iOS URL scheme; the client secret is absent from the app and Git.
 - A rollback-only remote transaction passed bootstrap, manual Wander start, exact three-offer/three-reward creation, idempotent replay, and refresh. No fixture rows were retained.
 - Security Advisor has no errors. Its warnings are the reviewed, intentional authenticated `SECURITY DEFINER` RPC allowlist. Performance Advisor reports 0 errors and 0 warnings.
 - The temporary pgTAP diagnostic extension and temporary CLI schema usage grant were removed; final remote state has no pgTAP extension and no `cli_login_postgres` usage on `extensions`.
@@ -36,5 +37,6 @@ The installed CLI's linked Postgres login cannot run `migration list`, remote li
 
 ## Still blocked
 
-- Google Auth remains disabled. Google Cloud project `wander-wonders-v1-2026` is stopped at owner acceptance of Google's user-data policy; its iOS/Web OAuth clients do not exist yet. Google Places is unused, so no Google Maps billing action is required.
+- Google Auth runtime validation remains blocked because the External/Testing OAuth audience has 0 test users. Google Places is unused, so no Google Maps billing action is required.
 - Public privacy/support URLs, complete review contact, release archive/upload, physical acceptance, 24-hour soak, review, and beta invitations remain pending.
+- Release scope is TestFlight-only; no public App Store submission or sale is planned.

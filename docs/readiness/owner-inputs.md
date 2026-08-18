@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: production art, Supabase deployment, Apple Maps, Apple Auth, App ID, and App Store/TestFlight records are complete; Google Auth, public-contact, publication, and signed-device actions remain pending.
+Status: production art, Supabase deployment, Apple Maps/Auth, Google Auth configuration, App ID, and App Store/TestFlight records are complete; Google test-user, public-contact, publication, and signed-device actions remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -13,7 +13,7 @@ This file records only nonsecret readiness status. Credentials, authorization co
 | App Store Connect app record and internal TestFlight group | App `6802547488`; `Wander Wonders Internal`; automatic distribution enabled | CONFIGURED_NO_BUILD |
 | Apple Sign in with Apple credentials | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED |
 | Apple Maps Server API credentials | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED_AND_PROVIDER_VALIDATED |
-| Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; consent setup awaits owner policy acceptance; iOS/Web OAuth clients remain uncreated; Places is unused | PARTIAL_OWNER_ACTION |
+| Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; iOS/Web clients created; Supabase Google enabled; External/Testing audience currently has 0 test users; Places is unused | CONFIGURED_PENDING_TEST_USER |
 | Dedicated Supabase project | `qmsliloouxmybnfzzlks` in dedicated Org `ilwcbtpsthckxclqqipz` | DEPLOYED_AND_AUDITED |
 | Supabase publishable and server secret keys | App publishable configuration validated locally; server keys remain hosted only | CONFIGURED_NO_SECRET_IN_GIT |
 | Privacy Policy and Support URLs | Final public URLs only after signed-out HTTP verification | PENDING_OWNER_ACTION |
@@ -31,4 +31,4 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Step 0 exit blockers
 
-The remaining readiness gate cannot close until the owner accepts Google's user-data policy and finishes Google Auth, supplies the review phone/contact, approves public Privacy Policy and Support publication, provides a physical iPhone for acceptance, and confirms remaining review metadata. Art, Apple Maps, Apple Auth, App ID/bundle, dedicated Supabase deployment, App Store record, internal TestFlight group, and signed generic-iPhone build are complete.
+The remaining readiness gate cannot close until the owner authorizes at least one Google OAuth test user, supplies the review phone/contact, approves public Privacy Policy and Support publication for external TestFlight, provides a physical iPhone for acceptance, and confirms remaining review metadata. Art, Apple Maps, Apple/Google Auth configuration, App ID/bundle, dedicated Supabase deployment, App Store record, internal TestFlight group, and signed generic-iPhone build are complete. Distribution is TestFlight-only; no public App Store release is in scope.
