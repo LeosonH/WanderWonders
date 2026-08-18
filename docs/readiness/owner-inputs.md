@@ -10,7 +10,7 @@ This file records only nonsecret readiness status. Credentials, authorization co
 |---|---|---|
 | Apple Developer Program team and App Store Connect access | Team `ALF5X476P3` | CONFIGURED |
 | Final bundle identifier and App ID | `com.judy.wanderwonders`; Sign in with Apple and HealthKit enabled | CONFIGURED |
-| App Store Connect app record and internal TestFlight group | App `6802547488`; `Wander Wonders Internal`; automatic distribution enabled | CONFIGURED_NO_BUILD |
+| App Store Connect app record and internal TestFlight group | App `6802547488`; `Wander Wonders Internal`; automatic distribution enabled; internal-only `1.0 (1)` upload accepted | BUILD_UPLOADED_PROCESSING |
 | Apple Sign in with Apple credentials | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED |
 | Apple Maps Server API credentials | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED_AND_PROVIDER_VALIDATED |
 | Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; iOS/Web clients created; Supabase Google enabled; External/Testing audience has 1 authorized test user; Places is unused | CONFIGURED_PENDING_DEVICE_TEST |
@@ -31,4 +31,4 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Remaining release blockers
 
-Step 13 owner/provider/art readiness is complete for the locked private internal-TestFlight scope. A device-targeted signed build passed and installed on the paired iPhone; launch was correctly denied while the phone was locked, so interactive provider/permission acceptance and the second tester's App Store Connect email still gate Step 14 completion. Public Privacy/Support URLs, full review contact, external cohort metadata, and TestFlight App Review remain deferred unless the owner later expands distribution beyond internal testers. No public App Store release is in scope.
+Step 13 owner/provider/art readiness is complete for the locked private internal-TestFlight scope. Exact commit `5ce0e4d` produced a verified Release archive/dSYM and App Store Connect accepted the internal-only `1.0 (1)` upload. A device-targeted signed build also installed on the paired iPhone; launch was correctly denied while the phone was locked. Apple Account sign-in is required to verify processing, and interactive provider/permission acceptance plus the second tester's App Store Connect email still gate Step 14 completion. Public Privacy/Support URLs, full review contact, external cohort metadata, and TestFlight App Review remain deferred unless the owner later expands distribution beyond internal testers. No public App Store release is in scope.

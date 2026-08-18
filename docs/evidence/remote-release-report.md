@@ -39,5 +39,6 @@ The installed CLI's linked Postgres login cannot run `migration list`, remote li
 
 - Google External/Testing has 1 authorized OAuth test user. Runtime validation remains pending on the paired physical iPhone. Google Places is unused, so no Google Maps billing action is required.
 - A device-targeted signed Debug build passed and installed on the paired iPhone. Programmatic launch reached the device and was denied only because the phone was locked; interactive physical acceptance remains pending.
-- Release archive/upload, 24-hour internal soak, and the second private internal tester invitation remain pending.
+- Exact Git commit `5ce0e4d` produced Release archive `1.0 (1)` with valid strict code signature, matching bundle ID, exempt-encryption declaration, and retained dSYM. Xcode uploaded it with `testFlightInternalTestingOnly=true`; App Store Connect returned `Upload succeeded` and `EXPORT SUCCEEDED`.
+- Signed-in confirmation that the build finished processing, 24-hour internal soak, and the second private internal tester invitation remain pending.
 - Release scope is private internal TestFlight only. Public privacy/support URLs, complete review contact, external TestFlight App Review, public App Store submission, and sale are outside the current scope.

@@ -1,6 +1,6 @@
 # Wander Wonders V1 TestFlight metadata readiness
 
-Status: private internal-TestFlight target. App Store record, internal group, beta description, feedback address, and test copy are ready. The signed app is installed on the paired iPhone; build upload, unlock-time acceptance, and the second internal tester remain pending.
+Status: private internal-TestFlight target. App Store record, internal group, beta description, feedback address, and test copy are ready. Exact commit `5ce0e4d` produced and uploaded internal-only build `1.0 (1)`; processing confirmation, unlock-time acceptance, and the second internal tester remain pending.
 
 ## Required owner inputs
 
@@ -23,7 +23,7 @@ Status: private internal-TestFlight target. App Store record, internal group, be
 - Do not claim payments, StoreKit, social features, cloud photo upload, or other excluded scope.
 - Do not place tester emails, tokens, precise location, routes, place names, or raw Health values in this repository.
 
-Current App Store Connect state: 0 builds and 0 TestFlight testers. Internal upload/distribution is authorized; external TestFlight review and invitations remain out of scope.
+Current App Store Connect state: internal-only build `1.0 (1)` upload accepted and processing confirmation pending; 0 verified TestFlight testers. Internal distribution is authorized; external TestFlight review and invitations remain out of scope.
 
 The App Store Connect record exists only to support TestFlight. Public App Store release, sale, payments, and StoreKit remain out of scope.
 

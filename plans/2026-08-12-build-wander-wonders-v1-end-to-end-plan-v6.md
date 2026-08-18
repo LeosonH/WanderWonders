@@ -328,6 +328,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-18 Phase C 进度：针对已配对 `Judy Iphone` 的签名 Debug build 通过并成功安装 `com.judy.wanderwonders`；CoreDevice 启动请求到达设备后仅因手机锁屏被系统拒绝，因此未把“已安装”误报为运行验收。Google/Apple 登录、permissions、核心流程与 24h soak 仍需解锁后的人工交互；archive/upload 和第二位 internal tester 尚待后续证据，本步不标记完成。
 
+> 2026-08-18 Phase C archive/upload 进度：干净且已推送的 exact commit `5ce0e4d` 生成 Release archive `1.0 (1)`；严格签名、bundle `com.judy.wanderwonders`、版本/build、`ITSAppUsesNonExemptEncryption=false` 与 dSYM 均已核对。使用 `testFlightInternalTestingOnly=true` 上传后，Xcode 返回 `Upload succeeded` 与 `EXPORT SUCCEEDED`，从构建层强制禁止误发 external/App Store。App Store Connect 网页会话已过期，因此 build processing/自动分组仍需 owner 完成 Apple Account 登录后核验；真机交互、24h soak 与第二位 internal tester 也未完成，本步不标记完成。
+
 ## 9. 文件清单
 
 | 路径 | 动作 |
