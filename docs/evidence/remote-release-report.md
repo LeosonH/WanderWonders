@@ -15,6 +15,7 @@ Target: Supabase project `qmsliloouxmybnfzzlks`, organization `ilwcbtpsthckxclqq
 - App ID `com.judy.wanderwonders` is registered to Team `ALF5X476P3` with Sign in with Apple and HealthKit. Active Key `TT8D4RTNUU` is enabled for Maps and Sign in with Apple; superseded Key `6S2B527TY9` was revoked.
 - Supabase Apple Auth is enabled for native client ID `com.judy.wanderwonders`. The four account-token revocation secrets are present in hosted Edge Function secrets and absent from Git.
 - App Store Connect app `6802547488` and internal group `Wander Wonders Internal` exist; automatic distribution is enabled, the beta description/feedback address are saved, and no build or tester is present.
+- Xcode automatic signing produced a generic-iPhone Debug app. Independent `codesign --verify --deep --strict` passed; signed entitlements identify Team `ALF5X476P3`, bundle `com.judy.wanderwonders`, Sign in with Apple, and HealthKit.
 - A rollback-only remote transaction passed bootstrap, manual Wander start, exact three-offer/three-reward creation, idempotent replay, and refresh. No fixture rows were retained.
 - Security Advisor has no errors. Its warnings are the reviewed, intentional authenticated `SECURITY DEFINER` RPC allowlist. Performance Advisor reports 0 errors and 0 warnings.
 - The temporary pgTAP diagnostic extension and temporary CLI schema usage grant were removed; final remote state has no pgTAP extension and no `cli_login_postgres` usage on `extensions`.
@@ -36,4 +37,4 @@ The installed CLI's linked Postgres login cannot run `migration list`, remote li
 ## Still blocked
 
 - Google Auth remains disabled. Google Cloud project `wander-wonders-v1-2026` is stopped at owner acceptance of Google's user-data policy; its iOS/Web OAuth clients do not exist yet. Google Places is unused, so no Google Maps billing action is required.
-- Public privacy/support URLs, complete review contact, a local Team `ALF5X476P3` Apple Development/Distribution certificate, signed device archive, physical acceptance, 24-hour soak, review, and beta invitations remain pending.
+- Public privacy/support URLs, complete review contact, release archive/upload, physical acceptance, 24-hour soak, review, and beta invitations remain pending.

@@ -31,4 +31,4 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Step 0 exit blockers
 
-The remaining readiness gate cannot close until the owner accepts Google's user-data policy and finishes Google Auth, supplies the review phone/contact, approves public Privacy Policy and Support publication, refreshes the local Apple Development/Distribution signing certificates, and confirms remaining review metadata. Art, Apple Maps, Apple Auth, App ID/bundle, dedicated Supabase deployment, App Store record, internal TestFlight group, and local signing configuration are complete.
+The remaining readiness gate cannot close until the owner accepts Google's user-data policy and finishes Google Auth, supplies the review phone/contact, approves public Privacy Policy and Support publication, provides a physical iPhone for acceptance, and confirms remaining review metadata. Art, Apple Maps, Apple Auth, App ID/bundle, dedicated Supabase deployment, App Store record, internal TestFlight group, and signed generic-iPhone build are complete.
