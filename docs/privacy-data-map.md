@@ -8,7 +8,7 @@
 | One location fix | Check for a supported park | Edge request memory only | Discarded after response |
 | Typed product events | Beta reliability and funnel checks | `wonder_product_events` | Server policy; capped at 200/user/UTC day |
 
-Never retained: email as game identity, raw Health samples, source/device, routes, exact coordinates, park names, Google place records, provider response bodies, OAuth codes, tokens, secrets, or arbitrary analytics payloads.
+Never retained: email as game identity, raw Health samples, source/device, routes, exact coordinates, park names, Apple Maps place records, provider response bodies, OAuth codes, tokens, secrets, or arbitrary analytics payloads.
 
 The App Store privacy answers and public privacy page require owner review before TestFlight external review.
 

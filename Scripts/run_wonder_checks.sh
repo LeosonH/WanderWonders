@@ -17,7 +17,7 @@ deno check --config supabase/functions/deno.json \
     supabase/functions/wonder-delete-account/index.ts
 deno test --config supabase/functions/deno.json --allow-env supabase/functions
 
-if rg -n '(SUPABASE_SECRET_KEY|GOOGLE_PLACES_API_KEY|APPLE_PRIVATE_KEY_P8)[[:space:]]*=[[:space:]]*[^[:space:]]+' \
+if rg -n '(SUPABASE_SECRET_KEY|GOOGLE_PLACES_API_KEY|APPLE_MAPS_PRIVATE_KEY_P8|APPLE_PRIVATE_KEY_P8)[[:space:]]*=[[:space:]]*[^[:space:]]+' \
     . --glob '!supabase/.temp/**' --glob '!*.md'; then
     printf 'secret-like configured value found\n' >&2
     exit 1

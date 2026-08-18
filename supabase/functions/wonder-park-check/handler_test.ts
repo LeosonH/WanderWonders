@@ -1,6 +1,6 @@
 import { type AuthUser } from '../_shared/wonder.ts'
 import {
-  acceptedPlaceTypes,
+  acceptedPoiCategories,
   handleParkRequest,
   hasNearbyPark,
   type ParkDependencies,
@@ -119,27 +119,31 @@ Deno.test('park check maps provider failure and starts verified Wander once', as
   assertEquals((await response.json()).eligible, true)
 })
 
-Deno.test('Nearby Search sends the exact privacy-minimal contract', async () => {
-  let captured: { url?: string; init?: RequestInit; body?: any } = {}
+Deno.test('Apple Maps search sends the exact privacy-minimal contract', async () => {
+  let captured: { url?: string; init?: RequestInit } = {}
   const fetcher: typeof fetch = (input, init) => {
-    captured = {
-      url: String(input),
-      init,
-      body: JSON.parse(String(init?.body)),
-    }
-    return Promise.resolve(Response.json({ places: [{ types: ['park'] }] }))
+    captured = { url: String(input), init }
+    return Promise.resolve(Response.json({
+      results: [{ coordinate: { latitude: 37.4001, longitude: -122.1 } }],
+    }))
   }
-  assertEquals(await hasNearbyPark(valid, 'test-key', fetcher), true)
-  assertEquals(captured.url, 'https://places.googleapis.com/v1/places:searchNearby')
-  assertEquals(captured.init?.method, 'POST')
+  assertEquals(await hasNearbyPark(valid, 'access-token', fetcher), true)
+  const url = new URL(captured.url ?? '')
+  assertEquals(`${url.origin}${url.pathname}`, 'https://maps-api.apple.com/v1/search')
+  assertEquals(url.searchParams.get('q'), 'park')
+  assertEquals(url.searchParams.get('includePoiCategories'), acceptedPoiCategories.join(','))
+  assertEquals(url.searchParams.get('resultTypeFilter'), 'Poi')
+  assertEquals(url.searchParams.get('searchLocation'), `${valid.latitude},${valid.longitude}`)
   assertEquals(
-    (captured.init?.headers as Record<string, string>)['x-goog-fieldmask'],
-    'places.types',
+    (captured.init?.headers as Record<string, string>).authorization,
+    'Bearer access-token',
   )
-  assertEquals(captured.body.includedTypes, acceptedPlaceTypes)
-  assertEquals(captured.body.maxResultCount, 1)
-  assertEquals(captured.body.locationRestriction.circle, {
-    center: { latitude: valid.latitude, longitude: valid.longitude },
-    radius: 805,
-  })
+})
+
+Deno.test('Apple Maps search rejects results outside 805 meters', async () => {
+  const fetcher: typeof fetch = () =>
+    Promise.resolve(Response.json({
+      results: [{ coordinate: { latitude: 37.42, longitude: -122.1 } }],
+    }))
+  assertEquals(await hasNearbyPark(valid, 'access-token', fetcher), false)
 })

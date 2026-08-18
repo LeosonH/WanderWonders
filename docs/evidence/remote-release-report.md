@@ -10,7 +10,7 @@ Target: Supabase project `qmsliloouxmybnfzzlks`, organization `ilwcbtpsthckxclqq
 - Remote catalog counts are 13 species and 5 shop items.
 - The schema audit passed: 22 `wonder_*` tables, 24 public RPCs, 22 private helpers, 22/22 tables with enabled and forced RLS, and no direct `PUBLIC`, `anon`, or `authenticated` table grants.
 - `authenticated` and `service_role` both have the intended five-second statement timeout.
-- `wonder-park-check` and `wonder-delete-account` are active at version 1 with JWT verification enabled. Both return HTTP 401 without a JWT.
+- `wonder-park-check` is active at version 2 with Apple Maps Server API and JWT verification enabled; `wonder-delete-account` remains active at version 1. Both return HTTP 401 without a JWT.
 - A rollback-only remote transaction passed bootstrap, manual Wander start, exact three-offer/three-reward creation, idempotent replay, and refresh. No fixture rows were retained.
 - Security Advisor has no errors. Its warnings are the reviewed, intentional authenticated `SECURITY DEFINER` RPC allowlist. Performance Advisor reports 0 errors and 0 warnings.
 - The temporary pgTAP diagnostic extension and temporary CLI schema usage grant were removed; final remote state has no pgTAP extension and no `cli_login_postgres` usage on `extensions`.
@@ -32,6 +32,6 @@ The installed CLI's linked Postgres login cannot run `migration list`, remote li
 ## Still blocked
 
 - Apple and Google Auth providers remain disabled until their owner-controlled identifiers are final.
-- Provider secrets are not present: Google Places, and the Apple credentials required for account-token revocation.
-- Google Cloud project `wander-wonders-v1-2026` exists, but Places API (New) is not enabled until the owner explicitly attaches a billing account.
+- Provider secrets are not present: Apple Maps Server API credentials and the separate Apple credentials required for account-token revocation.
+- Google Cloud project `wander-wonders-v1-2026` remains available for Google Auth OAuth only. Google Places is no longer used, so no Google Maps billing action is required.
 - Final bundle/team/App Store/TestFlight records, public privacy/support URLs, signed device archive, physical acceptance, 24-hour soak, review, and beta invitations remain pending.

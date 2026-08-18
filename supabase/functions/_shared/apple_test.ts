@@ -1,4 +1,4 @@
-import { type AppleConfig, revokeAppleAuthorization } from './apple.ts'
+import { type AppleConfig, appleMapsAccessToken, revokeAppleAuthorization } from './apple.ts'
 
 function base64(data: Uint8Array): string {
   let binary = ''
@@ -55,4 +55,28 @@ Deno.test('Apple exchange and non-retryable revoke failures stop safely', async 
   }
   assertEquals(await revokeAppleAuthorization('code', await config(), revokeFailure), false)
   assertEquals(calls, 2)
+})
+
+Deno.test('Apple Maps token uses the server-only scope', async () => {
+  let captured = ''
+  const fetcher: typeof fetch = (_input, init) => {
+    captured = (init?.headers as Record<string, string>).authorization.slice(7)
+    return Promise.resolve(Response.json({ accessToken: 'maps-access-token' }))
+  }
+  const apple = await config()
+  assertEquals(
+    await appleMapsAccessToken(apple, fetcher, 1_800_000_000),
+    'maps-access-token',
+  )
+  const [header, claims] = captured.split('.').slice(0, 2).map((part) => {
+    const normalized = part.replaceAll('-', '+').replaceAll('_', '/')
+    return JSON.parse(atob(normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=')))
+  })
+  assertEquals(header.alg, 'ES256')
+  assertEquals(header.kid, apple.keyId)
+  assertEquals(header.typ, 'JWT')
+  assertEquals(claims.iss, apple.teamId)
+  assertEquals(claims.iat, 1_800_000_000)
+  assertEquals(claims.exp, 1_800_000_300)
+  assertEquals(claims.scope, 'server_api')
 })

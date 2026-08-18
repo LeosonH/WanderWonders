@@ -1,6 +1,6 @@
 # Wander Wonders V1 provider inventory
 
-Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple/Google provider completion remains pending.
+Status: dedicated Supabase backend and Edge Functions deployed and audited; Apple Maps and Apple/Google Auth provider completion remain pending.
 
 ## Active deployment target — 2026-08-17
 
@@ -27,7 +27,8 @@ Secret values are intentionally absent. A secret row may record only `present`, 
 | Supabase | `qmsliloouxmybnfzzlks` | Deployed and audited | Modern publishable configuration is local-only; hosted server keys remain outside Git |
 | Apple Developer/App Store Connect | PENDING_OWNER_INPUT | Not validated | Team, App ID, bundle ID, app record, and internal group are owner inputs |
 | Sign in with Apple | PENDING_OWNER_INPUT | Not validated | Key ID/Team ID/client ID may be recorded after confirmation; `.p8` never enters Git |
-| Google Cloud | `wander-wonders-v1-2026` | Project created; Places/OAuth incomplete | Owner must approve the existing billing account; OAuth clients wait for the final bundle ID |
+| Apple Maps Server API | PENDING_OWNER_INPUT | Code complete; credentials pending | Maps ID/Key ID/Team ID status may be recorded; Maps `.p8` never enters Git |
+| Google Cloud | `wander-wonders-v1-2026` | Project created; OAuth incomplete; Places unused | OAuth clients wait for the final bundle ID; no Maps billing action required |
 | Privacy/Support publication | PENDING_OWNER_INPUT | Not verified | URLs must be checked signed out and return the final domain |
 | Feedback/review contact | PENDING_OWNER_INPUT | Not verified | Contact is monitored; address is not stored in this file |
 

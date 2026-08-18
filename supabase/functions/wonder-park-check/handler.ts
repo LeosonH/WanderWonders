@@ -1,13 +1,6 @@
 import { type AuthUser, bearer, type Fetcher, isUuid, json } from '../_shared/wonder.ts'
 
-export const acceptedPlaceTypes = [
-  'park',
-  'city_park',
-  'state_park',
-  'national_park',
-  'hiking_area',
-  'botanical_garden',
-]
+export const acceptedPoiCategories = ['Park', 'NationalPark', 'Hiking']
 
 export interface ParkInput {
   latitude: number
@@ -30,35 +23,42 @@ export interface ParkDependencies {
 
 export async function hasNearbyPark(
   input: Pick<ParkInput, 'latitude' | 'longitude'>,
-  apiKey: string,
+  accessToken: string,
   fetcher: Fetcher = fetch,
 ): Promise<boolean> {
-  const response = await fetcher('https://places.googleapis.com/v1/places:searchNearby', {
-    method: 'POST',
+  const query = new URLSearchParams({
+    q: 'park',
+    includePoiCategories: acceptedPoiCategories.join(','),
+    resultTypeFilter: 'Poi',
+    searchLocation: `${input.latitude},${input.longitude}`,
+  })
+  const response = await fetcher(`https://maps-api.apple.com/v1/search?${query}`, {
     headers: {
-      'content-type': 'application/json',
-      'x-goog-api-key': apiKey,
-      'x-goog-fieldmask': 'places.types',
+      authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({
-      includedTypes: acceptedPlaceTypes,
-      maxResultCount: 1,
-      locationRestriction: {
-        circle: {
-          center: { latitude: input.latitude, longitude: input.longitude },
-          radius: 805,
-        },
-      },
-    }),
     signal: AbortSignal.timeout(8_000),
   })
-  if (!response.ok) throw new Error(`places status ${response.status}`)
+  if (!response.ok) throw new Error(`maps search status ${response.status}`)
   const body = await response.json()
-  return Array.isArray(body?.places) &&
-    body.places.some((place: any) =>
-      Array.isArray(place?.types) &&
-      place.types.some((type: string) => acceptedPlaceTypes.includes(type))
+  return Array.isArray(body?.results) &&
+    body.results.some((place: any) =>
+      Number.isFinite(place?.coordinate?.latitude) &&
+      Number.isFinite(place?.coordinate?.longitude) &&
+      distanceMeters(input, place.coordinate) <= 805
     )
+}
+
+function distanceMeters(
+  first: Pick<ParkInput, 'latitude' | 'longitude'>,
+  second: { latitude: number; longitude: number },
+): number {
+  const radians = Math.PI / 180
+  const latitudeDelta = (second.latitude - first.latitude) * radians
+  const longitudeDelta = (second.longitude - first.longitude) * radians
+  const value = Math.sin(latitudeDelta / 2) ** 2 +
+    Math.cos(first.latitude * radians) * Math.cos(second.latitude * radians) *
+      Math.sin(longitudeDelta / 2) ** 2
+  return 2 * 6_371_000 * Math.asin(Math.min(1, Math.sqrt(value)))
 }
 
 function validInput(value: any): value is ParkInput {

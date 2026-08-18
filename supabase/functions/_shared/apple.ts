@@ -7,6 +7,12 @@ export interface AppleConfig {
   privateKeyP8: string
 }
 
+export interface AppleMapsConfig {
+  teamId: string
+  keyId: string
+  privateKeyP8: string
+}
+
 function base64url(data: Uint8Array | string): string {
   const bytes = typeof data === 'string' ? new TextEncoder().encode(data) : data
   let binary = ''
@@ -20,22 +26,17 @@ function pkcs8Bytes(pem: string): Uint8Array {
   return Uint8Array.from(atob(base64), (character) => character.charCodeAt(0))
 }
 
-export async function appleClientSecret(
-  config: AppleConfig,
-  nowSeconds = Math.floor(Date.now() / 1_000),
+async function signedJwt(
+  privateKeyP8: string,
+  headerValue: Record<string, unknown>,
+  claimsValue: Record<string, unknown>,
 ): Promise<string> {
-  const header = base64url(JSON.stringify({ alg: 'ES256', kid: config.keyId }))
-  const claims = base64url(JSON.stringify({
-    iss: config.teamId,
-    iat: nowSeconds,
-    exp: nowSeconds + 300,
-    aud: 'https://appleid.apple.com',
-    sub: config.clientId,
-  }))
+  const header = base64url(JSON.stringify(headerValue))
+  const claims = base64url(JSON.stringify(claimsValue))
   const input = `${header}.${claims}`
   const key = await crypto.subtle.importKey(
     'pkcs8',
-    pkcs8Bytes(config.privateKeyP8).buffer as ArrayBuffer,
+    pkcs8Bytes(privateKeyP8).buffer as ArrayBuffer,
     { name: 'ECDSA', namedCurve: 'P-256' },
     false,
     ['sign'],
@@ -48,6 +49,50 @@ export async function appleClientSecret(
     ),
   )
   return `${input}.${base64url(signature)}`
+}
+
+export async function appleClientSecret(
+  config: AppleConfig,
+  nowSeconds = Math.floor(Date.now() / 1_000),
+): Promise<string> {
+  return await signedJwt(
+    config.privateKeyP8,
+    { alg: 'ES256', kid: config.keyId },
+    {
+      iss: config.teamId,
+      iat: nowSeconds,
+      exp: nowSeconds + 300,
+      aud: 'https://appleid.apple.com',
+      sub: config.clientId,
+    },
+  )
+}
+
+export async function appleMapsAccessToken(
+  config: AppleMapsConfig,
+  fetcher: Fetcher = fetch,
+  nowSeconds = Math.floor(Date.now() / 1_000),
+): Promise<string> {
+  const authToken = await signedJwt(
+    config.privateKeyP8,
+    { alg: 'ES256', kid: config.keyId, typ: 'JWT' },
+    {
+      iss: config.teamId,
+      iat: nowSeconds,
+      exp: nowSeconds + 300,
+      scope: 'server_api',
+    },
+  )
+  const response = await fetcher('https://maps-api.apple.com/v1/token', {
+    headers: { authorization: `Bearer ${authToken}` },
+    signal: AbortSignal.timeout(5_000),
+  })
+  if (!response.ok) throw new Error(`maps token status ${response.status}`)
+  const accessToken = (await response.json())?.accessToken
+  if (typeof accessToken !== 'string' || !accessToken) {
+    throw new Error('maps token missing accessToken')
+  }
+  return accessToken
 }
 
 async function applePost(

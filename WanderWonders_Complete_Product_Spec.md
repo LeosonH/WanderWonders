@@ -231,7 +231,7 @@ Game Center is not part of the roadmap. Invitation codes are the universal fallb
 
 ### 5.3 Example session
 
-A player finishes work and walks toward a nearby park. At roughly half a mile from a place Google identifies as a park, the player taps **Start Wander**. After 10 minutes, the app offers three seasonal flowers. The player chooses one. After another 10 minutes, the two unchosen flowers return and the player chooses a second. At 30 minutes, the final flower is awarded automatically.
+A player finishes work and walks toward a nearby park. At roughly half a mile from a place Apple Maps identifies as a park, the player taps **Start Wander**. After 10 minutes, the app offers three seasonal flowers. The player chooses one. After another 10 minutes, the two unchosen flowers return and the player chooses a second. At 30 minutes, the final flower is awarded automatically.
 
 At home, the player places one flower in the starter vase. A favorite older flower is close to fading, so the player uses sunshine to keep it alive for another day. The new flower is pressed immediately because the player wants it in the Pressbook now. Another flower remains in the Pocket and will press naturally when its bloom timer ends.
 
@@ -426,19 +426,16 @@ The location check exists to encourage leaving a building and moving toward outd
 When the player taps **Start Wander** and grants location access:
 
 1. Obtain the current location for this start attempt.
-2. Use Google Places Nearby Search with a circular radius of **0.5 miles, approximately 805 meters**.
+2. Use Apple Maps Server API Search and accept only results within **0.5 miles, approximately 805 meters**.
 3. Accept the start when a nearby result matches an approved park-related place type.
 4. Explain the result as **near a park**, not necessarily inside a mapped park boundary.
 5. Discard the exact coordinates after completing the eligibility check.
 
-Initial accepted place types:
+Initial accepted point-of-interest categories:
 
-- `park`
-- `city_park`
-- `state_park`
-- `national_park`
-- `hiking_area`
-- `botanical_garden`
+- `Park`
+- `NationalPark`
+- `Hiking`
 
 The accepted type list is remotely configurable because provider taxonomies and product judgment may change.
 
@@ -456,7 +453,7 @@ Because the product is noncompetitive, the design favors inclusion and motivatio
 
 V1 stores only the verification mode:
 
-- `google_nearby`
+- `verified`
 - `manual_location_unavailable`
 - `manual_permission_denied`
 - `manual_network_unavailable`
@@ -941,16 +938,16 @@ The subscription must not become necessary for the flower loop. Read-only MCP ac
 Primary variable or recurring costs:
 
 - Supabase database, Auth, functions, and network usage.
-- Google Places Nearby Search requests.
+- Apple Maps Server API requests within the included daily quota.
 - Artwork and seasonal content production.
 - Apple developer and distribution costs.
 - V2 AI inference, if launched.
 
 V1 cost controls:
 
-- Make one Google Places eligibility request when Start Wander is tapped, not continuous requests during the session.
-- Do not query Google for manual starts.
-- Cache only app-owned configuration; follow Google Places restrictions for provider data.
+- Make one Apple Maps eligibility search when Start Wander is tapped, not continuous requests during the session.
+- Do not query Apple Maps for manual starts.
+- Keep provider credentials server-side and discard provider results after the eligibility decision.
 - Keep V1 AI-free.
 - Store aggregate step and verification data rather than high-volume raw samples or location trails.
 
@@ -974,7 +971,7 @@ Measure:
 2. Daily daisy received.
 3. Daisy displayed.
 4. Start Wander tapped.
-5. Wander successfully started by Google or manual mode.
+5. Wander successfully started by Apple Maps verification or manual mode.
 6. First 10-minute threshold reached.
 7. First Wander flower chosen.
 8. First flower displayed, sold, or pressed.
@@ -1006,7 +1003,7 @@ Measure:
 
 - Location permission acceptance.
 - Health permission acceptance.
-- Google-verified versus manual Wander starts.
+- Apple Maps-verified versus manual Wander starts.
 - Reason for manual fallback.
 - Health, Wander-step, and time-only session share.
 - Offline session synchronization success.
@@ -1052,7 +1049,7 @@ Do not store:
 
 - GPS routes.
 - Exact collection coordinates.
-- Park names or Google place records in V1.
+- Park names or Apple Maps place records in V1.
 - Raw Health samples.
 - Health source-device names.
 - Contacts.
@@ -1331,7 +1328,7 @@ All limits are server-enforced. V3 must include unfriend, block, report, and inv
 | Early pressing removes emotional lifecycle tension | Players may press every flower immediately | Keep the requested option, make the consequence clear, and measure early-press timing and share | Percentage pressed in first hour/day; natural fade rate |
 | Health glow overwhelms the economy | All-day multi-device steps may create large balances | Do not finalize vase prices before beta; track source and daily earnings | Glow distribution and time to upgrades |
 | Permission requests reduce trust | Location and Health are sensitive | Contextual prompts, manual alternatives, minimal storage | Permission acceptance and abandonment reasons |
-| Google park results are incomplete or inaccurate | A valid outdoor walk may be blocked | 805 m tolerance and immediate manual fallback | Manual fallback rate and user reports |
+| Apple Maps park results are incomplete or inaccurate | A valid outdoor walk may be blocked | 805 m tolerance and immediate manual fallback | Manual fallback rate and user reports |
 | Manual mode can be exploited | Rewards can be earned without park verification | Accept because there is no competition or paid glow; monitor only for economy tuning | Manual mode share and extreme sessions |
 | Background timing is unreliable | Players may lose earned choices | Persist session start, thresholds, offers, and pending choices; 60-minute cap | Restored-session failures and support reports |
 | Multi-device Health data causes duplicate glow | Currency integrity erodes | Daily aggregate high-water mark and idempotent credit ledger | Reconciliation corrections and duplicate attempts |
@@ -1371,7 +1368,7 @@ All limits are server-enforced. V3 must include unfriend, block, report, and inv
 
 - Beta pricing remains disabled.
 - Infrastructure usage alerts are active.
-- Google Places usage is bounded to the intended start check.
+- Apple Maps usage is bounded to the intended start check and included daily quota.
 - Product analytics can answer the V1 validation questions without sensitive data.
 
 ### 25.5 App distribution gate
@@ -1403,9 +1400,9 @@ All limits are server-enforced. V3 must include unfriend, block, report, and inv
 
 ### 26.3 Wander start
 
-- A user with location and network can start when Google returns an accepted park-related place within 805 meters.
+- A user with location and network can start when Apple Maps returns an accepted park-related place within 805 meters.
 - The app says **near a park**, not **inside the park**.
-- Exact coordinates and Google place results are not retained after the check.
+- Exact coordinates and Apple Maps place results are not retained after the check.
 - A user without location or network can start through manual confirmation.
 - Manual and verified sessions use the same reward rules.
 - Only one Wander is active at a time.
@@ -1478,7 +1475,7 @@ All limits are server-enforced. V3 must include unfriend, block, report, and inv
 
 ### 26.10 Privacy and security
 
-- No exact coordinates, routes, park names, or Google place data are stored in V1 game records.
+- No exact coordinates, routes, park names, or Apple Maps place data are stored in V1 game records.
 - No raw Health samples or unrelated Health categories are stored.
 - Every exposed player row is ownership-protected.
 - Privileged keys are absent from the shipped app.
@@ -1494,7 +1491,7 @@ All limits are server-enforced. V3 must include unfriend, block, report, and inv
 - AI and MCP move to V2.
 - Social moves to V3.
 - Game Center is removed.
-- Google Places checks for an accepted park-related place within 0.5 miles at Wander start.
+- Apple Maps Server API checks for an accepted park-related place within 0.5 miles at Wander start.
 - Manual park confirmation is always available when verification is unavailable.
 - Exact location and park memory are not retained.
 - V1 remembers first discovery date only.
@@ -1539,13 +1536,10 @@ Platform behavior and policy must be rechecked during implementation and before 
 - [Apple Health statistics collection queries](https://developer.apple.com/documentation/healthkit/executing-statistics-collection-queries)
 - [Apple App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
 - [Sign in with Apple](https://developer.apple.com/documentation/signinwithapple)
-
-### Google Maps Platform
-
-- [Places API Nearby Search](https://developers.google.com/maps/documentation/places/web-service/nearby-search)
-- [Places API place types](https://developers.google.com/maps/documentation/places/web-service/place-types)
-- [Google Maps Platform pricing](https://developers.google.com/maps/billing-and-pricing/pricing)
-- [Places API policies](https://developers.google.com/maps/documentation/places/web-service/policies)
+- [Apple Maps Server API](https://developer.apple.com/documentation/applemapsserverapi)
+- [Apple Maps Search](https://developer.apple.com/documentation/applemapsserverapi/-v1-search)
+- [Apple Maps POI categories](https://developer.apple.com/documentation/applemapsserverapi/poicategory)
+- [Apple Maps tokens](https://developer.apple.com/documentation/applemapsserverapi/creating-and-using-tokens-with-maps-server-api)
 
 ### Supabase
 

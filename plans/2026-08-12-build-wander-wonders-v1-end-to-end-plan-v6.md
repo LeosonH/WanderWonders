@@ -59,7 +59,7 @@ V1 最难的问题是断网、重试、多设备和强退下仍不重复发花�
 2. 不搬 .git、.build、DerivedData、xcresult、.DS_Store、supabase/.temp、supabase/.branches、生成的 xcodeproj。
 3. 不把 token、p8、OAuth code、secret/API key、邮箱、原始 Health sample、精确坐标、route、place name 或 provider body 写入 Git、SwiftData、Postgres、日志或 fixtures。
 4. 未在外部操作当下获得明确授权前，不 link/mutate remote Supabase，不配 provider/secret，不 upload build、submit review 或 invite tester。
-5. 模拟器不能替代真实登录、Places、Health/Watch、Motion、后台/强退、Apple revoke、TestFlight 和触摸 VoiceOver。
+5. 模拟器不能替代真实登录、Apple Maps、Health/Watch、Motion、后台/强退、Apple revoke、TestFlight 和触摸 VoiceOver。
 6. 历史自述、代码存在、本地绿、远端一致、真机验收和 soak 是独立证据。
 7. MacBook Air 无风扇：只启动一个本地 Supabase 栈，排除 studio/logflare/vector/imgproxy，用完停止，先跑最小检查。
 
@@ -113,7 +113,7 @@ Service-only 1 个：wonder_start_verified_wander_internal。
 | Sunshine | 20 Glow；displayed + living + non-Hibernate；+86,400s；可叠加 |
 | Sale | 5 × max(1, ceil(remaining_seconds / 86400))；stale guard 要求重确认 |
 | Steps | floor(max(health_high_water, fallback_high_water)/100)，只补正差额 |
-| Places | 805m；6 included types；maxResultCount 1；field mask 仅 places.types；8s |
+| Apple Maps | Server API Search；Park/NationalPark/Hiking；返回后精确校验 805m；8s |
 | Manual copy | I am walking in or near a park. |
 | Cap copy | Daily flower limit reached. |
 | Telemetry | 每 owner/server-UTC-day 最多 200，超出 accepted=false，不改 revision |
@@ -290,7 +290,7 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 ### Step 13 — Owner/provider/art readiness
 
 - 可与 Step 2–11 并行，但在 Step 12 后闭合。
-- 需要 final App ID/bundle/team/App Store record/TestFlight group、Apple/Google provider IDs、vault-backed secrets、public Privacy/Support URLs、review metadata、50 production art + rights。
+- 需要 final App ID/bundle/team/App Store record/TestFlight group、Apple Maps 与 Apple/Google Auth provider IDs、vault-backed secrets、public Privacy/Support URLs、review metadata、50 production art + rights。
 - 只记录 safe identifiers/status，不记录 secret values。
 - signed-out browser 验 URL 200；validator 检真实 art；owner 签认 data map、rights、metadata。
 - 任一缺失则保持未完成，不伪造 placeholder 证据。
@@ -300,6 +300,10 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 > 2026-08-17 项目变更：owner 明确改用新建专用项目 `qmsliloouxmybnfzzlks`（独立 Org `ilwcbtpsthckxclqqipz`），并授权该项目相关远端操作；旧项目 `aaajakflsjcwemcxjqhq` 不再作为本计划部署目标且保持不动。
 
 > 2026-08-17 readiness 进度：专用 Supabase 已部署并通过远端 schema/security/事务冒烟，local ignored xcconfig 已接入新 URL/publishable key。实测发现旧 generated Info.plist 丢弃自定义字段、旧 UI smoke 只验证配置错误页；现改为 XcodeGen 明确生成 Info.plist，并让 1/1 UI smoke 验证真实 signed-out Auth surface，unified code-only gate 通过 Edge 13/13、iOS 15/15、UI 1/1、Debug/Release。Google Cloud 项目 `wander-wonders-v1-2026` 已创建。owner 仍需 final bundle/team、Google billing、公开 contact/URLs 和 Apple 登录/密钥动作，因此本步不标记完成。
+
+> 2026-08-17 provider 变更：owner 批准将收费的 Google Places 替换为 Apple Maps Server API。实现保留 Core Location、805m、manual fallback、服务端验证和 service-role RPC 边界；Google Cloud 仅继续承担 Google Auth OAuth，不再需要 Places 或 Maps billing。Apple Maps ID/Key 与真机验证仍属于 owner/physical gate，因此本步不标记完成。
+
+> 2026-08-17 provider 实施证据：复用现有无依赖 ES256 签名器完成 Apple Maps auth-token/access-token/Search 流程，类别限定 Park/NationalPark/Hiking，provider 结果返回后再做 805m haversine 校验；精确 provider/距离测试与统一 code-only gate 通过 Edge 15/15、iOS 15/15、UI 1/1、Debug/Release。`wonder-park-check` 已部署为远端 v2 且匿名 401；Apple Maps secrets 与真机公园查询仍待 owner 完成，因此本步不标记完成。
 
 ### Step 14 — 授权远端、真机、TestFlight 和 beta
 
@@ -346,10 +350,10 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 ## 11. 测试矩阵
 
 - Database：schema/RLS/grants/ownership/FK/cascade/immutability/idempotency/revision/lock/cap/offline/online offers/lifecycle/shop/steps/Hibernate/telemetry/timeouts。
-- Edge：auth/input/rate/Google request exactness/provider outcomes/timeout/no persistence/Apple revoke/delete right/cascade/replay/redaction。
+- Edge：auth/input/rate/Apple Maps request exactness/805m/provider outcomes/timeout/no persistence/Apple revoke/delete right/cascade/replay/redaction。
 - Swift：JSON、retry、delta/replay/revision、queue、persistence recovery、timer、offline hash/cap、sale/Glow/steps/Hibernate math。
 - UI/simulator：onboarding/loading/Auth quarantine/Home/Pocket/Shop/Pressbook/Wander/Settings/delete/offline disabled/accessibility/exact copy/no non-Autumn/payment。
-- Physical：provider sign-in、location/Places、Health/Watch/Motion、background/force quit、signal loss、Apple revoke、TestFlight、touch VoiceOver。
+- Physical：provider sign-in、location/Apple Maps、Health/Watch/Motion、background/force quit、signal loss、Apple revoke、TestFlight、touch VoiceOver。
 
 ## 12. 执行检查表
 
