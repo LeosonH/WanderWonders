@@ -334,6 +334,8 @@ WanderWonders/Features 保存 Onboarding、Home、Pocket、Pressbook、Shop、Wa
 
 > 2026-08-18 Phase C physical 进度：owner 解锁设备后，已安装的 `1.0 (1)` 成功启动并持续运行；真实 Google 登录在 Supabase 建立 1 个 non-anonymous Google identity、1 profile、1 daily grant 与 1 朵 living Daily Daisy。随后由 CoreDevice terminate-and-relaunch，进程重新运行，profile/grant/flower 数量保持 1，验证 session restore 与 bootstrap 不重复。首次登录后出现 3 个已关闭 Wander 记录，与旧容器中的本地队列重放一致；10/20/30 rewards 均为 released、未生成额外 flower，因此没有重复发奖证据。App Store Connect 仍显示 tester `Invited`，且设备 bundle path 与先前 Debug container 相同，因此尚不把当前安装标为已确认 TestFlight；Apple 登录、Location/Apple Maps、Health/Motion、其余产品流程、VoiceOver、clean reinstall 与 24h soak 仍未完成，Step 14 保持未完成。
 
+> 2026-08-18 Phase C TestFlight install 进度：owner 通过重新发送的内部邀请接受并安装 build；App Store Connect 明确显示 tester `Installed 1.0 (1)`，设备为 iPhone 16 Pro / iOS 26.5.2，因此 TestFlight acceptance/install identity 已确认。Apple 登录、Location/Apple Maps、Health/Motion、其余产品流程、VoiceOver、clean reinstall 与 24h soak 仍未完成，Step 14 保持未完成。
+
 ## 9. 文件清单
 
 | 路径 | 动作 |

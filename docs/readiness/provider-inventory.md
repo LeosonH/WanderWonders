@@ -25,7 +25,7 @@ Secret values are intentionally absent. A secret row may record only `present`, 
 | Provider/surface | Nonsecret identifier | Safe status | Owner/vault note |
 |---|---|---|---|
 | Supabase | `qmsliloouxmybnfzzlks` | Deployed and audited | Modern publishable configuration is local-only; hosted server keys remain outside Git |
-| Apple Developer/App Store Connect | Team `ALF5X476P3`; bundle `com.judy.wanderwonders`; app `6802547488`; internal group `Wander Wonders Internal` | BUILD_1_READY_TO_TEST | App ID has Sign in with Apple + HealthKit; internal-only `1.0 (1)` is Ready to Test; group has 1 build and 1 owner tester Invited |
+| Apple Developer/App Store Connect | Team `ALF5X476P3`; bundle `com.judy.wanderwonders`; app `6802547488`; internal group `Wander Wonders Internal` | BUILD_1_OWNER_INSTALLED | App ID has Sign in with Apple + HealthKit; internal-only `1.0 (1)` is installed on the owner tester's iPhone 16 Pro / iOS 26.5.2 |
 | Sign in with Apple | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key ID `TT8D4RTNUU` | CONFIGURED | Supabase Apple provider enabled; four account-revocation Function secrets present; `.p8` remains outside Git |
 | Apple Maps Server API | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU` | CONFIGURED_AND_PROVIDER_VALIDATED | Three hosted Function secrets are present; live token + Search passed; Maps `.p8` remains outside Git |
 | Google Cloud | `wander-wonders-v1-2026`; `Wander Wonders iOS`; `Wander Wonders Backend` | CONFIGURED_AND_DEVICE_VALIDATED; Places unused | Physical Google sign-in created a non-anonymous Google identity and completed profile/Daily Daisy bootstrap; force-quit restore did not duplicate profile, grant, or flower; no Maps billing action required |

@@ -1,6 +1,6 @@
 # Wander Wonders V1 owner inputs
 
-Status: production art, Supabase deployment, Apple Maps/Auth, Google Auth configuration, App ID, and App Store/TestFlight records are complete. Physical Google Auth and session restore passed; internal-only build `1.0 (1)` is Ready to Test with 1 owner tester still Invited. Remaining physical flows, TestFlight install confirmation, 24-hour soak, and the mentor tester remain pending.
+Status: production art, Supabase deployment, Apple Maps/Auth, Google Auth configuration, App ID, and App Store/TestFlight records are complete. Physical Google Auth, session restore, and owner TestFlight installation passed. Remaining physical flows, 24-hour soak, and the mentor tester remain pending.
 
 This file records only nonsecret readiness status. Credentials, authorization codes, private keys, tester email addresses, and provider responses belong in the owner-controlled vault or account surfaces and must never be copied here.
 
@@ -10,7 +10,7 @@ This file records only nonsecret readiness status. Credentials, authorization co
 |---|---|---|
 | Apple Developer Program team and App Store Connect access | Team `ALF5X476P3` | CONFIGURED |
 | Final bundle identifier and App ID | `com.judy.wanderwonders`; Sign in with Apple and HealthKit enabled | CONFIGURED |
-| App Store Connect app record and internal TestFlight group | App `6802547488`; `Wander Wonders Internal`; automatic distribution enabled; internal-only `1.0 (1)` Ready to Test; 1 owner tester Invited | READY_TO_TEST |
+| App Store Connect app record and internal TestFlight group | App `6802547488`; `Wander Wonders Internal`; automatic distribution enabled; internal-only `1.0 (1)` installed by the owner tester | OWNER_INSTALLED |
 | Apple Sign in with Apple credentials | Team `ALF5X476P3`; client ID `com.judy.wanderwonders`; Key `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED |
 | Apple Maps Server API credentials | Team `ALF5X476P3`; Maps ID `maps.com.judy.wanderwonders`; Key ID `TT8D4RTNUU`; `.p8` remains outside Git | CONFIGURED_AND_PROVIDER_VALIDATED |
 | Google Cloud/OAuth configuration | Project `wander-wonders-v1-2026`; iOS/Web clients created; Supabase Google enabled; External/Testing audience has 1 authorized test user; Places is unused | CONFIGURED_PENDING_DEVICE_TEST |
@@ -31,4 +31,4 @@ This file records only nonsecret readiness status. Credentials, authorization co
 
 ## Remaining release blockers
 
-Step 13 owner/provider/art readiness is complete for the locked private internal-TestFlight scope. Exact commit `5ce0e4d` produced a verified Release archive/dSYM; App Store Connect shows internal-only `1.0 (1)` Ready to Test, assigned to `Wander Wonders Internal`, with saved test instructions and 1 owner tester Invited. The unlocked iPhone runs `1.0 (1)`; physical Google Auth, profile/Daily Daisy bootstrap, force-quit relaunch, and session restore passed without duplicate profile, grant, or flower. App Store Connect still reports Invited and the installed bundle path matches the prior Debug container, so TestFlight acceptance/install identity, remaining physical flows, 24-hour soak, and the mentor's App Store Connect email still gate Step 14 completion. Public Privacy/Support URLs, full review contact, external cohort metadata, and TestFlight App Review remain deferred unless the owner later expands distribution beyond internal testers. No public App Store release is in scope.
+Step 13 owner/provider/art readiness is complete for the locked private internal-TestFlight scope. Exact commit `5ce0e4d` produced a verified Release archive/dSYM; App Store Connect shows the owner tester installed internal-only `1.0 (1)` from `Wander Wonders Internal` on iPhone 16 Pro / iOS 26.5.2. Physical Google Auth, profile/Daily Daisy bootstrap, force-quit relaunch, and session restore passed without duplicate profile, grant, or flower. Remaining physical flows, 24-hour soak, and the mentor's App Store Connect email still gate Step 14 completion. Public Privacy/Support URLs, full review contact, external cohort metadata, and TestFlight App Review remain deferred unless the owner later expands distribution beyond internal testers. No public App Store release is in scope.

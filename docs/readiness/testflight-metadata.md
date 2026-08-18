@@ -1,6 +1,6 @@
 # Wander Wonders V1 TestFlight metadata readiness
 
-Status: private internal-TestFlight target. Internal-only build `1.0 (1)` is Ready to Test in `Wander Wonders Internal`; build-specific test copy is saved and 1 owner tester remains Invited. The unlocked device runs version `1.0 (1)`, but App Store Connect has not recorded acceptance and the bundle path matches the prior Debug container, so TestFlight installation is not yet claimed. The mentor tester remains pending.
+Status: private internal-TestFlight target. Internal-only build `1.0 (1)` is installed by the owner tester from `Wander Wonders Internal` on iPhone 16 Pro / iOS 26.5.2. Build-specific test copy is saved; the mentor tester remains pending.
 
 ## Required owner inputs
 
@@ -23,7 +23,7 @@ Status: private internal-TestFlight target. Internal-only build `1.0 (1)` is Rea
 - Do not claim payments, StoreKit, social features, cloud photo upload, or other excluded scope.
 - Do not place tester emails, tokens, precise location, routes, place names, or raw Health values in this repository.
 
-Current App Store Connect state: internal-only build `1.0 (1)` is Ready to Test; group has 1 build and 1 owner tester in Invited state. The mentor invitation waits for the owner-provided App Store Connect email. External TestFlight review and invitations remain out of scope.
+Current App Store Connect state: internal-only build `1.0 (1)` is Ready to Test; group has 1 build and the owner tester status is `Installed 1.0 (1)`. The mentor invitation waits for the owner-provided App Store Connect email. External TestFlight review and invitations remain out of scope.
 
 The App Store Connect record exists only to support TestFlight. Public App Store release, sale, payments, and StoreKit remain out of scope.
 
