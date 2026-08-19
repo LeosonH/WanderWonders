@@ -16,13 +16,14 @@ final class OneShotLocationService: NSObject, @preconcurrency CLLocationManagerD
     }
 
     func request() async throws -> CLLocation {
-        if manager.authorizationStatus == .notDetermined {
-            manager.requestWhenInUseAuthorization()
-        }
         return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
-            manager.requestLocation()
+            requestLocationWhenAuthorized()
         }
+    }
+
+    func locationManagerDidChangeAuthorization(_: CLLocationManager) {
+        requestLocationWhenAuthorized()
     }
 
     func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -34,6 +35,22 @@ final class OneShotLocationService: NSObject, @preconcurrency CLLocationManagerD
     func locationManager(_: CLLocationManager, didFailWithError error: any Error) {
         continuation?.resume(throwing: error)
         continuation = nil
+    }
+
+    private func requestLocationWhenAuthorized() {
+        guard continuation != nil else { return }
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.requestLocation()
+        case .denied, .restricted:
+            continuation?.resume(throwing: CLError(.denied))
+            continuation = nil
+        @unknown default:
+            continuation?.resume(throwing: CLError(.denied))
+            continuation = nil
+        }
     }
 }
 

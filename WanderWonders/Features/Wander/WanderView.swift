@@ -1,3 +1,4 @@
+import MapKit
 import SwiftUI
 
 struct WanderView: View {
@@ -6,6 +7,8 @@ struct WanderView: View {
     let store: GameStore
     @State private var location = OneShotLocationService()
     @State private var confirmation: Confirmation?
+    @State private var mapPosition: MapCameraPosition?
+    @State private var isCheckingPark = false
 
     var body: some View {
         ZStack {
@@ -17,6 +20,26 @@ struct WanderView: View {
                         title: "Wander",
                         subtitle: "Find something worth keeping."
                     )
+
+                    if let mapPosition {
+                        WonderCard {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text("Your location")
+                                    .font(.headline)
+                                    .foregroundStyle(WonderTheme.brown)
+                                Map(initialPosition: mapPosition) {
+                                    UserAnnotation()
+                                }
+                                .mapControls {
+                                    MapUserLocationButton()
+                                    MapCompass()
+                                }
+                                .frame(height: 200)
+                                .clipShape(.rect(cornerRadius: 18))
+                                .accessibilityLabel("Map showing your current location")
+                            }
+                        }
+                    }
 
                     if let active = store.snapshot?.activeWander {
                         WonderCard { activeView(active) }
@@ -59,9 +82,17 @@ struct WanderView: View {
                 .lineSpacing(4)
 
             Button {
+                guard !isCheckingPark else { return }
+                isCheckingPark = true
                 Task {
+                    defer { isCheckingPark = false }
                     do {
                         let value = try await location.request()
+                        mapPosition = .region(MKCoordinateRegion(
+                            center: value.coordinate,
+                            latitudinalMeters: 1_600,
+                            longitudinalMeters: 1_600
+                        ))
                         await store.startVerifiedWander(
                             latitude: value.coordinate.latitude,
                             longitude: value.coordinate.longitude,
@@ -72,14 +103,14 @@ struct WanderView: View {
                     }
                 }
             } label: {
-                Text("Check for a nearby park")
+                Text(isCheckingPark ? "Checking nearby parks…" : "Check for a nearby park")
                     .font(.headline)
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity, minHeight: 54)
                     .background(WonderTheme.orange, in: Capsule())
             }
             .buttonStyle(.plain)
-            .disabled(store.snapshot?.isHibernating == true)
+            .disabled(isCheckingPark || store.snapshot?.isHibernating == true)
 
             Button {
                 Task { await store.startManualWander() }
