@@ -3,138 +3,115 @@ import SwiftUI
 struct HomeView: View {
     let store: GameStore
 
+    private static let vaseCenters: [CGFloat] = [176, 382, 590]
+
     var body: some View {
         NavigationStack {
-            ScrollView {
-                if let snapshot = store.snapshot {
-                    VStack(spacing: 20) {
-                        HStack(spacing: 16) {
-                            MetricCard(title: "Glow", value: "\(snapshot.profile.glowBalance)", icon: "glow_icon", usesAsset: true)
-                            MetricCard(title: "Living", value: "\(snapshot.livingFlowers.count)", icon: "leaf.fill")
-                        }
+            GeometryReader { proxy in
+                ScrollView {
+                    WonderDesignCanvas(background: "ui_home_background") {
+                        if let snapshot = store.snapshot {
+                            ForEach(snapshot.vases.filter { (1...Self.vaseCenters.count).contains($0.slot) }) { vase in
+                                if (1...Self.vaseCenters.count).contains(vase.slot) {
+                                    vaseVisual(vase, snapshot: snapshot)
+                                        .position(x: Self.vaseCenters[vase.slot - 1], y: 760)
+                                    vaseMenu(vase, snapshot: snapshot)
+                                        .position(x: Self.vaseCenters[vase.slot - 1], y: 840)
+                                }
+                            }
 
-                        if snapshot.isHibernating {
-                            HStack {
+                            if snapshot.isHibernating {
                                 Image.wonder("hibernate_snowflake_charm")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 36, height: 36)
-                                    .accessibilityHidden(true)
-                                Text("Hibernate is active")
+                                    .frame(width: 54, height: 54)
+                                    .position(x: 650, y: 320)
+                                    .accessibilityLabel("Hibernate is active")
                             }
-                                .font(.headline)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(.blue.opacity(0.12), in: .rect(cornerRadius: 16))
-                        } else {
-                            Label("Your autumn garden is awake", systemImage: "sun.max.fill")
-                                .font(.headline)
-                                .foregroundStyle(.orange)
+
                         }
-
-                        vaseSection(snapshot)
-
-                        OverflowPrompt(store: store)
                     }
-                    .padding()
+                    .frame(width: proxy.size.width, height: proxy.size.height)
                 }
+                .scrollIndicators(.hidden)
+                .scrollBounceBehavior(.basedOnSize)
+                .refreshable { await store.refresh() }
             }
-            .background {
-                Image.wonder("autumn_home_background")
-                    .resizable()
-                    .scaledToFill()
-                    .opacity(0.24)
-                    .ignoresSafeArea()
-            }
-            .navigationTitle("Home")
-            .refreshable { await store.refresh() }
+            .ignoresSafeArea()
+            .toolbar(.hidden, for: .navigationBar)
+        }
+        .wonderModalOverlay(
+            isPresented: store.shouldShowOverflowPrompt,
+            onDismiss: { Task { await store.dismissOverflowPrompt() } }
+        ) {
+            OverflowPrompt(store: store)
         }
     }
 
     @ViewBuilder
-    private func vaseSection(_ snapshot: WonderSnapshot) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Vases").font(.title2.bold())
-            ForEach(snapshot.vases) { vase in
-                VStack(spacing: 8) {
-                    HStack {
-                        Image(systemName: vase.unlocked ? "cup.and.saucer.fill" : "lock.fill")
-                            .accessibilityHidden(true)
-                        Text("Vase \(vase.slot)")
-                        Spacer()
-                        Text("\(vase.assignments.count)/\(vase.capacity)")
-                            .foregroundStyle(.secondary)
-                    }
-                    if vase.unlocked {
-                        vaseArtwork(vase, snapshot: snapshot)
-                    }
-                    ForEach(vase.assignments) { assignment in
-                        if let flower = snapshot.livingFlowers.first(where: { $0.id == assignment.flowerId }) {
-                            HStack {
-                                if let asset = flower.assetKey(in: store.catalog, serverNow: snapshot.serverNow) {
-                                    Image.wonder(asset)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 44, height: 44)
-                                        .accessibilityHidden(true)
-                                }
-                                Text(name(for: flower.speciesId)).font(.callout)
-                                Spacer()
-                                Button("Remove") { Task { await store.removeFromVase(flower: flower) } }
-                                    .frame(minHeight: 44)
-                            }
-                        }
-                    }
-                    if vase.unlocked, vase.assignments.count < vase.capacity,
-                       let flower = unassignedFlower(snapshot)
-                    {
-                        Button("Add \(name(for: flower.speciesId))") {
-                            Task {
-                                await store.assignToVase(
-                                    flower: flower,
-                                    slot: vase.slot,
-                                    position: (1...vase.capacity).first {
-                                        position in !vase.assignments.contains { $0.position == position }
-                                    } ?? 1
-                                )
-                            }
-                        }
-                        .frame(minHeight: 44)
-                    }
-                }
-            }
+    private func vaseVisual(_ vase: VaseSlot, snapshot: WonderSnapshot) -> some View {
+        if vase.unlocked {
+            FlowerInVaseView(
+                vase: vase,
+                flowerAssets: flowerAssets(in: vase, snapshot: snapshot),
+                flowerVerticalOffset: 58
+            )
+                .frame(width: 200, height: 380)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Vase \(vase.slot), \(vase.assignments.count) of \(vase.capacity) flowers")
+                .allowsHitTesting(false)
+        } else {
+            Image(systemName: "lock.fill")
+                .font(.system(size: 34, weight: .semibold))
+                .foregroundStyle(.brown.opacity(0.7))
+                .frame(width: 200, height: 380, alignment: .bottom)
+                .padding(.bottom, 50)
+                .accessibilityLabel("Vase \(vase.slot) is locked")
         }
-        .padding()
-        .background(.thinMaterial, in: .rect(cornerRadius: 16))
     }
 
-    private func vaseArtwork(_ vase: VaseSlot, snapshot: WonderSnapshot) -> some View {
-        ZStack(alignment: .bottom) {
-            HStack(alignment: .bottom, spacing: -14) {
-                ForEach(vase.assignments) { assignment in
-                    if let flower = snapshot.livingFlowers.first(where: { $0.id == assignment.flowerId }),
-                       let asset = flower.assetKey(in: store.catalog, serverNow: snapshot.serverNow)
-                    {
-                        Image.wonder(asset)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 76, height: 116)
-                            .accessibilityLabel("\(name(for: flower.speciesId)) in vase \(vase.slot)")
+    private func vaseMenu(_ vase: VaseSlot, snapshot: WonderSnapshot) -> some View {
+        Menu {
+            ForEach(vase.assignments) { assignment in
+                if let flower = snapshot.livingFlowers.first(where: { $0.id == assignment.flowerId }) {
+                    Button("Remove \(name(for: flower.speciesId))") {
+                        Task { await store.removeFromVase(flower: flower) }
                     }
                 }
             }
-            Image.wonder("texture_\(vase.patternKey)")
-                .resizable()
-                .scaledToFill()
-                .frame(width: 132, height: 92)
-                .mask {
-                    Image.wonder("vase_mask_capacity_\(vase.capacity)")
-                        .resizable()
-                        .scaledToFit()
+            if vase.assignments.count < vase.capacity, let flower = unassignedFlower(snapshot) {
+                Button("Add \(name(for: flower.speciesId))") {
+                    Task {
+                        await store.assignToVase(
+                            flower: flower,
+                            slot: vase.slot,
+                            position: (1...vase.capacity).first { position in
+                                !vase.assignments.contains { $0.position == position }
+                            } ?? 1
+                        )
+                    }
                 }
-                .accessibilityHidden(true)
+            }
+            if vase.assignments.isEmpty, unassignedFlower(snapshot) == nil {
+                Button("No available flowers") {}
+                    .disabled(true)
+            }
+        } label: {
+            Color.clear
+                .frame(width: 170, height: 230)
+                .contentShape(Rectangle())
+                .accessibilityLabel("Vase \(vase.slot) options")
         }
-        .frame(maxWidth: .infinity, minHeight: 150)
+        .buttonStyle(.plain)
+        .disabled(!vase.unlocked)
+    }
+
+    private func flowerAssets(in vase: VaseSlot, snapshot: WonderSnapshot) -> [String] {
+        vase.assignments.compactMap { assignment in
+            snapshot.livingFlowers
+                .first(where: { $0.id == assignment.flowerId })?
+                .assetKey(in: store.catalog, serverNow: snapshot.serverNow)
+        }
     }
 
     private func unassignedFlower(_ snapshot: WonderSnapshot) -> WonderFlower? {
@@ -151,41 +128,13 @@ struct OverflowPrompt: View {
     let store: GameStore
 
     var body: some View {
-        if store.shouldShowOverflowPrompt {
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Your Pocket is gently overflowing. Nothing is lost; sell or press flowers when you like.")
-                    .font(.callout)
-                Button("Not now") { Task { await store.dismissOverflowPrompt() } }
-                    .frame(minHeight: 44)
+        WonderModal(
+            title: "Your Pocket is blooming",
+            message: "Nothing is lost. Sell or press flowers whenever you’re ready.",
+            illustration: Image(systemName: "leaf.fill"),
+            primary: WonderModalAction("Not now") {
+                Task { await store.dismissOverflowPrompt() }
             }
-            .padding()
-            .background(.orange.opacity(0.12), in: .rect(cornerRadius: 16))
-        }
-    }
-}
-
-private struct MetricCard: View {
-    let title: String
-    let value: String
-    let icon: String
-    var usesAsset = false
-
-    var body: some View {
-        VStack(spacing: 8) {
-            if usesAsset {
-                Image.wonder(icon)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 32, height: 32)
-                    .accessibilityHidden(true)
-            } else {
-                Image(systemName: icon).foregroundStyle(.orange).accessibilityHidden(true)
-            }
-            Text(value).font(.title.bold())
-            Text(title).foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity, minHeight: 120)
-        .background(.thinMaterial, in: .rect(cornerRadius: 16))
-        .accessibilityElement(children: .combine)
+        )
     }
 }

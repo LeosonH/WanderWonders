@@ -30,13 +30,16 @@ struct AppRootView: View {
                 )
             }
         }
-        .alert("Wander Wonders", isPresented: Binding(
-            get: { store.notice != nil },
-            set: { if !$0 { store.notice = nil } }
-        )) {
-            Button("OK", role: .cancel) { store.notice = nil }
-        } message: {
-            Text(store.notice ?? "")
+        .wonderModalOverlay(
+            isPresented: store.notice != nil,
+            onDismiss: { store.notice = nil }
+        ) {
+            WonderModal(
+                title: "Something needs attention",
+                message: store.notice ?? "",
+                illustration: Image(systemName: "leaf.fill"),
+                primary: WonderModalAction("Got it") { store.notice = nil }
+            )
         }
     }
 }

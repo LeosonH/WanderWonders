@@ -1,5 +1,6 @@
 import HealthKit
 import SwiftData
+import SwiftUI
 import UIKit
 import XCTest
 @testable import WanderWonders
@@ -23,6 +24,46 @@ final class WanderWondersTests: XCTestCase {
         XCTAssertEqual(keys.count, 50)
         for key in keys {
             XCTAssertNotNil(UIImage(named: key, in: bundle, compatibleWith: nil), "Missing bundle image: \(key)")
+        }
+    }
+
+    func testRedesignedScreenBackgroundsLoadFromTheBundle() {
+        let bundle = Bundle(for: Self.self)
+        for key in ["ui_home_background", "ui_pocket_background", "ui_pressbook_background"] {
+            let image = UIImage(named: key, in: bundle, compatibleWith: nil)
+            XCTAssertNotNil(image, "Missing UI background: \(key)")
+            XCTAssertEqual(image?.cgImage?.width, 720)
+            XCTAssertEqual(image?.cgImage?.height, 1_565)
+        }
+    }
+
+    func testPressbookPaginatesPressedSpecies() {
+        XCTAssertEqual(PressbookView.pageCount(for: 0), 1)
+        XCTAssertEqual(PressbookView.pageCount(for: 6), 1)
+        XCTAssertEqual(PressbookView.pageCount(for: 7), 2)
+        XCTAssertEqual(PressbookView.pageItems(Array(1...13), page: 1), Array(7...12))
+        XCTAssertEqual(PressbookView.pageItems(Array(1...13), page: 2), [13])
+    }
+
+    func testWonderModalRendersSingleAndDestructiveActions() {
+        let info = WonderModal(
+            title: "Unlocked",
+            message: "Vase Slot 2 is ready to use.",
+            illustration: Image(systemName: "lock.open.fill"),
+            primary: WonderModalAction("Lovely") {}
+        )
+        let destructive = WonderModal(
+            title: "Sell Goldenrod?",
+            message: "You’ll receive about 15 Glow.",
+            illustration: Image(systemName: "sparkles"),
+            primary: WonderModalAction("Sell", tone: .destructive) {},
+            secondary: WonderModalAction("Cancel", tone: .secondary) {}
+        )
+
+        for modal in [info, destructive] {
+            let renderer = ImageRenderer(content: modal.frame(width: 390, height: 540))
+            renderer.scale = 1
+            XCTAssertNotNil(renderer.uiImage)
         }
     }
 
