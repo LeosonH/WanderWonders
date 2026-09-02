@@ -44,7 +44,16 @@ Content/                Bundled assets (flower catalog JSON, offline fixtures, a
 supabase/               Migrations, Edge Functions, local config
 Scripts/                Local dev and verification scripts
 docs/                   Architecture decisions, privacy map, readiness checklists
+glasses-step-tracker/   Meta Display Glasses companion webapp (prototype, see below)
 ```
+
+## Meta Display Glasses companion (prototype)
+
+`glasses-step-tracker/` is a standalone prototype webapp for Meta Display Glasses — a showcase of what a Wander companion experience could look like on-device, not a shipped feature. It borrows WanderWonders' autumn visual identity (burnt orange, warm browns, Glow's amber glow) and reimagines the walking loop as an ambient overlay on the glasses' additive display: autumn leaves drift across your vision while you walk, and a glowing Glow orb spawns periodically for you to collect via the D-pad.
+
+**It is not connected to the real app.** There is no link to your WanderWonders account, Supabase backend, or Glow economy — steps and Glow collected on the glasses live only in the browser's local storage and have no effect on your actual balance. Wiring the two together (so Glow earned while wearing the glasses credits your real account, likely via a Supabase-backed pairing flow) is planned for a future iteration, not built yet.
+
+It's plain HTML/CSS/JS with no build step — open `glasses-step-tracker/index.html` in a browser to try it.
 
 ## First-time setup
 

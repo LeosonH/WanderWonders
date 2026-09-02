@@ -69,6 +69,7 @@ private struct WanderLockScreenView: View {
                 HStack {
                     Text("Wander in progress")
                         .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.black.opacity(0.8))
                     Spacer()
                     Text(
                         timerInterval: state.startDate...(state.startDate.addingTimeInterval(3600)),
@@ -88,6 +89,23 @@ private struct WanderLockScreenView: View {
             }
         }
         .padding()
+        .overlay(alignment: .topTrailing) {
+            HStack(spacing: 2) {
+                Image(systemName: "leaf.fill")
+                    .rotationEffect(.degrees(30))
+                    .foregroundStyle(Color(hue: 0.08, saturation: 0.8, brightness: 0.75))
+                Image(systemName: "leaf.fill")
+                    .rotationEffect(.degrees(-20))
+                    .foregroundStyle(.orange)
+                Image(systemName: "leaf.fill")
+                    .rotationEffect(.degrees(10))
+                    .foregroundStyle(Color(hue: 0.11, saturation: 0.6, brightness: 0.85))
+            }
+            .font(.system(size: 9))
+            .opacity(0.55)
+            .padding(.top, 6)
+            .padding(.trailing, 10)
+        }
         .activityBackgroundTint(Color(hue: 0.09, saturation: 0.12, brightness: 0.97))
     }
 }
