@@ -879,6 +879,29 @@ V1 notifications, if implemented, are optional and informational:
 
 No streak, guilt, scarcity, or generic return-engagement notifications.
 
+### 17.5 Live Activity
+
+V1 includes a Live Activity that appears on the lock screen and in the Dynamic Island while a Wander is active. It is the persistent companion to the optional threshold notifications.
+
+The Live Activity shows:
+
+- Elapsed time since the Wander started, counting up automatically.
+- A progress bar filling toward the 30-minute reward threshold.
+- Three milestone indicators (10 min, 20 min, 30 min) that fill in as each tier is awarded.
+- The Wander mode (verified, manual, or offline) is encoded in the data but not prominently displayed; the experience is the same regardless of mode.
+
+Behaviour rules:
+
+- The activity starts when a Wander session begins, including offline Wanders.
+- The activity updates automatically when a tier reward is awarded.
+- The activity ends with the system's default dismissal delay when the Wander ends normally or syncs.
+- The activity is dismissed immediately on discard or sign-out.
+- If the app is terminated and relaunched while a Wander is active, the existing activity is reclaimed and updated rather than replaced.
+- The activity requires no additional permission beyond the system Live Activities toggle in Settings.
+- The activity does not expose precise location, Health data, or exact park information.
+
+The Live Activity timer and progress bar update without requiring app wake-ups, using the platform's built-in timer interval rendering.
+
 ---
 
 ## 18. Business Model

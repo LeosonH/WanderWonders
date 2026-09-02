@@ -1,3 +1,4 @@
+import ActivityKit
 import Foundation
 import Observation
 
@@ -25,6 +26,7 @@ final class GameStore {
     private(set) var pendingMutations: [PendingMutation] = []
     private(set) var isWorking = false
     private var onlineWanderClock: OnlineWanderClock?
+    private var wanderActivity: Activity<WanderActivityAttributes>?
     private var overflowDismissedCount = 0
     private var overflowDismissedLocalDate: String?
     var notice: String?
@@ -74,6 +76,10 @@ final class GameStore {
             snapshot = nil
             offlineWander = nil
             onlineWanderClock = nil
+            if let activity = wanderActivity {
+                await activity.end(nil, dismissalPolicy: .immediate)
+                wanderActivity = nil
+            }
             pendingMutations = []
             overflowDismissedCount = 0
             overflowDismissedLocalDate = nil
@@ -319,6 +325,10 @@ final class GameStore {
         do {
             try await persistence.save(offlineWander: state, userID: identity.userId)
             offlineWander = state
+            startWanderLiveActivity(content: ActivityContent(
+                state: offlineActivityState(state),
+                staleDate: state.startUtc.addingTimeInterval(3600)
+            ))
         } catch {
             notice = "Offline Wander could not be saved, so it was not started."
         }
@@ -335,6 +345,12 @@ final class GameStore {
         do {
             try await persistence.save(offlineWander: wander, userID: identity.userId)
             offlineWander = wander
+            if let activity = wanderActivity {
+                await activity.update(ActivityContent(
+                    state: offlineActivityState(wander),
+                    staleDate: wander.startUtc.addingTimeInterval(3600)
+                ))
+            }
         } catch {
             notice = "That offline choice could not be saved."
         }
@@ -413,6 +429,10 @@ final class GameStore {
         if synced, let identity {
             try? await persistence.save(offlineWander: nil, userID: identity.userId)
             offlineWander = nil
+            if let activity = wanderActivity {
+                await activity.end(nil, dismissalPolicy: .default)
+                wanderActivity = nil
+            }
         }
     }
 
@@ -420,6 +440,10 @@ final class GameStore {
         guard let identity else { return }
         try? await persistence.save(offlineWander: nil, userID: identity.userId)
         offlineWander = nil
+        if let activity = wanderActivity {
+            await activity.end(nil, dismissalPolicy: .immediate)
+            wanderActivity = nil
+        }
     }
 
     func deleteAccount(appleAuthorizationCode: String? = nil) async {
@@ -477,6 +501,55 @@ final class GameStore {
         }
     }
 
+    private func manageLiveActivityForWander(_ wander: ActiveWander?) async {
+        if let wander {
+            let state = WanderActivityAttributes.ContentState(
+                startDate: wander.startUtc,
+                autoCloseDate: wander.autoCloseUtc,
+                mode: wander.mode,
+                tier10Awarded: wander.rewards.contains { $0.tier == 10 && $0.status == "awarded" },
+                tier20Awarded: wander.rewards.contains { $0.tier == 20 && $0.status == "awarded" },
+                tier30Awarded: wander.rewards.contains { $0.tier == 30 && $0.status == "awarded" }
+            )
+            let content = ActivityContent(state: state, staleDate: wander.autoCloseUtc)
+            if let existing = wanderActivity {
+                await existing.update(content)
+            } else if let recovered = Activity<WanderActivityAttributes>.activities.first {
+                wanderActivity = recovered
+                await recovered.update(content)
+            } else {
+                startWanderLiveActivity(content: content)
+            }
+        } else if let activity = wanderActivity {
+            await activity.end(nil, dismissalPolicy: .default)
+            wanderActivity = nil
+        }
+    }
+
+    private func startWanderLiveActivity(content: ActivityContent<WanderActivityAttributes.ContentState>) {
+        guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
+        do {
+            wanderActivity = try Activity.request(
+                attributes: WanderActivityAttributes(),
+                content: content,
+                pushType: nil
+            )
+        } catch {
+            // Live Activities unavailable on this device or configuration
+        }
+    }
+
+    private func offlineActivityState(_ wander: OfflineWanderState) -> WanderActivityAttributes.ContentState {
+        WanderActivityAttributes.ContentState(
+            startDate: wander.startUtc,
+            autoCloseDate: wander.startUtc.addingTimeInterval(3600),
+            mode: "offline",
+            tier10Awarded: wander.choices[10] != nil,
+            tier20Awarded: wander.choices[20] != nil,
+            tier30Awarded: wander.choices[30] != nil
+        )
+    }
+
     private func signIn(_ operation: () async throws -> SignedInIdentity) async {
         isWorking = true
         defer { isWorking = false }
@@ -493,6 +566,9 @@ final class GameStore {
         let cached = try await persistence.load(userID: identity.userId)
         snapshot = cached.snapshot
         offlineWander = cached.offlineWander
+        if cached.offlineWander != nil {
+            wanderActivity = Activity<WanderActivityAttributes>.activities.first
+        }
         pendingMutations = cached.pending
         overflowDismissedCount = cached.overflowDismissedCount
         overflowDismissedLocalDate = cached.overflowDismissedLocalDate
@@ -582,6 +658,7 @@ final class GameStore {
             }
         }
         phase = snapshot.settings.onboardingCompleted == true ? .current : .onboarding
+        await manageLiveActivityForWander(snapshot.activeWander)
     }
 
     private static func loadCatalog(bundle: Bundle = .main) -> FlowerCatalog? {

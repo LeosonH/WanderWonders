@@ -44,6 +44,7 @@ targets:
       - path: WanderWonders
       - path: Content
         buildPhase: resources
+      - path: WanderWondersShared
     entitlements:
       path: WanderWonders/WanderWonders.entitlements
       properties:
@@ -73,6 +74,7 @@ targets:
         NSHealthUpdateUsageDescription: Wander Wonders does not write Health data.
         NSLocationWhenInUseUsageDescription: Wander Wonders can check whether you are near a park without storing your location.
         NSMotionUsageDescription: Wander Wonders can count steps taken during an active Wander when Health access is unavailable.
+        NSSupportsLiveActivities: true
         WWSupabaseURL: $(WW_SUPABASE_URL)
         WWSupabasePublishableKey: $(WW_SUPABASE_PUBLISHABLE_KEY)
         WWGoogleClientID: $(WW_GOOGLE_CLIENT_ID)
@@ -86,6 +88,9 @@ targets:
         product: GoogleSignIn
       - package: GoogleSignIn
         product: GoogleSignInSwift
+      - target: WanderWondersWidget
+        embed: true
+        codeSign: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WW_BUNDLE_IDENTIFIER)
@@ -124,3 +129,16 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.judy.wanderwonders.uitests
         GENERATE_INFOPLIST_FILE: YES
         TEST_TARGET_NAME: WanderWonders
+
+  WanderWondersWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: WanderWondersWidget
+      - path: WanderWondersShared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(WW_BUNDLE_IDENTIFIER).widget
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSExtension_NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        SKIP_INSTALL: YES
