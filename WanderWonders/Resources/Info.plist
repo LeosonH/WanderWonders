@@ -41,6 +41,8 @@
 	<string>Wander Wonders can check whether you are near a park without storing your location.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Wander Wonders can count steps taken during an active Wander when Health access is unavailable.</string>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>

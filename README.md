@@ -2,6 +2,22 @@
 
 A calm walk n' collect game for iPhone. Walk outside, bring home seasonal flowers, arrange them in vases, and preserve them in a permanent Pressbook.
 
+## Features
+
+| Feature | Description |
+|---|---|
+| Daily Daisy | A free daisy every day just for opening the app |
+| Wander | Go for a walk and collect flowers at 10, 20, and 30-minute milestones |
+| Living flowers | Flowers stay alive for 1–3 days and must be displayed or pressed before they fade |
+| Vases | Arrange living flowers across up to 3 unlockable vase slots |
+| Pocket | Holds unassigned flowers waiting to be placed in a vase |
+| Pressbook | Press flowers to preserve them permanently before they expire |
+| Glow | In-game currency earned by walking steps, spent in the shop |
+| Shop | Buy Sunshine (extends a flower's life) or unlock additional vase slots |
+| Live Activity | Active Wanders appear on the Dynamic Island and lock screen with a live timer and milestone chips |
+| Offline Wander | Wanders can be completed without a network connection and sync on reconnect |
+| Hibernate | Pause flower timers when travelling or taking a break |
+
 ## Tech stack
 
 | Layer | Technology |
@@ -45,7 +61,7 @@ docs/                   Architecture decisions, privacy map, readiness checklist
    cp Config/Debug.xcconfig.example Config/Debug.xcconfig
    ```
 
-   Edit `Config/Debug.xcconfig` and fill in your Supabase URL, publishable key, and Google client IDs. Without credentials the app builds but stops at the sign-in screen.
+   Edit `Config/Debug.xcconfig` and fill in your Supabase URL, publishable key, and Google client IDs. Without credentials the Debug build launches in **demo mode** — a pre-loaded fixture garden with sample flowers, vases, and a pressbook, so all screens are browsable without a backend.
 
 3. **Generate the Xcode project**
 

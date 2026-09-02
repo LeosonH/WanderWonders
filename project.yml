@@ -136,9 +136,12 @@ targets:
     sources:
       - path: WanderWondersWidget
       - path: WanderWondersShared
+    info:
+      path: WanderWondersWidget/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WW_BUNDLE_IDENTIFIER).widget
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_NSExtension_NSExtensionPointIdentifier: com.apple.widgetkit-extension
         SKIP_INSTALL: YES

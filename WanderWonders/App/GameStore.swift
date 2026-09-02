@@ -1,4 +1,4 @@
-import ActivityKit
+@preconcurrency import ActivityKit
 import Foundation
 import Observation
 
@@ -30,6 +30,9 @@ final class GameStore {
     private var overflowDismissedCount = 0
     private var overflowDismissedLocalDate: String?
     var notice: String?
+    #if DEBUG
+    private var isDemoMode = false
+    #endif
 
     init(client: WonderClient, persistence: WonderPersistence) {
         self.client = client
@@ -43,6 +46,9 @@ final class GameStore {
     }
 
     func start() async {
+        #if DEBUG
+        guard !isDemoMode else { return }
+        #endif
         isWorking = true
         defer { isWorking = false }
         do {
@@ -549,6 +555,141 @@ final class GameStore {
             tier30Awarded: wander.choices[30] != nil
         )
     }
+
+    // MARK: - Demo mode (DEBUG only)
+
+    #if DEBUG
+    static func makeDemo(persistence: WonderPersistence) -> GameStore {
+        let transport = RPCTransport { _, _ in
+            throw WonderFailure.server(WonderErrorPayload(
+                code: "WW_DEMO_MODE",
+                message: "This is a preview build. Changes aren't saved.",
+                retryable: false,
+                stateRevision: nil
+            ))
+        }
+        let store = GameStore(client: WonderClient(transport: transport), persistence: persistence)
+        store.isDemoMode = true
+        store.identity = SignedInIdentity(
+            userId: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
+            provider: "demo",
+            providerId: "demo"
+        )
+        store.snapshot = makeDemoSnapshot(catalog: store.catalog)
+        store.phase = .current
+        return store
+    }
+
+    private static func makeDemoSnapshot(catalog: FlowerCatalog?) -> WonderSnapshot {
+        let now = Date()
+
+        // Species IDs match flower_catalog.v1.json sequential pattern
+        let daisySpeciesId     = UUID(uuidString: "10000000-0000-0000-0000-000000000001")!
+        let chrysoSpeciesId    = UUID(uuidString: "10000000-0000-0000-0000-000000000002")!
+        let asterSpeciesId     = UUID(uuidString: "10000000-0000-0000-0000-000000000003")!
+        let goldenrodSpeciesId = UUID(uuidString: "10000000-0000-0000-0000-000000000004")!
+
+        let daisyId     = UUID(uuidString: "a1000000-0000-0000-0000-000000000001")!
+        let goldenrodId = UUID(uuidString: "a1000000-0000-0000-0000-000000000002")!
+        let chrysoId    = UUID(uuidString: "a1000000-0000-0000-0000-000000000003")!
+        let asterId     = UUID(uuidString: "a1000000-0000-0000-0000-000000000004")!
+
+        let livingFlowers: [WonderFlower] = [
+            WonderFlower(
+                flowerId: daisyId, speciesId: daisySpeciesId, source: "daily",
+                sessionId: nil, tier: nil,
+                acquiredAt: now.addingTimeInterval(-3600),
+                durationSeconds: 86400,
+                deadlineUtc: now.addingTimeInterval(82800),
+                extensionSeconds: 0, state: "living", version: 1, saleGlow: 5
+            ),
+            WonderFlower(
+                flowerId: goldenrodId, speciesId: goldenrodSpeciesId, source: "wander",
+                sessionId: UUID(), tier: 1,
+                acquiredAt: now.addingTimeInterval(-86400),
+                durationSeconds: 3 * 86400,
+                deadlineUtc: now.addingTimeInterval(2 * 86400),
+                extensionSeconds: 0, state: "living", version: 1, saleGlow: 10
+            ),
+            WonderFlower(
+                flowerId: chrysoId, speciesId: chrysoSpeciesId, source: "wander",
+                sessionId: UUID(), tier: 2,
+                acquiredAt: now.addingTimeInterval(-86400),
+                durationSeconds: 3 * 86400,
+                deadlineUtc: now.addingTimeInterval(2 * 86400),
+                extensionSeconds: 0, state: "living", version: 1, saleGlow: 10
+            ),
+            // Aster — fading, 2 hours left
+            WonderFlower(
+                flowerId: asterId, speciesId: asterSpeciesId, source: "wander",
+                sessionId: UUID(), tier: 1,
+                acquiredAt: now.addingTimeInterval(-3 * 86400 + 7200),
+                durationSeconds: 3 * 86400,
+                deadlineUtc: now.addingTimeInterval(7200),
+                extensionSeconds: 0, state: "living", version: 1, saleGlow: 5
+            ),
+        ]
+
+        let pressedFlowers: [WonderFlower] = [
+            WonderFlower(
+                flowerId: UUID(), speciesId: daisySpeciesId, source: "daily",
+                sessionId: nil, tier: nil,
+                acquiredAt: now.addingTimeInterval(-8 * 86400),
+                durationSeconds: 86400,
+                deadlineUtc: now.addingTimeInterval(-7 * 86400),
+                extensionSeconds: 0, state: "pressed", version: 1, saleGlow: nil
+            ),
+            WonderFlower(
+                flowerId: UUID(), speciesId: goldenrodSpeciesId, source: "wander",
+                sessionId: UUID(), tier: 1,
+                acquiredAt: now.addingTimeInterval(-5 * 86400),
+                durationSeconds: 3 * 86400,
+                deadlineUtc: now.addingTimeInterval(-2 * 86400),
+                extensionSeconds: 0, state: "pressed", version: 1, saleGlow: nil
+            ),
+        ]
+
+        return WonderSnapshot(
+            serverNow: now,
+            stateRevision: 1,
+            profile: WonderProfile(
+                userId: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
+                glowBalance: 247,
+                stateRevision: 1
+            ),
+            settings: WonderSettings(
+                timeZone: TimeZone.autoupdatingCurrent.identifier,
+                stepMode: "time_only",
+                hibernateEnabled: false,
+                notificationsEnabled: false,
+                onboardingCompleted: true
+            ),
+            catalogVersion: catalog?.catalogVersion ?? 1,
+            activeWander: nil,
+            livingFlowers: livingFlowers,
+            pressedFlowers: pressedFlowers,
+            vases: [
+                VaseSlot(slot: 1, capacity: 1, unlocked: true, patternKey: "classic_cream",
+                         assignments: [VaseAssignment(flowerId: daisyId, position: 0)]),
+                VaseSlot(slot: 2, capacity: 2, unlocked: true, patternKey: "classic_cream",
+                         assignments: [VaseAssignment(flowerId: goldenrodId, position: 0)]),
+                VaseSlot(slot: 3, capacity: 3, unlocked: false, patternKey: "classic_cream",
+                         assignments: []),
+            ],
+            shelfAssignments: [],
+            shopItems: [
+                ShopItem(itemKey: "sunshine", kind: "consumable", glowCost: 20, active: true),
+                ShopItem(itemKey: "vase_slot_3", kind: "permanent", glowCost: 350, active: true),
+            ],
+            playerEntitlements: [
+                PlayerEntitlement(itemKey: "vase_slot_2"),
+            ],
+            dailyGrants: [],
+            stepSummaries: [],
+            hibernateIntervals: []
+        )
+    }
+    #endif
 
     private func signIn(_ operation: () async throws -> SignedInIdentity) async {
         isWorking = true
